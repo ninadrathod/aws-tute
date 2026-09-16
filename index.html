@@ -1,0 +1,1739 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="AWS Orbit Masterclass — a deep-dive Amazon Web Services course with diagrams and interactive quizzes." />
+  <title>AWS Orbit Masterclass</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            void: "#070b14",
+            hull: "#0d1526",
+            starlight: "#e8f1ff",
+            nebula: "#1a2744",
+            thruster: "#f59e0b",
+            plasma: "#22d3ee",
+          },
+          fontFamily: {
+            display: ['"Orbitron"', "ui-sans-serif", "system-ui", "sans-serif"],
+            body: ['"IBM Plex Sans"', "ui-sans-serif", "system-ui", "sans-serif"],
+            mono: ['"IBM Plex Mono"', "ui-monospace", "monospace"],
+          },
+          boxShadow: {
+            glow: "0 0 40px -8px rgba(34, 211, 238, 0.45)",
+          },
+        },
+      },
+    };
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&family=Orbitron:wght@500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    body { font-family: "IBM Plex Sans", system-ui, sans-serif; }
+    .font-display { font-family: "Orbitron", sans-serif; }
+    #starfield {
+      background-image:
+        radial-gradient(1px 1px at 20px 30px, rgba, transparent),
+        radial-gradient(1px 1px at 80px 120px, rgba, transparent),
+        radial-gradient(1.5px 1.5px at 160px 80px, rgba, transparent),
+        radial-gradient(1px 1px at 240px 200px, rgba, transparent),
+        radial-gradient(1px 1px at 300px 40px, rgba, transparent),
+        radial-gradient(1.5px 1.5px at 360px 160px, rgba, transparent),
+        radial-gradient(1px 1px at 420px 90px, rgba, transparent),
+        radial-gradient(1px 1px at 40px 220px, rgba, transparent);
+      background-size: 480px 280px;
+      animation: drift 80s linear infinite;
+    }
+    @keyframes drift {
+      from { background-position: 0 0; }
+      to { background-position: 480px 280px; }
+    }
+    .toc-active {
+      border-color: rgb(34 211 238 / 0.55) !important;
+      background: rgb(34 211 238 / 0.08) !important;
+      color: #e8f1ff !important;
+    }
+    .prose-course h3 { scroll-margin-top: 6rem; }
+    .prose-course h4 { scroll-margin-top: 5.5rem; }
+    code.k {
+      font-family: "IBM Plex Mono", ui-monospace, monospace;
+      font-size: 0.85em;
+      padding: 0.1rem 0.35rem;
+      border-radius: 0.35rem;
+      background: rgb(15 23 42 / 0.9);
+      border: 1px solid rgb(148 163 184 / 0.2);
+      color: #7dd3fc;
+    }
+    pre.block {
+      font-family: "IBM Plex Mono", ui-monospace, monospace;
+      font-size: 0.8rem;
+      line-height: 1.55;
+      overflow-x: auto;
+      border-radius: 1rem;
+      border: 1px solid rgb(34 211 238 / 0.2);
+      background: linear-gradient(160deg, #0b1220, #080e18);
+      padding: 1rem 1.1rem;
+      color: #cbd5e1;
+    }
+  </style>
+</head>
+<body class="bg-void text-starlight antialiased">
+  <div id="starfield" class="pointer-events-none fixed inset-0 -z-10 opacity-70" aria-hidden="true"></div>
+  <div class="pointer-events-none fixed inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,_rgba(34,211,238,0.12),_transparent_55%),radial-gradient(ellipse_at_bottom_right,_rgba(245,158,11,0.08),_transparent_45%)]" aria-hidden="true"></div>
+
+  <!-- Top progress -->
+  <div class="fixed left-0 right-0 top-0 z-50 h-1 bg-slate-900/80">
+    <div id="read-progress" class="h-full w-0 bg-gradient-to-r from-amber-400 via-cyan-400 to-sky-500 transition-[width] duration-150"></div>
+  </div>
+
+  <!-- Mobile top bar -->
+  <header class="sticky top-0 z-40 border-b border-white/10 bg-void/90 backdrop-blur-md lg:hidden">
+    <div class="flex items-center justify-between px-4 py-3">
+      <div class="flex items-center gap-3">
+        <button id="open-drawer" type="button" aria-expanded="false" aria-controls="mobile-drawer" class="rounded-lg border border-white/10 bg-white/5 p-2 text-cyan-300">
+          <span class="sr-only">Open navigation</span>
+          <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-width="2" d="M4 7h16M4 12h16M4 17h10"/></svg>
+        </button>
+        <div>
+          <p class="font-display text-sm tracking-wide text-starlight">AWS Orbit</p>
+          <p class="text-[10px] uppercase tracking-[0.18em] text-cyan-400/70">Masterclass</p>
+        </div>
+      </div>
+      <a href="#module-1" class="text-xs text-amber-300/90">Start</a>
+    </div>
+  </header>
+
+  <!-- Mobile drawer -->
+  <div id="drawer-backdrop" class="fixed inset-0 z-40 hidden bg-black/60 backdrop-blur-sm lg:hidden"></div>
+  <aside id="mobile-drawer" class="fixed inset-y-0 left-0 z-50 flex w-[min(100%,20rem)] -translate-x-full flex-col border-r border-cyan-500/20 bg-hull shadow-glow transition-transform duration-300 lg:hidden" aria-label="Mobile table of contents">
+    <div class="flex items-center justify-between border-b border-white/10 px-4 py-4">
+      <p class="font-display text-sm text-starlight">Mission TOC</p>
+      <button id="close-drawer" type="button" class="rounded-lg border border-white/10 p-2 text-slate-300">
+        <span class="sr-only">Close</span>
+        <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z"/></svg>
+      </button>
+    </div>
+    <div class="border-b border-white/5 px-4 py-3">
+      <p id="course-progress-label" class="text-xs text-slate-400">0/10 module quizzes completed</p>
+      <div class="mt-2 h-1.5 overflow-hidden rounded-full bg-slate-800">
+        <div id="course-progress-fill" class="h-full w-0 rounded-full bg-gradient-to-r from-amber-400 to-cyan-400"></div>
+      </div>
+    </div>
+    <nav class="flex-1 space-y-1 overflow-y-auto p-3 text-sm" id="mobile-toc"></nav>
+  </aside>
+
+  <div class="mx-auto flex min-h-screen max-w-7xl gap-0 lg:gap-8 lg:px-6 lg:py-8">
+    <!-- Desktop sidebar -->
+    <aside class="sticky top-6 hidden h-[calc(100vh-3rem)] w-72 shrink-0 flex-col overflow-hidden rounded-2xl border border-cyan-500/20 bg-hull/90 shadow-glow lg:flex" aria-label="Course table of contents">
+      <div class="border-b border-white/10 px-5 py-5">
+        <p class="text-[10px] uppercase tracking-[0.25em] text-cyan-400/80">Flight Manual</p>
+        <h1 class="font-display mt-1 text-lg leading-tight text-starlight">AWS Orbit</h1>
+        <p class="mt-2 text-xs leading-relaxed text-slate-400">Deep-dive masterclass · ~5–6 hours · Modules ship iteratively</p>
+        <div class="mt-4">
+          <p class="text-[10px] uppercase tracking-wider text-slate-500">Quiz progress</p>
+          <div class="mt-2 h-1.5 overflow-hidden rounded-full bg-slate-800">
+            <div class="course-progress-fill-desktop h-full w-0 rounded-full bg-gradient-to-r from-amber-400 to-cyan-400" id="course-progress-fill-desktop"></div>
+          </div>
+        </div>
+      </div>
+      <nav class="flex-1 space-y-1 overflow-y-auto p-3 text-sm" id="desktop-toc">
+        <!-- filled + mirrored for mobile via JS clone; static links below for no-JS -->
+        <a data-nav href="#hero" class="flex items-center justify-between rounded-xl border border-transparent px-3 py-2 text-slate-300 hover:bg-white/5">
+          <span>Mission Briefing</span>
+        </a>
+        <a data-nav href="#module-1" class="flex items-center justify-between rounded-xl border border-transparent px-3 py-2 text-slate-300 hover:bg-white/5">
+          <span>01 · Launch Prep</span>
+          <span data-quiz-status="module1" class="text-[10px] uppercase tracking-wider text-slate-500">Not started</span>
+        </a>
+        <a data-nav href="#module-2" class="flex items-center justify-between rounded-xl border border-transparent px-3 py-2 text-slate-300 hover:bg-white/5">
+          <span>02 · Cosmic Map</span>
+          <span data-quiz-status="module2" class="text-[10px] uppercase tracking-wider text-slate-500">Not started</span>
+        </a>
+        <a data-nav href="#module-3" class="flex items-center justify-between rounded-xl border border-transparent px-3 py-2 text-slate-300 hover:bg-white/5">
+          <span>03 · Identity Gate</span>
+          <span data-quiz-status="module3" class="text-[10px] uppercase tracking-wider text-slate-500">Not started</span>
+        </a>
+        <a data-nav href="#module-4" class="flex items-center justify-between rounded-xl border border-transparent px-3 py-2 text-slate-300 hover:bg-white/5">
+          <span>04 · Compute Fabric</span>
+          <span data-quiz-status="module4" class="text-[10px] uppercase tracking-wider text-slate-500">Not started</span>
+        </a>
+        <a data-nav href="#module-5" class="flex items-center justify-between rounded-xl border border-transparent px-3 py-2 text-slate-300 hover:bg-white/5">
+          <span>05 · Storage Armory</span>
+          <span data-quiz-status="module5" class="text-[10px] uppercase tracking-wider text-slate-500">Not started</span>
+        </a>
+        <a data-nav href="#module-6" class="flex items-center justify-between rounded-xl border border-transparent px-3 py-2 text-slate-300 hover:bg-white/5">
+          <span>06 · Network Lattice</span>
+          <span data-quiz-status="module6" class="text-[10px] uppercase tracking-wider text-slate-500">Not started</span>
+        </a>
+        <a data-nav href="#module-7" class="flex items-center justify-between rounded-xl border border-transparent px-3 py-2 text-slate-300 hover:bg-white/5">
+          <span>07 · Data Layer</span>
+          <span data-quiz-status="module7" class="text-[10px] uppercase tracking-wider text-slate-500">Not started</span>
+        </a>
+        <a data-nav href="#module-8" class="flex items-center justify-between rounded-xl border border-transparent px-3 py-2 text-slate-300 hover:bg-white/5">
+          <span>08 · Serverless Fleet</span>
+          <span data-quiz-status="module8" class="text-[10px] uppercase tracking-wider text-slate-500">Not started</span>
+        </a>
+        <a data-nav href="#module-9" class="flex items-center justify-between rounded-xl border border-transparent px-3 py-2 text-slate-300 hover:bg-white/5">
+          <span>09 · Mission Control</span>
+          <span data-quiz-status="module9" class="text-[10px] uppercase tracking-wider text-slate-500">Not started</span>
+        </a>
+        <a data-nav href="#module-10" class="flex items-center justify-between rounded-xl border border-transparent px-3 py-2 text-slate-300 hover:bg-white/5">
+          <span>10 · Capstone</span>
+          <span data-quiz-status="module10" class="text-[10px] uppercase tracking-wider text-slate-500">Not started</span>
+        </a>
+        <a data-nav href="#roadmap" class="mt-2 flex rounded-xl border border-transparent px-3 py-2 text-slate-400 hover:bg-white/5">Course complete · Roadmap</a>
+      </nav>
+    </aside>
+
+    <!-- Main content -->
+    <main class="min-w-0 flex-1 px-4 pb-24 pt-6 lg:px-2 lg:pt-0">
+      <!-- HERO -->
+      <section id="hero" class="relative overflow-hidden rounded-3xl border border-cyan-500/25 bg-gradient-to-br from-hull via-void to-nebula p-8 sm:p-12">
+        <div class="absolute -right-8 top-0 opacity-40 sm:opacity-70" aria-hidden="true">
+          <!-- Spacecraft SVG -->
+          <svg width="280" height="220" viewBox="0 0 280 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="150" cy="110" rx="90" ry="28" fill="#22d3ee" fill-opacity="0.08"/>
+            <path d="M40 120 L160 70 L240 110 L160 150 Z" fill="#1e293b" stroke="#22d3ee" stroke-width="2"/>
+            <path d="M160 70 L200 50 L220 100 L160 150" fill="#0f172a" stroke="#f59e0b" stroke-width="1.5"/>
+            <circle cx="130" cy="110" r="14" fill="#022c3a" stroke="#67e8f9" stroke-width="2"/>
+            <circle cx="130" cy="110" r="6" fill="#22d3ee"/>
+            <path d="M40 120 L20 105 L20 135 Z" fill="#f59e0b"/>
+            <path d="M70 95 L55 70 L95 88" stroke="#94a3b8" stroke-width="2" fill="none"/>
+            <path d="M70 125 L55 150 L95 132" stroke="#94a3b8" stroke-width="2" fill="none"/>
+          </svg>
+        </div>
+        <p class="text-xs uppercase tracking-[0.3em] text-cyan-400">Amazon Web Services</p>
+        <h2 class="font-display mt-3 max-w-xl text-3xl font-semibold leading-tight text-starlight sm:text-4xl">Orbit Masterclass</h2>
+        <p class="mt-4 max-w-xl text-base leading-relaxed text-slate-300 sm:text-lg">
+          A complete masterclass on AWS — foundations through Well-Architected — with deep modules on IAM, compute, storage, VPC, data, serverless, and operations, plus diagrams and interactive quizzes.
+        </p>
+        <div class="mt-8 flex flex-wrap gap-3">
+          <a href="#module-1" class="rounded-xl bg-gradient-to-r from-cyan-400 to-sky-500 px-5 py-2.5 text-sm font-semibold text-slate-950 shadow-glow">Begin Module 01</a>
+          <a href="#roadmap" class="rounded-xl border border-white/15 bg-white/5 px-5 py-2.5 text-sm text-slate-200 hover:bg-white/10">View roadmap</a>
+        </div>
+        <dl class="mt-10 grid max-w-2xl grid-cols-2 gap-4 sm:grid-cols-4">
+          <div class="rounded-xl border border-white/10 bg-black/20 p-3">
+            <dt class="text-[10px] uppercase tracking-wider text-slate-500">Depth</dt>
+            <dd class="mt-1 font-display text-sm text-amber-300">Masterclass</dd>
+          </div>
+          <div class="rounded-xl border border-white/10 bg-black/20 p-3">
+            <dt class="text-[10px] uppercase tracking-wider text-slate-500">Shipped</dt>
+            <dd class="mt-1 font-display text-sm text-cyan-300">10 modules</dd>
+          </div>
+          <div class="rounded-xl border border-white/10 bg-black/20 p-3">
+            <dt class="text-[10px] uppercase tracking-wider text-slate-500">Quizzes</dt>
+            <dd class="mt-1 font-display text-sm text-starlight">Data-driven</dd>
+          </div>
+          <div class="rounded-xl border border-white/10 bg-black/20 p-3">
+            <dt class="text-[10px] uppercase tracking-wider text-slate-500">Stack</dt>
+            <dd class="mt-1 font-display text-sm text-starlight">Static HTML</dd>
+          </div>
+        </dl>
+      </section>
+
+      <!-- ===================== MODULE 1 ===================== -->
+      <section id="module-1" class="prose-course mt-16 scroll-mt-24">
+        <header class="mb-10 border-b border-white/10 pb-8">
+          <p class="text-xs uppercase tracking-[0.25em] text-amber-400/90">Module 01</p>
+          <h2 class="font-display mt-2 text-3xl text-starlight">Launch Prep — Cloud Foundations, Account Setup &amp; Mission Control</h2>
+          <p class="mt-3 max-w-3xl text-slate-300">
+            Before you touch EC2 or S3, you need a mental model of the cloud, a safe account, working tooling, and a clear sense of who is responsible for what when something breaks at 2 a.m.
+          </p>
+        </header>
+
+        <article class="space-y-8 text-[15px] leading-7 text-slate-300">
+          <div>
+            <h3 id="m1-why" class="font-display text-xl text-starlight">1.1 Why cloud exists (the power-plant analogy)</h3>
+            <p class="mt-3">
+              Imagine every apartment building running its own diesel generator in the basement. That is classic on-premises IT: you buy capacity for peak summer heat, pay for it year-round, hire people to maintain it, and still risk blackouts. Cloud computing is the municipal power grid for compute, storage, and networking. You plug in with APIs instead of copper, and you pay for kilowatt-hours of <em>capacity-time</em> rather than owning the turbines.
+            </p>
+            <p class="mt-3">
+              AWS is one of those grids — the largest by many measures — exposing hundreds of services behind a consistent identity, billing, and regional topology. Your job as an engineer is not to memorize every service logo; it is to understand the <strong class="font-semibold text-starlight">control planes</strong> (APIs that create/configure) and <strong class="font-semibold text-starlight">data planes</strong> (paths that carry traffic and bytes), then compose them into reliable systems.
+            </p>
+          </div>
+
+          <!-- Diagram: CapEx vs OpEx / on-prem vs cloud -->
+          <figure class="overflow-hidden rounded-2xl border border-cyan-500/20 bg-slate-950/50 p-4 sm:p-6">
+            <figcaption class="mb-4 text-xs uppercase tracking-[0.2em] text-cyan-400/80">Diagram · On-prem CapEx vs Cloud OpEx</figcaption>
+            <svg viewBox="0 0 760 280" class="h-auto w-full" role="img" aria-label="Comparison of on-premises capital expenditure versus cloud operational expenditure">
+              <rect x="20" y="30" width="340" height="220" rx="16" fill="#0f172a" stroke="#64748b" stroke-width="1.5"/>
+              <text x="190" y="58" text-anchor="middle" fill="#94a3b8" font-size="14" font-family="IBM Plex Sans, sans-serif">On-Premises (CapEx heavy)</text>
+              <rect x="50" y="80" width="60" height="90" fill="#334155" stroke="#94a3b8"/>
+              <rect x="120" y="70" width="60" height="100" fill="#334155" stroke="#94a3b8"/>
+              <rect x="190" y="90" width="60" height="80" fill="#334155" stroke="#94a3b8"/>
+              <rect x="260" y="75" width="60" height="95" fill="#475569" stroke="#f59e0b"/>
+              <text x="190" y="210" text-anchor="middle" fill="#f59e0b" font-size="12" font-family="IBM Plex Sans, sans-serif">Buy peak capacity once</text>
+              <text x="190" y="230" text-anchor="middle" fill="#64748b" font-size="11" font-family="IBM Plex Sans, sans-serif">Idle metal still costs money</text>
+
+              <rect x="400" y="30" width="340" height="220" rx="16" fill="#0f172a" stroke="#22d3ee" stroke-width="1.5"/>
+              <text x="570" y="58" text-anchor="middle" fill="#67e8f9" font-size="14" font-family="IBM Plex Sans, sans-serif">Cloud (OpEx / elastic)</text>
+              <path d="M430 180 L470 180 L490 100 L520 160 L550 90 L580 150 L610 120 L650 180 L690 180" fill="none" stroke="#22d3ee" stroke-width="3"/>
+              <path d="M430 180 L690 180" stroke="#334155" stroke-width="2"/>
+              <text x="570" y="210" text-anchor="middle" fill="#22d3ee" font-size="12" font-family="IBM Plex Sans, sans-serif">Scale with demand curve</text>
+              <text x="570" y="230" text-anchor="middle" fill="#64748b" font-size="11" font-family="IBM Plex Sans, sans-serif">Pay for what you provision</text>
+            </svg>
+          </figure>
+
+          <div>
+            <h3 id="m1-models" class="font-display text-xl text-starlight">1.2 Service models: IaaS, PaaS, SaaS (and where AWS sits)</h3>
+            <p class="mt-3">
+              Think of building a pizza business. <strong class="text-starlight">IaaS</strong> rents you the kitchen (ovens, counters, utilities) — you bring recipes and chefs. <strong class="text-starlight">PaaS</strong> gives you a managed kitchen line that auto-refills dough — you focus on toppings and orders. <strong class="text-starlight">SaaS</strong> is ordering pizza from an app — you consume the finished product.
+            </p>
+            <ul class="mt-4 list-disc space-y-2 pl-5">
+              <li><span class="text-starlight">IaaS examples:</span> Amazon EC2, Amazon VPC, Amazon EBS — maximum control, maximum responsibility.</li>
+              <li><span class="text-starlight">PaaS-like:</span> Elastic Beanstalk, App Runner, many ECS/EKS patterns with managed control planes — less OS toil.</li>
+              <li><span class="text-starlight">SaaS-like:</span> Amazon WorkMail, managed collaboration tools — you configure, rarely SSH.</li>
+              <li><span class="text-starlight">Serverless compute:</span> AWS Lambda sits near PaaS but with event-driven billing and no server lifecycle for you to manage.</li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 id="m1-shared" class="font-display text-xl text-starlight">1.3 Shared Responsibility Model (memorize this early)</h3>
+            <p class="mt-3">
+              AWS is responsible for security <em>of</em> the cloud: data centers, hardware, virtualization hosts, and the managed control planes of services. You are responsible for security <em>in</em> the cloud: identities, network reachability you configure, guest OS patches on EC2, application code, encryption choices, and data classification.
+            </p>
+          </div>
+
+          <figure class="overflow-hidden rounded-2xl border border-amber-500/20 bg-slate-950/50 p-4 sm:p-6">
+            <figcaption class="mb-4 text-xs uppercase tracking-[0.2em] text-amber-400/80">Diagram · Shared Responsibility</figcaption>
+            <svg viewBox="0 0 720 320" class="h-auto w-full" role="img" aria-label="AWS shared responsibility model stacked layers">
+              <rect x="40" y="20" width="640" height="54" rx="10" fill="#12203a" stroke="#22d3ee"/>
+              <text x="360" y="52" text-anchor="middle" fill="#e2e8f0" font-size="15" font-family="IBM Plex Sans, sans-serif">Customer: data, IAM, OS/apps (EC2), configs, encryption</text>
+              <rect x="40" y="90" width="640" height="54" rx="10" fill="#0f1a2e" stroke="#38bdf8"/>
+              <text x="360" y="122" text-anchor="middle" fill="#cbd5e1" font-size="15" font-family="IBM Plex Sans, sans-serif">Platform midpoint: patching shifts upward on managed services (RDS, Lambda)</text>
+              <rect x="40" y="160" width="640" height="54" rx="10" fill="#0c1628" stroke="#64748b"/>
+              <text x="360" y="192" text-anchor="middle" fill="#94a3b8" font-size="15" font-family="IBM Plex Sans, sans-serif">AWS: hypervisor, managed hosts, regions/AZs, physical security</text>
+              <rect x="40" y="230" width="640" height="54" rx="10" fill="#0a1220" stroke="#475569"/>
+              <text x="360" y="262" text-anchor="middle" fill="#64748b" font-size="15" font-family="IBM Plex Sans, sans-serif">AWS: global network, edge, hardware lifecycle</text>
+            </svg>
+            <p class="mt-3 text-sm text-slate-400">Rule of thumb: the more AWS manages the runtime, the less OS work you do — but IAM mistakes and open data stores remain your blast radius.</p>
+          </figure>
+
+          <div>
+            <h3 id="m1-prereq" class="font-display text-xl text-starlight">1.4 Prerequisites checklist</h3>
+            <div class="mt-4 grid gap-4 sm:grid-cols-2">
+              <div class="rounded-2xl border border-white/10 bg-slate-950/40 p-5">
+                <h4 class="font-display text-sm text-cyan-300">Knowledge</h4>
+                <ul class="mt-3 list-disc space-y-2 pl-4 text-sm">
+                  <li>Comfortable with HTTP, DNS basics, SSH concepts</li>
+                  <li>JSON literacy (IAM policies are JSON documents)</li>
+                  <li>Basic Linux shell (ls, cd, env, pipes)</li>
+                  <li>Git clone/commit (for IaC later)</li>
+                </ul>
+              </div>
+              <div class="rounded-2xl border border-white/10 bg-slate-950/40 p-5">
+                <h4 class="font-display text-sm text-amber-300">Environment</h4>
+                <ul class="mt-3 list-disc space-y-2 pl-4 text-sm">
+                  <li>Personal email + phone for MFA</li>
+                  <li>Credit/debit card for account verification</li>
+                  <li>Laptop with admin rights to install CLI</li>
+                  <li>Optional: VS Code / Cursor + AWS Toolkit</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <h3 id="m1-account" class="font-display text-xl text-starlight">1.5 Creating an AWS account (safe day-one sequence)</h3>
+            <ol class="mt-4 list-decimal space-y-3 pl-5">
+              <li>Create the account at <span class="text-cyan-300">aws.amazon.com</span> — verify email and phone.</li>
+              <li><strong class="text-starlight">Enable MFA on the root user immediately</strong> (hardware key preferred; TOTP app acceptable).</li>
+              <li>Do <em>not</em> create root access keys. Ever, unless a rare break-glass procedure demands it — and then delete them.</li>
+              <li>Create an administrator via <strong class="text-starlight">IAM Identity Center</strong> (recommended) or an IAM user with MFA for daily console use.</li>
+              <li>Turn on <strong class="text-starlight">AWS CloudTrail</strong> (management events) in all Regions via a trail writing to a dedicated S3 bucket.</li>
+              <li>Create a <strong class="text-starlight">billing alarm</strong> / AWS Budget (e.g., actual cost &gt; $5 or $10).</li>
+              <li>Note your 12-digit Account ID; treat it as public-ish metadata, not a secret — but don’t paste credentials anywhere.</li>
+            </ol>
+            <p class="mt-4 rounded-xl border border-amber-500/30 bg-amber-950/20 px-4 py-3 text-sm text-amber-100/90">
+              Free Tier is a training wheels allowance, not a force field. NAT Gateways, idle load balancers, public IPv4 addresses, and forgotten gp3 volumes are classic “why is my bill $40?” stories.
+            </p>
+          </div>
+
+          <div>
+            <h3 id="m1-cli" class="font-display text-xl text-starlight">1.6 Install and verify the AWS CLI (v2)</h3>
+            <p class="mt-3">The CLI is your thin client to every service API. Prefer AWS CLI v2.</p>
+            <p class="mt-3 text-sm text-slate-400">macOS (official pkg) or package managers:</p>
+            <pre class="block mt-2"># macOS (Homebrew example)
+brew install awscli
+
+# Verify
+aws --version
+
+# After configuring credentials / SSO:
+aws sts get-caller-identity</pre>
+            <p class="mt-4">
+              Modern teams prefer <strong class="text-starlight">IAM Identity Center (SSO)</strong> profiles over long-lived access keys:
+            </p>
+            <pre class="block mt-2">aws configure sso
+# follow prompts: start URL, Region, account, role
+aws sso login --profile my-admin
+aws sts get-caller-identity --profile my-admin</pre>
+            <p class="mt-3">
+              Expected shape of a successful identity call:
+            </p>
+            <pre class="block mt-2">{
+  "UserId": "AROA...:session-name",
+  "Account": "123456789012",
+  "Arn": "arn:aws:sts::123456789012:assumed-role/..."
+}</pre>
+          </div>
+
+          <div>
+            <h3 id="m1-console" class="font-display text-xl text-starlight">1.7 Console, APIs, SDKs — one control plane, many cockpits</h3>
+            <p class="mt-3">
+              The AWS Management Console, CLI, Terraform/CloudFormation, and SDKs (boto3, AWS SDK for JavaScript/Java/Go) all speak the same service APIs. If you can do it in the console, there is almost always an API equivalent — and production automation should prefer the API/IaC path so changes are reviewable.
+            </p>
+          </div>
+
+          <!-- Interactive-ish flowchart with Tailwind -->
+          <div>
+            <h3 id="m1-flow" class="font-display text-xl text-starlight">1.8 First-week mission control flow</h3>
+            <div class="mt-5 flex flex-col items-stretch gap-3 md:flex-row md:items-center md:justify-between">
+              <div class="flex-1 rounded-2xl border border-cyan-400/30 bg-cyan-950/20 p-4 text-center">
+                <p class="text-[10px] uppercase tracking-wider text-cyan-400">Step 1</p>
+                <p class="mt-1 text-sm font-medium text-starlight">Account + MFA</p>
+              </div>
+              <div class="hidden text-cyan-500 md:block">→</div>
+              <div class="flex-1 rounded-2xl border border-cyan-400/30 bg-cyan-950/20 p-4 text-center">
+                <p class="text-[10px] uppercase tracking-wider text-cyan-400">Step 2</p>
+                <p class="mt-1 text-sm font-medium text-starlight">Admin via SSO/IAM</p>
+              </div>
+              <div class="hidden text-cyan-500 md:block">→</div>
+              <div class="flex-1 rounded-2xl border border-amber-400/30 bg-amber-950/20 p-4 text-center">
+                <p class="text-[10px] uppercase tracking-wider text-amber-400">Step 3</p>
+                <p class="mt-1 text-sm font-medium text-starlight">CloudTrail + Budget</p>
+              </div>
+              <div class="hidden text-cyan-500 md:block">→</div>
+              <div class="flex-1 rounded-2xl border border-white/15 bg-slate-900/50 p-4 text-center">
+                <p class="text-[10px] uppercase tracking-wider text-slate-400">Step 4</p>
+                <p class="mt-1 text-sm font-medium text-starlight">CLI identity check</p>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <h3 id="m1-billing" class="font-display text-xl text-starlight">1.9 Cost primitives you must know before labbing</h3>
+            <ul class="mt-3 list-disc space-y-2 pl-5">
+              <li><strong class="text-starlight">On-Demand:</strong> flexible, highest unit price — fine for labs if you terminate resources.</li>
+              <li><strong class="text-starlight">Savings Plans / Reserved Instances:</strong> commit spend/usage for discounts — rarely needed for learning accounts.</li>
+              <li><strong class="text-starlight">Spot:</strong> spare capacity at steep discounts with interruption risk — advanced compute module territory.</li>
+              <li><strong class="text-starlight">Data transfer:</strong> ingress often free; egress and cross-AZ/cross-Region transfer can dominate bills.</li>
+            </ul>
+            <p class="mt-3">
+              Bookmark the <a class="text-cyan-300 underline decoration-cyan-500/40 hover:text-cyan-200" href="https://calculator.aws/" target="_blank" rel="noopener noreferrer">AWS Pricing Calculator</a> and learn to read Cost Explorer filters by service and Region.
+            </p>
+          </div>
+
+          <div>
+            <h3 id="m1-orgs" class="font-display text-xl text-starlight">1.10 Multi-account foreshadowing</h3>
+            <p class="mt-3">
+              Serious AWS estates use <strong class="text-starlight">AWS Organizations</strong>: separate accounts for prod, non-prod, security tooling, and logging. Service Control Policies (SCPs) set guardrails. You do not need Organizations on day one of learning — but you should know that a single “playground” account is a sandbox, not a production pattern.
+            </p>
+          </div>
+
+          <div>
+            <h3 id="m1-lab" class="font-display text-xl text-starlight">1.11 Lab: prove your cockpit works</h3>
+            <ol class="mt-3 list-decimal space-y-2 pl-5">
+              <li>Sign in as non-root admin with MFA.</li>
+              <li>Confirm billing alerts deliver to your email.</li>
+              <li>Run <code class="k">aws sts get-caller-identity</code> successfully.</li>
+              <li>In the console, open EC2 → Regions dropdown — notice how the world is sliced (Module 02).</li>
+              <li>Intentionally create nothing billable yet; destroy habits beat create habits.</li>
+            </ol>
+          </div>
+        </article>
+
+        <div class="mt-14">
+          <div class="quiz-root" data-quiz="module1"></div>
+        </div>
+      </section>
+
+      <!-- ===================== MODULE 2 ===================== -->
+      <section id="module-2" class="prose-course mt-24 scroll-mt-24">
+        <header class="mb-10 border-b border-white/10 pb-8">
+          <p class="text-xs uppercase tracking-[0.25em] text-amber-400/90">Module 02</p>
+          <h2 class="font-display mt-2 text-3xl text-starlight">The Cosmic Map — Regions, AZs, Edges &amp; Global Infrastructure</h2>
+          <p class="mt-3 max-w-3xl text-slate-300">
+            Every AWS architecture decision is secretly a geography decision. This module is the atlas: Regions, Availability Zones, Local Zones, Wavelength, Outposts, and the edge network that makes the planet feel small.
+          </p>
+        </header>
+
+        <article class="space-y-8 text-[15px] leading-7 text-slate-300">
+          <div>
+            <h3 id="m2-atlas" class="font-display text-xl text-starlight">2.1 The infrastructure stack from orbit</h3>
+            <p class="mt-3">
+              Picture Earth from orbit. AWS paints it with <strong class="text-starlight">Regions</strong> — geographic areas like “Europe (Ireland)” or “US East (N. Virginia)”. Zoom in: each Region contains multiple <strong class="text-starlight">Availability Zones</strong> (AZs) — one or more discrete data centers with independent power, cooling, and networking. Zoom to the surface near users: <strong class="text-starlight">edge locations</strong> and regional edge caches accelerate content. Special extensions — <strong class="text-starlight">Local Zones</strong>, <strong class="text-starlight">Wavelength Zones</strong>, and <strong class="text-starlight">Outposts</strong> — push select AWS primitives even closer to metros, 5G networks, or your own data center floor.
+            </p>
+          </div>
+
+          <figure class="overflow-hidden rounded-2xl border border-cyan-500/20 bg-slate-950/50 p-4 sm:p-6">
+            <figcaption class="mb-4 text-xs uppercase tracking-[0.2em] text-cyan-400/80">Diagram · Region → AZ → Data center mental model</figcaption>
+            <svg viewBox="0 0 780 340" class="h-auto w-full" role="img" aria-label="AWS Region containing three Availability Zones">
+              <rect x="30" y="40" width="720" height="260" rx="20" fill="#0b1528" stroke="#22d3ee" stroke-width="2"/>
+              <text x="390" y="78" text-anchor="middle" fill="#67e8f9" font-size="16" font-family="Orbitron, sans-serif">Region (e.g., eu-west-1)</text>
+              <rect x="70" y="110" width="180" height="150" rx="14" fill="#111827" stroke="#f59e0b"/>
+              <text x="160" y="145" text-anchor="middle" fill="#fbbf24" font-size="14" font-family="IBM Plex Sans, sans-serif">AZ a</text>
+              <rect x="95" y="165" width="50" height="30" fill="#1e293b" stroke="#64748b"/><rect x="155" y="165" width="50" height="30" fill="#1e293b" stroke="#64748b"/>
+              <rect x="95" y="205" width="50" height="30" fill="#1e293b" stroke="#64748b"/><rect x="155" y="205" width="50" height="30" fill="#1e293b" stroke="#64748b"/>
+              <text x="160" y="250" text-anchor="middle" fill="#64748b" font-size="11" font-family="IBM Plex Sans, sans-serif">DC cluster</text>
+
+              <rect x="300" y="110" width="180" height="150" rx="14" fill="#111827" stroke="#f59e0b"/>
+              <text x="390" y="145" text-anchor="middle" fill="#fbbf24" font-size="14" font-family="IBM Plex Sans, sans-serif">AZ b</text>
+              <rect x="325" y="165" width="50" height="30" fill="#1e293b" stroke="#64748b"/><rect x="385" y="165" width="50" height="30" fill="#1e293b" stroke="#64748b"/>
+              <rect x="325" y="205" width="50" height="30" fill="#1e293b" stroke="#64748b"/><rect x="385" y="205" width="50" height="30" fill="#1e293b" stroke="#64748b"/>
+              <text x="390" y="250" text-anchor="middle" fill="#64748b" font-size="11" font-family="IBM Plex Sans, sans-serif">Isolated failure domain</text>
+
+              <rect x="530" y="110" width="180" height="150" rx="14" fill="#111827" stroke="#f59e0b"/>
+              <text x="620" y="145" text-anchor="middle" fill="#fbbf24" font-size="14" font-family="IBM Plex Sans, sans-serif">AZ c</text>
+              <rect x="555" y="165" width="50" height="30" fill="#1e293b" stroke="#64748b"/><rect x="615" y="165" width="50" height="30" fill="#1e293b" stroke="#64748b"/>
+              <rect x="555" y="205" width="50" height="30" fill="#1e293b" stroke="#64748b"/><rect x="615" y="205" width="50" height="30" fill="#1e293b" stroke="#64748b"/>
+              <text x="620" y="250" text-anchor="middle" fill="#64748b" font-size="11" font-family="IBM Plex Sans, sans-serif">Independent power/net</text>
+
+              <path d="M250 185 H300" stroke="#22d3ee" stroke-width="2" stroke-dasharray="4 4"/>
+              <path d="M480 185 H530" stroke="#22d3ee" stroke-width="2" stroke-dasharray="4 4"/>
+              <text x="390" y="310" text-anchor="middle" fill="#94a3b8" font-size="12" font-family="IBM Plex Sans, sans-serif">Private metro fiber between AZs · ms-level latency · sync replication friendly</text>
+            </svg>
+          </figure>
+
+          <div>
+            <h3 id="m2-region" class="font-display text-xl text-starlight">2.2 Choosing a Region — the four-constraint problem</h3>
+            <p class="mt-3">Region choice is an engineering + legal + product decision:</p>
+            <ol class="mt-3 list-decimal space-y-2 pl-5">
+              <li><strong class="text-starlight">Latency:</strong> place data planes near users and dependent systems.</li>
+              <li><strong class="text-starlight">Compliance / residency:</strong> some data must not leave a country or union.</li>
+              <li><strong class="text-starlight">Service &amp; feature parity:</strong> brand-new features often land in a subset of Regions first.</li>
+              <li><strong class="text-starlight">Price:</strong> the same instance class is not priced identically everywhere.</li>
+            </ol>
+            <p class="mt-3">
+              <code class="k">us-east-1</code> is historically the “default gravity well”: many tutorials, some global service endpoints, and earliest feature launches. That popularity is not automatically a production recommendation — concentrate risk consciously.
+            </p>
+          </div>
+
+          <div>
+            <h3 id="m2-az" class="font-display text-xl text-starlight">2.3 Availability Zones — failure domains you design against</h3>
+            <p class="mt-3">
+              An AZ is intentionally isolated. AWS interconnects AZs in a Region with high-bandwidth, low-latency links so you can run synchronous systems (Multi-AZ RDS, mirrored application fleets behind a load balancer) without pretending machines share a single rack.
+            </p>
+            <p class="mt-3">
+              Critical nuance: the label <code class="k">us-east-1a</code> in your account may not be the same physical AZ as <code class="k">us-east-1a</code> in a teammate’s account. AWS remaps letters to balance capacity. For multi-account consistency, use <strong class="text-starlight">Availability Zone IDs</strong> (like <code class="k">use1-az6</code>).
+            </p>
+            <pre class="block mt-3">aws ec2 describe-availability-zones --region us-east-1 \
+  --query 'AvailabilityZones[*].[ZoneName,ZoneId]' --output table</pre>
+          </div>
+
+          <div>
+            <h3 id="m2-ha" class="font-display text-xl text-starlight">2.4 High availability patterns on the map</h3>
+            <div class="mt-4 overflow-x-auto rounded-2xl border border-white/10">
+              <table class="min-w-full text-left text-sm">
+                <thead class="bg-slate-900/80 text-xs uppercase tracking-wider text-slate-400">
+                  <tr>
+                    <th class="px-4 py-3">Pattern</th>
+                    <th class="px-4 py-3">Geography</th>
+                    <th class="px-4 py-3">Survives</th>
+                    <th class="px-4 py-3">Typical RPO/RTO mindset</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-white/5">
+                  <tr class="bg-slate-950/40">
+                    <td class="px-4 py-3 text-starlight">Single AZ</td>
+                    <td class="px-4 py-3">One AZ</td>
+                    <td class="px-4 py-3">Host failure (if multi-node)</td>
+                    <td class="px-4 py-3">Poor for AZ loss</td>
+                  </tr>
+                  <tr>
+                    <td class="px-4 py-3 text-starlight">Multi-AZ</td>
+                    <td class="px-4 py-3">≥2 AZs</td>
+                    <td class="px-4 py-3">AZ outage</td>
+                    <td class="px-4 py-3">Seconds–minutes HA</td>
+                  </tr>
+                  <tr class="bg-slate-950/40">
+                    <td class="px-4 py-3 text-starlight">Pilot light / warm standby</td>
+                    <td class="px-4 py-3">Second Region</td>
+                    <td class="px-4 py-3">Regional event</td>
+                    <td class="px-4 py-3">DR minutes–hours</td>
+                  </tr>
+                  <tr>
+                    <td class="px-4 py-3 text-starlight">Active-active global</td>
+                    <td class="px-4 py-3">Multi-Region</td>
+                    <td class="px-4 py-3">Regional + user proximity</td>
+                    <td class="px-4 py-3">Complex consistency</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <figure class="overflow-hidden rounded-2xl border border-amber-500/20 bg-slate-950/50 p-4 sm:p-6">
+            <figcaption class="mb-4 text-xs uppercase tracking-[0.2em] text-amber-400/80">Diagram · Edge network relative to Regions</figcaption>
+            <svg viewBox="0 0 760 300" class="h-auto w-full" role="img" aria-label="Users hitting CloudFront edge locations then origin in a Region">
+              <circle cx="80" cy="150" r="36" fill="#12203a" stroke="#94a3b8"/>
+              <text x="80" y="155" text-anchor="middle" fill="#e2e8f0" font-size="12" font-family="IBM Plex Sans, sans-serif">Users</text>
+              <path d="M116 150 H190" stroke="#22d3ee" stroke-width="2" marker-end="url(#arrow)"/>
+              <rect x="190" y="100" width="140" height="100" rx="12" fill="#0f172a" stroke="#22d3ee"/>
+              <text x="260" y="140" text-anchor="middle" fill="#67e8f9" font-size="13" font-family="IBM Plex Sans, sans-serif">Edge PoP</text>
+              <text x="260" y="162" text-anchor="middle" fill="#64748b" font-size="11" font-family="IBM Plex Sans, sans-serif">CloudFront / DNS</text>
+              <path d="M330 150 H410" stroke="#f59e0b" stroke-width="2"/>
+              <rect x="410" y="70" width="300" height="160" rx="16" fill="#0b1528" stroke="#f59e0b"/>
+              <text x="560" y="110" text-anchor="middle" fill="#fbbf24" font-size="14" font-family="IBM Plex Sans, sans-serif">Origin Region</text>
+              <rect x="450" y="130" width="100" height="60" rx="8" fill="#111827" stroke="#64748b"/>
+              <text x="500" y="165" text-anchor="middle" fill="#cbd5e1" font-size="12" font-family="IBM Plex Sans, sans-serif">ALB / S3</text>
+              <rect x="570" y="130" width="100" height="60" rx="8" fill="#111827" stroke="#64748b"/>
+              <text x="620" y="165" text-anchor="middle" fill="#cbd5e1" font-size="12" font-family="IBM Plex Sans, sans-serif">App / API</text>
+              <defs>
+                <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+                  <path d="M0,0 L6,3 L0,6" fill="#22d3ee"/>
+                </marker>
+              </defs>
+            </svg>
+            <p class="mt-3 text-sm text-slate-400">Edges cache and terminate; systems of record stay in Regional data planes you design for durability.</p>
+          </figure>
+
+          <div>
+            <h3 id="m2-edge" class="font-display text-xl text-starlight">2.5 Edge services you will meet constantly</h3>
+            <ul class="mt-3 list-disc space-y-2 pl-5">
+              <li><strong class="text-starlight">Amazon CloudFront:</strong> CDN — cache content at PoPs, integrate with WAF, Shield, custom origins.</li>
+              <li><strong class="text-starlight">Amazon Route 53:</strong> authoritative DNS with health checks and routing policies (latency, failover, geolocation).</li>
+              <li><strong class="text-starlight">AWS Global Accelerator:</strong> anycast IPs that ingress onto the AWS backbone for TCP/UDP apps needing stable entry points.</li>
+              <li><strong class="text-starlight">AWS WAF / Shield:</strong> edge-adjacent protection layers (details in security modules).</li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 id="m2-extensions" class="font-display text-xl text-starlight">2.6 Local Zones, Wavelength, Outposts — when the Region is not close enough</h3>
+            <div class="mt-4 grid gap-4 lg:grid-cols-3">
+              <div class="rounded-2xl border border-cyan-500/25 bg-cyan-950/10 p-5">
+                <h4 class="font-display text-sm text-cyan-300">Local Zones</h4>
+                <p class="mt-2 text-sm">Select compute/storage/database services in large metros, parented to a Region. Use for single-digit ms to downtown users (media, games, inference).</p>
+              </div>
+              <div class="rounded-2xl border border-amber-500/25 bg-amber-950/10 p-5">
+                <h4 class="font-display text-sm text-amber-300">Wavelength</h4>
+                <p class="mt-2 text-sm">AWS infrastructure inside telecom 5G networks. Mobile devices reach apps without hair-pinning all the way to a distant Region.</p>
+              </div>
+              <div class="rounded-2xl border border-white/15 bg-slate-900/40 p-5">
+                <h4 class="font-display text-sm text-starlight">Outposts</h4>
+                <p class="mt-2 text-sm">AWS-managed racks in <em>your</em> data center. Familiar APIs on-prem, tethered to a Region for control-plane gravity.</p>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <h3 id="m2-global-vs-regional" class="font-display text-xl text-starlight">2.7 Global vs Regional services (design implications)</h3>
+            <p class="mt-3">
+              Some configurations are <em>global</em> in scope (classic examples students meet early: IAM principals/policies, many Route 53 and CloudFront configurations). Most data services are <em>Regional</em>: an VPC in <code class="k">eu-central-1</code> does not magically exist in <code class="k">ap-south-1</code>. Your IaC state, DR runbooks, and credential strategies must respect that boundary.
+            </p>
+            <pre class="block mt-3"># Explicit Region — never rely on ambient defaults in automation
+export AWS_REGION=ap-south-1
+aws ec2 describe-vpcs --region ap-south-1</pre>
+          </div>
+
+          <div>
+            <h3 id="m2-network-foreshadow" class="font-display text-xl text-starlight">2.8 How VPCs sit on the map (preview)</h3>
+            <p class="mt-3">
+              A VPC is Region-scoped. You carve <strong class="text-starlight">subnets</strong> that each live in exactly one AZ. Public subnets route to an Internet Gateway; private subnets often egress via NAT Gateway (which itself usually sits in a public subnet). Multi-AZ therefore means repeating subnet tiers per AZ — a pattern you will implement in the VPC module with full diagrams.
+            </p>
+
+            <!-- Tailwind flowchart -->
+            <div class="mt-6 rounded-2xl border border-white/10 bg-slate-950/50 p-5">
+              <p class="text-xs uppercase tracking-[0.2em] text-slate-500">Interactive flowchart · Multi-AZ subnet sketch</p>
+              <div class="mt-4 grid gap-4 md:grid-cols-2">
+                <div class="rounded-xl border border-amber-400/30 bg-amber-950/10 p-4">
+                  <p class="text-xs text-amber-300">AZ-1</p>
+                  <div class="mt-3 space-y-2">
+                    <div class="rounded-lg border border-cyan-400/40 bg-cyan-950/30 px-3 py-2 text-sm">Public subnet · ALB / NAT</div>
+                    <div class="rounded-lg border border-white/15 bg-slate-900/80 px-3 py-2 text-sm">Private subnet · App</div>
+                    <div class="rounded-lg border border-white/10 bg-slate-950 px-3 py-2 text-sm text-slate-400">Data subnet · DB ENI</div>
+                  </div>
+                </div>
+                <div class="rounded-xl border border-amber-400/30 bg-amber-950/10 p-4">
+                  <p class="text-xs text-amber-300">AZ-2</p>
+                  <div class="mt-3 space-y-2">
+                    <div class="rounded-lg border border-cyan-400/40 bg-cyan-950/30 px-3 py-2 text-sm">Public subnet · ALB / NAT</div>
+                    <div class="rounded-lg border border-white/15 bg-slate-900/80 px-3 py-2 text-sm">Private subnet · App</div>
+                    <div class="rounded-lg border border-white/10 bg-slate-950 px-3 py-2 text-sm text-slate-400">Data subnet · DB standby</div>
+                  </div>
+                </div>
+              </div>
+              <p class="mt-4 text-center text-xs text-slate-500">Internet → IGW → public tier → private tier · same VPC CIDR, AZ-isolated subnets</p>
+            </div>
+          </div>
+
+          <div>
+            <h3 id="m2-control-data" class="font-display text-xl text-starlight">2.9 Control plane vs data plane (Regional outages make sense now)</h3>
+            <p class="mt-3">
+              When you <code class="k">RunInstances</code>, you talk to a <strong class="text-starlight">control plane</strong> API. The packets your users send to an application flow through the <strong class="text-starlight">data plane</strong>. Architectures that only replicate data planes but forget control-plane dependencies (AMI copies, IaC apply Region, ECR pull-through) fail in surprising ways during DR. Note dependencies explicitly.
+            </p>
+          </div>
+
+          <div>
+            <h3 id="m2-lab" class="font-display text-xl text-starlight">2.10 Lab: read the sky map from your account</h3>
+            <ol class="mt-3 list-decimal space-y-2 pl-5">
+              <li>List Regions: <code class="k">aws ec2 describe-regions --query 'Regions[].RegionName' --output text</code></li>
+              <li>Map AZ names to AZ IDs in two Regions you care about.</li>
+              <li>Open CloudFront in the console — note how distribution config feels “global” compared to EC2.</li>
+              <li>Price-compare a <code class="k">t3.micro</code> in two Regions using the Pricing Calculator.</li>
+              <li>Write three sentences: primary Region, DR Region, and why (latency/compliance/cost).</li>
+            </ol>
+          </div>
+
+          <div>
+            <h3 id="m2-mental" class="font-display text-xl text-starlight">2.11 Mental model card (keep this)</h3>
+            <div class="mt-4 rounded-2xl border border-cyan-400/20 bg-gradient-to-br from-cyan-950/30 to-slate-950/50 p-6">
+              <p class="font-display text-sm text-cyan-300">Orbit mnemonic</p>
+              <p class="mt-3 text-starlight"><strong>Region</strong> = country you deploy into · <strong>AZ</strong> = independent city power grid · <strong>Subnet</strong> = neighborhood in that city · <strong>Edge</strong> = airport kiosks near travelers · <strong>Outpost/Local/Wavelength</strong> = embassy / downtown annex / cell-tower annex.</p>
+            </div>
+          </div>
+        </article>
+
+        <div class="mt-14">
+          <div class="quiz-root" data-quiz="module2"></div>
+        </div>
+      </section>
+
+      <!-- ===================== MODULE 3 ===================== -->
+      <section id="module-3" class="prose-course mt-24 scroll-mt-24">
+        <header class="mb-10 border-b border-white/10 pb-8">
+          <p class="text-xs uppercase tracking-[0.25em] text-amber-400/90">Module 03</p>
+          <h2 class="font-display mt-2 text-3xl text-starlight">Identity Gate — IAM, Policies, Roles &amp; Federation</h2>
+          <p class="mt-3 max-w-3xl text-slate-300">
+            Identity is the airlock of your AWS estate. Misconfigured IAM is how breaches become catastrophes. This module builds the evaluation engine in your head: principals, policies, roles, federation, boundaries, and Organizations guardrails.
+          </p>
+        </header>
+
+        <article class="space-y-8 text-[15px] leading-7 text-slate-300">
+          <div>
+            <h3 id="m3-why" class="font-display text-xl text-starlight">3.1 Why IAM is the real control plane</h3>
+            <p class="mt-3">
+              Every AWS API call is authenticated (who are you?) and authorized (are you allowed?). IAM answers both for AWS identities. Think of a spacecraft airlock: badges (credentials) prove who you are; door permissions (policies) decide which compartments you may enter. Root is the master key to the whole ship — you almost never use it after day one.
+            </p>
+          </div>
+
+          <div>
+            <h3 id="m3-principals" class="font-display text-xl text-starlight">3.2 Principals: users, roles, groups, and the root user</h3>
+            <ul class="mt-3 list-disc space-y-2 pl-5">
+              <li><strong class="text-starlight">Root user:</strong> account owner identity. MFA on, no access keys, break-glass only.</li>
+              <li><strong class="text-starlight">IAM users:</strong> long-lived identities in one account. Fine for tiny labs; enterprises prefer Identity Center.</li>
+              <li><strong class="text-starlight">Groups:</strong> attach policies to sets of users (permission bundling, not a principal that can sign requests).</li>
+              <li><strong class="text-starlight">Roles:</strong> identities meant to be <em>assumed</em> — temporary credentials via STS. Machines, apps, and humans (via federation) should prefer roles.</li>
+              <li><strong class="text-starlight">IAM Identity Center (SSO):</strong> workforce identities → permission sets → account assignments. The modern human path.</li>
+            </ul>
+          </div>
+
+          <figure class="overflow-hidden rounded-2xl border border-cyan-500/20 bg-slate-950/50 p-4 sm:p-6">
+            <figcaption class="mb-4 text-xs uppercase tracking-[0.2em] text-cyan-400/80">Diagram · Who can call AWS APIs</figcaption>
+            <svg viewBox="0 0 760 260" class="h-auto w-full" role="img" aria-label="IAM principals flowing through STS to AWS APIs">
+              <rect x="30" y="40" width="140" height="70" rx="12" fill="#0f172a" stroke="#94a3b8"/>
+              <text x="100" y="80" text-anchor="middle" fill="#e2e8f0" font-size="13" font-family="IBM Plex Sans, sans-serif">IAM user</text>
+              <rect x="30" y="140" width="140" height="70" rx="12" fill="#0f172a" stroke="#22d3ee"/>
+              <text x="100" y="180" text-anchor="middle" fill="#67e8f9" font-size="13" font-family="IBM Plex Sans, sans-serif">Federated / SSO</text>
+              <rect x="220" y="90" width="150" height="80" rx="12" fill="#12203a" stroke="#f59e0b"/>
+              <text x="295" y="125" text-anchor="middle" fill="#fbbf24" font-size="13" font-family="IBM Plex Sans, sans-serif">AssumeRole</text>
+              <text x="295" y="148" text-anchor="middle" fill="#94a3b8" font-size="11" font-family="IBM Plex Sans, sans-serif">STS temp creds</text>
+              <rect x="420" y="90" width="140" height="80" rx="12" fill="#0f172a" stroke="#22d3ee"/>
+              <text x="490" y="135" text-anchor="middle" fill="#67e8f9" font-size="13" font-family="IBM Plex Sans, sans-serif">IAM Role</text>
+              <rect x="600" y="90" width="130" height="80" rx="12" fill="#111827" stroke="#64748b"/>
+              <text x="665" y="135" text-anchor="middle" fill="#cbd5e1" font-size="13" font-family="IBM Plex Sans, sans-serif">AWS APIs</text>
+              <path d="M170 75 H210" stroke="#94a3b8" stroke-width="2"/>
+              <path d="M170 175 H210 V130" stroke="#22d3ee" stroke-width="2"/>
+              <path d="M370 130 H420" stroke="#f59e0b" stroke-width="2"/>
+              <path d="M560 130 H600" stroke="#22d3ee" stroke-width="2"/>
+            </svg>
+          </figure>
+
+          <div>
+            <h3 id="m3-policy" class="font-display text-xl text-starlight">3.3 Policy documents — the grammar of authorization</h3>
+            <p class="mt-3">
+              An identity-based policy is JSON: <code class="k">Version</code>, <code class="k">Statement[]</code> with <code class="k">Effect</code> (Allow/Deny), <code class="k">Action</code>, <code class="k">Resource</code>, and optional <code class="k">Condition</code>. Resource-based policies (S3 bucket policies, KMS key policies, SQS) live on the resource and can name principals in other accounts.
+            </p>
+            <pre class="block mt-3">{
+  "Version": "2012-10-17",
+  "Statement": [{
+    "Sid": "ListOwnBucket",
+    "Effect": "Allow",
+    "Action": ["s3:ListBucket"],
+    "Resource": "arn:aws:s3:::orbit-labs-123",
+    "Condition": {
+      "StringEquals": { "aws:RequestedRegion": "ap-south-1" }
+    }
+  }]
+}</pre>
+            <p class="mt-3">
+              ARNs address everything: <code class="k">arn:aws:service:region:account:resource</code>. Wildcards (<code class="k">*</code>) are powerful — and dangerous. Prefer least privilege: start narrow, expand with evidence.
+            </p>
+          </div>
+
+          <div>
+            <h3 id="m3-eval" class="font-display text-xl text-starlight">3.4 Policy evaluation logic (explicit Deny wins)</h3>
+            <p class="mt-3">
+              Mentally run this algorithm on every request: start from implicit deny → gather all applicable identity policies, resource policies, permission boundaries, SCPs, session policies → if any applicable <strong class="text-starlight">explicit Deny</strong> matches, deny → else if an Allow matches (and SCPs/boundaries permit), allow → else deny.
+            </p>
+          </div>
+
+          <figure class="overflow-hidden rounded-2xl border border-amber-500/20 bg-slate-950/50 p-4 sm:p-6">
+            <figcaption class="mb-4 text-xs uppercase tracking-[0.2em] text-amber-400/80">Diagram · Evaluation layers</figcaption>
+            <div class="grid gap-2 sm:grid-cols-5 text-center text-xs sm:text-sm">
+              <div class="rounded-xl border border-rose-400/40 bg-rose-950/20 p-3"><p class="text-rose-300 font-medium">SCPs</p><p class="mt-1 text-slate-400">Org ceiling</p></div>
+              <div class="rounded-xl border border-amber-400/40 bg-amber-950/20 p-3"><p class="text-amber-300 font-medium">Boundaries</p><p class="mt-1 text-slate-400">Max per role/user</p></div>
+              <div class="rounded-xl border border-cyan-400/40 bg-cyan-950/20 p-3"><p class="text-cyan-300 font-medium">Identity</p><p class="mt-1 text-slate-400">User/role/group</p></div>
+              <div class="rounded-xl border border-sky-400/40 bg-sky-950/20 p-3"><p class="text-sky-300 font-medium">Resource</p><p class="mt-1 text-slate-400">Bucket/key/queue</p></div>
+              <div class="rounded-xl border border-white/20 bg-slate-900/50 p-3"><p class="text-starlight font-medium">Session</p><p class="mt-1 text-slate-400">AssumeRole scope</p></div>
+            </div>
+            <p class="mt-4 text-sm text-slate-400">All layers that apply must allow; any explicit Deny anywhere kills the request.</p>
+          </figure>
+
+          <div>
+            <h3 id="m3-roles" class="font-display text-xl text-starlight">3.5 Roles &amp; trust policies</h3>
+            <p class="mt-3">
+              A role has two policy faces: <strong class="text-starlight">permissions policy</strong> (what the role can do) and <strong class="text-starlight">trust policy</strong> (who may assume it). EC2 instance profiles, Lambda execution roles, and cross-account access all hinge on trust.
+            </p>
+            <pre class="block mt-3"># Trust EC2 to assume this role
+{
+  "Version": "2012-10-17",
+  "Statement": [{
+    "Effect": "Allow",
+    "Principal": { "Service": "ec2.amazonaws.com" },
+    "Action": "sts:AssumeRole"
+  }]
+}</pre>
+            <p class="mt-3">
+              Cross-account: principal is another account’s root or role ARN; always add <code class="k">ExternalId</code> or org conditions for third-party access patterns.
+            </p>
+          </div>
+
+          <div>
+            <h3 id="m3-federation" class="font-display text-xl text-starlight">3.6 Federation &amp; Identity Center</h3>
+            <p class="mt-3">
+              Humans should not live as IAM users with long-lived keys. Federate from Okta/Azure AD/Google via SAML or OIDC into Identity Center, map groups to permission sets, assign to accounts. Temporary credentials rotate automatically; revoke by disabling the IdP user.
+            </p>
+          </div>
+
+          <div>
+            <h3 id="m3-boundaries" class="font-display text-xl text-starlight">3.7 Permission boundaries &amp; SCPs</h3>
+            <ul class="mt-3 list-disc space-y-2 pl-5">
+              <li><strong class="text-starlight">Permission boundaries:</strong> max permissions a user/role can ever receive — used to safely delegate IAM admin subsets.</li>
+              <li><strong class="text-starlight">SCPs (Organizations):</strong> account-wide ceilings (e.g., deny leaving org, deny disabling CloudTrail, deny Regions). SCPs do not grant; they only restrict.</li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 id="m3-creds" class="font-display text-xl text-starlight">3.8 Credentials hygiene</h3>
+            <ul class="mt-3 list-disc space-y-2 pl-5">
+              <li>Prefer roles + instance/task profiles over embedding keys.</li>
+              <li>If access keys must exist: rotate, scope tightly, never commit to git.</li>
+              <li>Enable MFA for console; consider MFA-conditioned API access for sensitive actions.</li>
+              <li>Use Access Analyzer and IAM Credential Report regularly.</li>
+            </ul>
+            <pre class="block mt-3">aws iam generate-credential-report
+aws iam get-credential-report --query 'Content' --output text | base64 --decode | head</pre>
+          </div>
+
+          <div>
+            <h3 id="m3-lab" class="font-display text-xl text-starlight">3.9 Lab: least-privilege role for S3 read</h3>
+            <ol class="mt-3 list-decimal space-y-2 pl-5">
+              <li>Create a role trusted by your IAM user (or SSO role) with only <code class="k">s3:GetObject</code> / <code class="k">s3:ListBucket</code> on one bucket ARN.</li>
+              <li><code class="k">aws sts assume-role</code> and export temporary keys.</li>
+              <li>Prove list/get works; prove <code class="k">s3:PutObject</code> fails.</li>
+              <li>Add a Deny condition for non-TLS (<code class="k">aws:SecureTransport</code>) on the bucket policy.</li>
+            </ol>
+          </div>
+        </article>
+
+        <div class="mt-14">
+          <div class="quiz-root" data-quiz="module3"></div>
+        </div>
+      </section>
+
+      <!-- ===================== MODULE 4 ===================== -->
+      <section id="module-4" class="prose-course mt-24 scroll-mt-24">
+        <header class="mb-10 border-b border-white/10 pb-8">
+          <p class="text-xs uppercase tracking-[0.25em] text-amber-400/90">Module 04</p>
+          <h2 class="font-display mt-2 text-3xl text-starlight">Compute Fabric — EC2, AMIs, Storage Attachments &amp; Scale</h2>
+          <p class="mt-3 max-w-3xl text-slate-300">
+            EC2 is rented spacecraft hulls: CPU, memory, network, and optional accelerators. Master instances, images, volumes, placement, and Auto Scaling — the substrate under containers and many “managed” services.
+          </p>
+        </header>
+
+        <article class="space-y-8 text-[15px] leading-7 text-slate-300">
+          <div>
+            <h3 id="m4-vm" class="font-display text-xl text-starlight">4.1 What an instance really is</h3>
+            <p class="mt-3">
+              An EC2 instance is a virtual machine (or bare-metal offering) scheduled onto AWS hardware in an AZ you choose (or that AWS picks). You select a <strong class="text-starlight">family/size</strong> (e.g., <code class="k">t3.micro</code>, <code class="k">m7g.xlarge</code>, <code class="k">c7i.4xlarge</code>), an <strong class="text-starlight">AMI</strong> (boot disk image), networking (subnet, SG, optional public IP), storage (EBS/instance store), and an IAM instance profile.
+            </p>
+          </div>
+
+          <figure class="overflow-hidden rounded-2xl border border-cyan-500/20 bg-slate-950/50 p-4 sm:p-6">
+            <figcaption class="mb-4 text-xs uppercase tracking-[0.2em] text-cyan-400/80">Diagram · Anatomy of an EC2 launch</figcaption>
+            <svg viewBox="0 0 760 280" class="h-auto w-full" role="img" aria-label="EC2 instance composed of AMI, EBS, ENI, and IAM role">
+              <rect x="200" y="40" width="360" height="200" rx="18" fill="#0b1528" stroke="#22d3ee" stroke-width="2"/>
+              <text x="380" y="75" text-anchor="middle" fill="#67e8f9" font-size="15" font-family="Orbitron, sans-serif">EC2 Instance</text>
+              <rect x="230" y="100" width="120" height="50" rx="8" fill="#111827" stroke="#f59e0b"/>
+              <text x="290" y="130" text-anchor="middle" fill="#fbbf24" font-size="12" font-family="IBM Plex Sans, sans-serif">AMI root</text>
+              <rect x="370" y="100" width="150" height="50" rx="8" fill="#111827" stroke="#94a3b8"/>
+              <text x="445" y="130" text-anchor="middle" fill="#cbd5e1" font-size="12" font-family="IBM Plex Sans, sans-serif">vCPU / RAM</text>
+              <rect x="230" y="165" width="120" height="50" rx="8" fill="#111827" stroke="#22d3ee"/>
+              <text x="290" y="195" text-anchor="middle" fill="#67e8f9" font-size="12" font-family="IBM Plex Sans, sans-serif">ENI + IP</text>
+              <rect x="370" y="165" width="150" height="50" rx="8" fill="#111827" stroke="#34d399"/>
+              <text x="445" y="195" text-anchor="middle" fill="#6ee7b7" font-size="12" font-family="IBM Plex Sans, sans-serif">Instance profile</text>
+              <text x="80" y="130" text-anchor="middle" fill="#94a3b8" font-size="12" font-family="IBM Plex Sans, sans-serif">Subnet</text>
+              <path d="M110 140 H230" stroke="#64748b" stroke-width="2"/>
+              <text x="660" y="130" text-anchor="middle" fill="#94a3b8" font-size="12" font-family="IBM Plex Sans, sans-serif">EBS</text>
+              <path d="M520 125 H620" stroke="#f59e0b" stroke-width="2"/>
+            </svg>
+          </figure>
+
+          <div>
+            <h3 id="m4-families" class="font-display text-xl text-starlight">4.2 Instance families — picking the right chassis</h3>
+            <div class="mt-4 overflow-x-auto rounded-2xl border border-white/10">
+              <table class="min-w-full text-left text-sm">
+                <thead class="bg-slate-900/80 text-xs uppercase tracking-wider text-slate-400">
+                  <tr><th class="px-4 py-3">Letter</th><th class="px-4 py-3">Intent</th><th class="px-4 py-3">Examples</th></tr>
+                </thead>
+                <tbody class="divide-y divide-white/5">
+                  <tr class="bg-slate-950/40"><td class="px-4 py-3 text-cyan-300">T</td><td class="px-4 py-3">Burstable general (credits)</td><td class="px-4 py-3">t3, t4g — labs, low steady CPU</td></tr>
+                  <tr><td class="px-4 py-3 text-cyan-300">M</td><td class="px-4 py-3">Balanced general purpose</td><td class="px-4 py-3">m6i, m7g — app servers</td></tr>
+                  <tr class="bg-slate-950/40"><td class="px-4 py-3 text-cyan-300">C</td><td class="px-4 py-3">Compute optimized</td><td class="px-4 py-3">c7i — batch, game servers</td></tr>
+                  <tr><td class="px-4 py-3 text-cyan-300">R / X / U</td><td class="px-4 py-3">Memory optimized</td><td class="px-4 py-3">r7g, x2iedn — in-memory DBs</td></tr>
+                  <tr class="bg-slate-950/40"><td class="px-4 py-3 text-cyan-300">I / D</td><td class="px-4 py-3">Storage optimized</td><td class="px-4 py-3">i4i — NoSQL, warehouses</td></tr>
+                  <tr><td class="px-4 py-3 text-cyan-300">P / G / Inf</td><td class="px-4 py-3">Accelerators</td><td class="px-4 py-3">GPU / Inferentia / Trainium</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="mt-3">Graviton (<code class="k">g</code> suffix) = Arm — often better price/performance if your stack supports it.</p>
+          </div>
+
+          <div>
+            <h3 id="m4-ami" class="font-display text-xl text-starlight">4.3 AMIs, user data, and golden images</h3>
+            <p class="mt-3">
+              An AMI snapshots root volume + launch permissions + block device mapping. <strong class="text-starlight">User data</strong> runs at first boot (cloud-init) for bootstrap. Mature teams bake golden AMIs with Ansible/Packer instead of lengthy user-data scripts — faster boot, fewer snowflakes.
+            </p>
+            <pre class="block mt-3">aws ec2 run-instances \
+  --image-id ami-0abcdef1234567890 \
+  --instance-type t3.micro \
+  --subnet-id subnet-aaa \
+  --security-group-ids sg-bbb \
+  --iam-instance-profile Name=OrbitEC2Role \
+  --user-data file://bootstrap.sh</pre>
+          </div>
+
+          <div>
+            <h3 id="m4-storage" class="font-display text-xl text-starlight">4.4 Instance storage paths</h3>
+            <ul class="mt-3 list-disc space-y-2 pl-5">
+              <li><strong class="text-starlight">EBS:</strong> network-attached durable volumes (Module 05 deep-dive). Survive stop/start; snapshot to S3-backed backups.</li>
+              <li><strong class="text-starlight">Instance store:</strong> physically attached ephemeral NVMe — blazing fast, <em>gone</em> on stop/hibernate/hardware failure. Use for caches/scratch only.</li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 id="m4-lifecycle" class="font-display text-xl text-starlight">4.5 Lifecycle: start, stop, hibernate, terminate</h3>
+            <p class="mt-3">
+              <strong class="text-starlight">Stop</strong> keeps EBS, releases ephemeral and typically public IP (Elastic IP stays). <strong class="text-starlight">Hibernate</strong> writes RAM to EBS (supported types/AMIs). <strong class="text-starlight">Terminate</strong> destroys the instance; root EBS deletes by default unless <code class="k">DeleteOnTermination=false</code>.
+            </p>
+          </div>
+
+          <div>
+            <h3 id="m4-placement" class="font-display text-xl text-starlight">4.6 Placement groups &amp; tenancy</h3>
+            <ul class="mt-3 list-disc space-y-2 pl-5">
+              <li><strong class="text-starlight">Cluster:</strong> low latency / high PPS inside one AZ — HPC, tight chatty apps.</li>
+              <li><strong class="text-starlight">Spread:</strong> separate hardware racks — reduce correlated failure for small fleets.</li>
+              <li><strong class="text-starlight">Partition:</strong> large distributed systems (Kafka, Cassandra) with failure domains.</li>
+              <li><strong class="text-starlight">Dedicated host / dedicated instance:</strong> compliance / licensing constraints.</li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 id="m4-pricing" class="font-display text-xl text-starlight">4.7 Purchase options</h3>
+            <div class="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+              <div class="rounded-xl border border-white/10 bg-slate-950/40 p-4 text-sm"><p class="text-starlight font-medium">On-Demand</p><p class="mt-1 text-slate-400">Flexible default</p></div>
+              <div class="rounded-xl border border-cyan-400/30 bg-cyan-950/20 p-4 text-sm"><p class="text-cyan-300 font-medium">Savings Plans</p><p class="mt-1 text-slate-400">Commit $/hour</p></div>
+              <div class="rounded-xl border border-amber-400/30 bg-amber-950/20 p-4 text-sm"><p class="text-amber-300 font-medium">Reserved</p><p class="mt-1 text-slate-400">Instance-shaped commit</p></div>
+              <div class="rounded-xl border border-rose-400/30 bg-rose-950/20 p-4 text-sm"><p class="text-rose-300 font-medium">Spot</p><p class="mt-1 text-slate-400">Cheap, interruptible</p></div>
+            </div>
+          </div>
+
+          <div>
+            <h3 id="m4-asg" class="font-display text-xl text-starlight">4.8 Auto Scaling groups &amp; load balancers</h3>
+            <p class="mt-3">
+              An ASG maintains desired capacity across AZs using a launch template. Scale on CPU, ALB request count, custom metrics, or schedules. Pair with ALB/NLB health checks so unhealthy nodes are replaced. Stateless app tiers scale; sticky state belongs in DB/cache/S3.
+            </p>
+            <div class="mt-5 flex flex-col gap-3 md:flex-row md:items-center">
+              <div class="flex-1 rounded-xl border border-cyan-400/30 bg-cyan-950/20 p-4 text-center text-sm">Users</div>
+              <div class="hidden text-cyan-500 md:block">→</div>
+              <div class="flex-1 rounded-xl border border-amber-400/30 bg-amber-950/20 p-4 text-center text-sm">ALB / NLB</div>
+              <div class="hidden text-cyan-500 md:block">→</div>
+              <div class="flex-1 rounded-xl border border-white/15 bg-slate-900/60 p-4 text-center text-sm">ASG (multi-AZ)</div>
+            </div>
+          </div>
+
+          <div>
+            <h3 id="m4-meta" class="font-display text-xl text-starlight">4.9 Instance metadata &amp; IMDSv2</h3>
+            <p class="mt-3">
+              The metadata service (<code class="k">169.254.169.254</code>) exposes identity credentials for the instance profile. <strong class="text-starlight">Require IMDSv2</strong> (session-oriented PUT+GET) to mitigate SSRF credential theft. Never treat user-data secrets as safe.
+            </p>
+            <pre class="block mt-3">TOKEN=$(curl -X PUT "http://169.254.169.254/latest/api/token" \
+  -H "X-aws-ec2-metadata-token-ttl-seconds: 21600")
+curl -H "X-aws-ec2-metadata-token: $TOKEN" \
+  http://169.254.169.254/latest/meta-data/instance-id</pre>
+          </div>
+
+          <div>
+            <h3 id="m4-lab" class="font-display text-xl text-starlight">4.10 Lab: launch, tag, verify, destroy</h3>
+            <ol class="mt-3 list-decimal space-y-2 pl-5">
+              <li>Launch <code class="k">t3.micro</code> / <code class="k">t4g.micro</code> in a public subnet with SSH or SSM only from your IP / via SSM Session Manager (preferred — no SSH port).</li>
+              <li>Attach an instance profile that can read one S3 object; prove it from the instance.</li>
+              <li>Create an AMI from the instance; terminate the original; launch from AMI.</li>
+              <li>Delete everything; confirm no leftover EBS volumes or Elastic IPs.</li>
+            </ol>
+          </div>
+        </article>
+
+        <div class="mt-14">
+          <div class="quiz-root" data-quiz="module4"></div>
+        </div>
+      </section>
+
+      <!-- ===================== MODULE 5 ===================== -->
+      <section id="module-5" class="prose-course mt-24 scroll-mt-24">
+        <header class="mb-10 border-b border-white/10 pb-8">
+          <p class="text-xs uppercase tracking-[0.25em] text-amber-400/90">Module 05</p>
+          <h2 class="font-display mt-2 text-3xl text-starlight">Storage Armory — S3, EBS, EFS &amp; Data Movement</h2>
+          <p class="mt-3 max-w-3xl text-slate-300">
+            Storage is not one product — it is a spectrum of durability, latency, sharing, and cost. Learn when objects, block volumes, and shared file systems earn their place, and how to move data without lighting money on fire.
+          </p>
+        </header>
+
+        <article class="space-y-8 text-[15px] leading-7 text-slate-300">
+          <div>
+            <h3 id="m5-spectrum" class="font-display text-xl text-starlight">5.1 Choosing storage by access pattern</h3>
+            <p class="mt-3">
+              Analogy: <strong class="text-starlight">S3</strong> is an infinite warehouse with barcode scanners (object API). <strong class="text-starlight">EBS</strong> is a hard drive bolted to one shuttle (single-instance block). <strong class="text-starlight">EFS/FSx</strong> is a shared network filesystem many shuttles mount at once.
+            </p>
+          </div>
+
+          <figure class="overflow-hidden rounded-2xl border border-cyan-500/20 bg-slate-950/50 p-4 sm:p-6">
+            <figcaption class="mb-4 text-xs uppercase tracking-[0.2em] text-cyan-400/80">Diagram · Storage decision tree</figcaption>
+            <svg viewBox="0 0 780 300" class="h-auto w-full" role="img" aria-label="Decision tree for S3 EBS EFS">
+              <rect x="280" y="20" width="220" height="50" rx="10" fill="#12203a" stroke="#22d3ee"/>
+              <text x="390" y="50" text-anchor="middle" fill="#e2e8f0" font-size="13" font-family="IBM Plex Sans, sans-serif">Need a filesystem mount?</text>
+              <path d="M390 70 V100" stroke="#64748b"/>
+              <text x="250" y="115" fill="#94a3b8" font-size="11" font-family="IBM Plex Sans, sans-serif">No</text>
+              <text x="520" y="115" fill="#94a3b8" font-size="11" font-family="IBM Plex Sans, sans-serif">Yes</text>
+              <rect x="80" y="120" width="200" height="50" rx="10" fill="#0f172a" stroke="#f59e0b"/>
+              <text x="180" y="150" text-anchor="middle" fill="#fbbf24" font-size="13" font-family="IBM Plex Sans, sans-serif">HTTP object API? → S3</text>
+              <rect x="500" y="120" width="220" height="50" rx="10" fill="#0f172a" stroke="#22d3ee"/>
+              <text x="610" y="150" text-anchor="middle" fill="#67e8f9" font-size="13" font-family="IBM Plex Sans, sans-serif">Shared across instances?</text>
+              <path d="M180 170 V200" stroke="#64748b"/>
+              <rect x="80" y="210" width="200" height="50" rx="10" fill="#0f172a" stroke="#94a3b8"/>
+              <text x="180" y="240" text-anchor="middle" fill="#cbd5e1" font-size="13" font-family="IBM Plex Sans, sans-serif">Block for one EC2 → EBS</text>
+              <path d="M610 170 V200" stroke="#64748b"/>
+              <rect x="420" y="210" width="160" height="50" rx="10" fill="#0f172a" stroke="#34d399"/>
+              <text x="500" y="240" text-anchor="middle" fill="#6ee7b7" font-size="12" font-family="IBM Plex Sans, sans-serif">Yes → EFS/FSx</text>
+              <rect x="600" y="210" width="160" height="50" rx="10" fill="#0f172a" stroke="#94a3b8"/>
+              <text x="680" y="240" text-anchor="middle" fill="#cbd5e1" font-size="12" font-family="IBM Plex Sans, sans-serif">No → EBS</text>
+            </svg>
+          </figure>
+
+          <div>
+            <h3 id="m5-s3" class="font-display text-xl text-starlight">5.2 Amazon S3 — object storage deep dive</h3>
+            <p class="mt-3">
+              Buckets are Region-scoped containers; objects are keys with data + metadata. Durability design target is extremely high (eleven nines classically cited) via checksums and multi-AZ replication inside the Region. Consistency: strong read-after-write for new objects; understand overwrite/list nuances from current docs when building systems.
+            </p>
+            <ul class="mt-3 list-disc space-y-2 pl-5">
+              <li><strong class="text-starlight">Storage classes:</strong> Standard, Intelligent-Tiering, Standard-IA, One Zone-IA, Glacier Instant/Flexible/Deep Archive — trade retrieval time vs cost.</li>
+              <li><strong class="text-starlight">Security:</strong> block public access defaults, bucket policies, IAM, SSE-S3 / SSE-KMS / SSE-C, Object Lock for WORM.</li>
+              <li><strong class="text-starlight">Versioning + MFA Delete:</strong> protect against ransomware/oops deletes.</li>
+              <li><strong class="text-starlight">Lifecycle rules:</strong> transition/expire automatically.</li>
+              <li><strong class="text-starlight">Replication:</strong> CRR/SRR for DR and locality.</li>
+            </ul>
+            <pre class="block mt-3">aws s3 mb s3://orbit-lab-$(aws sts get-caller-identity --query Account --output text) --region ap-south-1
+aws s3api put-public-access-block --bucket ... --public-access-block-configuration \
+  BlockPublicAcls=true,IgnorePublicAcls=true,BlockPublicPolicy=true,RestrictPublicBuckets=true
+aws s3 cp ./manifest.json s3://orbit-lab-.../data/</pre>
+          </div>
+
+          <div>
+            <h3 id="m5-ebs" class="font-display text-xl text-starlight">5.3 EBS volumes — block for EC2</h3>
+            <p class="mt-3">
+              gp3 is the default general-purpose SSD (baseline IOPS/throughput configurable). io2 for mission-critical high IOPS. st1/sc1 for throughput HDD workloads. Volumes live in one AZ; to move AZs: snapshot → create volume in target AZ → attach.
+            </p>
+            <p class="mt-3">
+              Snapshots are incremental and stored durably (S3-backed). Encrypt volumes with KMS; snapshots of encrypted volumes stay encrypted.
+            </p>
+          </div>
+
+          <div>
+            <h3 id="m5-efs" class="font-display text-xl text-starlight">5.4 EFS &amp; FSx — shared filesystems</h3>
+            <ul class="mt-3 list-disc space-y-2 pl-5">
+              <li><strong class="text-starlight">EFS:</strong> NFS for Linux, multi-AZ regional file system, scales automatically. Great for shared web content, home dirs, some CMS.</li>
+              <li><strong class="text-starlight">FSx for Windows / Lustre / NetApp / OpenZFS:</strong> specialized performance and protocol needs (HPC scratch, Windows SMB, enterprise NAS).</li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 id="m5-move" class="font-display text-xl text-starlight">5.5 Moving data at scale</h3>
+            <ul class="mt-3 list-disc space-y-2 pl-5">
+              <li><strong class="text-starlight">S3 Transfer Acceleration / multipart upload:</strong> large object efficiency.</li>
+              <li><strong class="text-starlight">AWS DataSync:</strong> online sync NAS ↔ S3/EFS/FSx.</li>
+              <li><strong class="text-starlight">Snow Family:</strong> petabyte offline ship-the-box when networks choke.</li>
+              <li><strong class="text-starlight">Storage Gateway:</strong> hybrid file/volume/tape illusions over cloud backends.</li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 id="m5-cost" class="font-display text-xl text-starlight">5.6 Cost &amp; performance traps</h3>
+            <ul class="mt-3 list-disc space-y-2 pl-5">
+              <li>Small-object chatty workloads can burn request costs on S3.</li>
+              <li>Cross-AZ EFS mount targets and data transfer add charges.</li>
+              <li>Orphaned EBS volumes and old snapshots silently bill for months.</li>
+              <li>Public S3 misconfig is still a top breach pattern — Access Analyzer + Block Public Access.</li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 id="m5-lab" class="font-display text-xl text-starlight">5.7 Lab: secure bucket + lifecycle + EBS snapshot</h3>
+            <ol class="mt-3 list-decimal space-y-2 pl-5">
+              <li>Create a private bucket; enable versioning and default SSE-S3 or SSE-KMS.</li>
+              <li>Add lifecycle: transition <code class="k">logs/</code> to IA after 30 days; expire noncurrent versions after 90.</li>
+              <li>Attach a gp3 volume to a lab instance; write a file; snapshot; restore to a new volume.</li>
+              <li>Tear down; verify zero leftover volumes/snapshots you do not intend to keep.</li>
+            </ol>
+          </div>
+        </article>
+
+        <div class="mt-14">
+          <div class="quiz-root" data-quiz="module5"></div>
+        </div>
+      </section>
+
+      <!-- ===================== MODULE 6 ===================== -->
+      <section id="module-6" class="prose-course mt-24 scroll-mt-24">
+        <header class="mb-10 border-b border-white/10 pb-8">
+          <p class="text-xs uppercase tracking-[0.25em] text-amber-400/90">Module 06</p>
+          <h2 class="font-display mt-2 text-3xl text-starlight">Network Lattice — VPC, Subnets, Routing, SG/NACL &amp; Connectivity</h2>
+          <p class="mt-3 max-w-3xl text-slate-300">
+            The VPC is your private solar system inside a Region. CIDRs, route tables, gateways, security groups, and endpoints determine who can speak to whom — and who pays for the conversation.
+          </p>
+        </header>
+
+        <article class="space-y-8 text-[15px] leading-7 text-slate-300">
+          <div>
+            <h3 id="m6-vpc" class="font-display text-xl text-starlight">6.1 VPC &amp; CIDR planning</h3>
+            <p class="mt-3">
+              A VPC is a Region-scoped isolated network. You assign an IPv4 CIDR (commonly <code class="k">10.0.0.0/16</code>) and optionally IPv6. Plan non-overlapping CIDRs across accounts for future peering/TGW. Subnets carve the VPC into AZ-local segments — each subnet lives in exactly one AZ.
+            </p>
+            <pre class="block mt-3"># Example allocation
+# VPC:           10.20.0.0/16
+# Public AZ-a:   10.20.0.0/24
+# Public AZ-b:   10.20.1.0/24
+# Private AZ-a:  10.20.10.0/24
+# Private AZ-b:  10.20.11.0/24
+# Data AZ-a:     10.20.20.0/24
+# Data AZ-b:     10.20.21.0/24</pre>
+          </div>
+
+          <figure class="overflow-hidden rounded-2xl border border-cyan-500/20 bg-slate-950/50 p-4 sm:p-6">
+            <figcaption class="mb-4 text-xs uppercase tracking-[0.2em] text-cyan-400/80">Diagram · Multi-AZ VPC reference</figcaption>
+            <svg viewBox="0 0 780 340" class="h-auto w-full" role="img" aria-label="VPC with public and private subnets across two AZs">
+              <rect x="40" y="30" width="700" height="290" rx="18" fill="#0b1528" stroke="#22d3ee" stroke-width="2"/>
+              <text x="390" y="60" text-anchor="middle" fill="#67e8f9" font-size="14" font-family="Orbitron, sans-serif">VPC 10.20.0.0/16</text>
+              <rect x="70" y="85" width="300" height="210" rx="12" fill="#111827" stroke="#f59e0b"/>
+              <text x="220" y="110" text-anchor="middle" fill="#fbbf24" font-size="13" font-family="IBM Plex Sans, sans-serif">AZ-a</text>
+              <rect x="95" y="130" width="250" height="40" rx="8" fill="#164e63" stroke="#22d3ee"/>
+              <text x="220" y="155" text-anchor="middle" fill="#a5f3fc" font-size="12" font-family="IBM Plex Sans, sans-serif">Public 10.20.0.0/24 · ALB/NAT</text>
+              <rect x="95" y="185" width="250" height="40" rx="8" fill="#1e293b" stroke="#94a3b8"/>
+              <text x="220" y="210" text-anchor="middle" fill="#cbd5e1" font-size="12" font-family="IBM Plex Sans, sans-serif">Private 10.20.10.0/24 · App</text>
+              <rect x="95" y="240" width="250" height="40" rx="8" fill="#0f172a" stroke="#64748b"/>
+              <text x="220" y="265" text-anchor="middle" fill="#94a3b8" font-size="12" font-family="IBM Plex Sans, sans-serif">Data 10.20.20.0/24 · DB</text>
+              <rect x="410" y="85" width="300" height="210" rx="12" fill="#111827" stroke="#f59e0b"/>
+              <text x="560" y="110" text-anchor="middle" fill="#fbbf24" font-size="13" font-family="IBM Plex Sans, sans-serif">AZ-b</text>
+              <rect x="435" y="130" width="250" height="40" rx="8" fill="#164e63" stroke="#22d3ee"/>
+              <text x="560" y="155" text-anchor="middle" fill="#a5f3fc" font-size="12" font-family="IBM Plex Sans, sans-serif">Public 10.20.1.0/24</text>
+              <rect x="435" y="185" width="250" height="40" rx="8" fill="#1e293b" stroke="#94a3b8"/>
+              <text x="560" y="210" text-anchor="middle" fill="#cbd5e1" font-size="12" font-family="IBM Plex Sans, sans-serif">Private 10.20.11.0/24</text>
+              <rect x="435" y="240" width="250" height="40" rx="8" fill="#0f172a" stroke="#64748b"/>
+              <text x="560" y="265" text-anchor="middle" fill="#94a3b8" font-size="12" font-family="IBM Plex Sans, sans-serif">Data 10.20.21.0/24</text>
+            </svg>
+          </figure>
+
+          <div>
+            <h3 id="m6-routing" class="font-display text-xl text-starlight">6.2 Route tables, IGW, NAT</h3>
+            <ul class="mt-3 list-disc space-y-2 pl-5">
+              <li><strong class="text-starlight">Internet Gateway (IGW):</strong> horizontally scaled VPC attachment for public internet. Public subnet: route <code class="k">0.0.0.0/0 → igw-…</code> plus public/Elastic IP on the ENI.</li>
+              <li><strong class="text-starlight">NAT Gateway:</strong> managed egress for private subnets (<code class="k">0.0.0.0/0 → nat-…</code>). Place in public subnet; one per AZ for HA. Costs add up — watch idle NAT.</li>
+              <li><strong class="text-starlight">Egress-only IGW:</strong> IPv6 private→internet without inbound.</li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 id="m6-sg" class="font-display text-xl text-starlight">6.3 Security Groups vs Network ACLs</h3>
+            <div class="mt-4 overflow-x-auto rounded-2xl border border-white/10">
+              <table class="min-w-full text-left text-sm">
+                <thead class="bg-slate-900/80 text-xs uppercase tracking-wider text-slate-400">
+                  <tr><th class="px-4 py-3"></th><th class="px-4 py-3">Security Group</th><th class="px-4 py-3">NACL</th></tr>
+                </thead>
+                <tbody class="divide-y divide-white/5">
+                  <tr class="bg-slate-950/40"><td class="px-4 py-3 text-starlight">Level</td><td class="px-4 py-3">ENI / instance</td><td class="px-4 py-3">Subnet</td></tr>
+                  <tr><td class="px-4 py-3 text-starlight">Stateful?</td><td class="px-4 py-3">Yes (return traffic allowed)</td><td class="px-4 py-3">No (need ephemeral ports)</td></tr>
+                  <tr class="bg-slate-950/40"><td class="px-4 py-3 text-starlight">Rules</td><td class="px-4 py-3">Allow only</td><td class="px-4 py-3">Allow + Deny, numbered</td></tr>
+                  <tr><td class="px-4 py-3 text-starlight">Default use</td><td class="px-4 py-3">Primary micro-segmentation</td><td class="px-4 py-3">Coarse guardrails</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="mt-3">Prefer SG references (SG-id as source) over wide CIDRs for tier-to-tier traffic: ALB-SG → App-SG → DB-SG on 5432 only.</p>
+          </div>
+
+          <figure class="overflow-hidden rounded-2xl border border-amber-500/20 bg-slate-950/50 p-4 sm:p-6">
+            <figcaption class="mb-4 text-xs uppercase tracking-[0.2em] text-amber-400/80">Flow · Tiered security groups</figcaption>
+            <div class="flex flex-col items-stretch gap-3 md:flex-row md:items-center">
+              <div class="flex-1 rounded-xl border border-cyan-400/40 bg-cyan-950/20 p-4 text-center text-sm">Internet</div>
+              <div class="hidden text-amber-400 md:block">→</div>
+              <div class="flex-1 rounded-xl border border-amber-400/40 bg-amber-950/20 p-4 text-center text-sm">ALB SG :443</div>
+              <div class="hidden text-amber-400 md:block">→</div>
+              <div class="flex-1 rounded-xl border border-white/20 bg-slate-900/60 p-4 text-center text-sm">App SG :8080 ← ALB SG</div>
+              <div class="hidden text-amber-400 md:block">→</div>
+              <div class="flex-1 rounded-xl border border-emerald-400/30 bg-emerald-950/20 p-4 text-center text-sm">DB SG :5432 ← App SG</div>
+            </div>
+          </figure>
+
+          <div>
+            <h3 id="m6-endpoints" class="font-display text-xl text-starlight">6.4 VPC endpoints — private path to AWS APIs</h3>
+            <ul class="mt-3 list-disc space-y-2 pl-5">
+              <li><strong class="text-starlight">Gateway endpoints:</strong> S3 and DynamoDB via route table prefixes — no NAT needed for those.</li>
+              <li><strong class="text-starlight">Interface endpoints (PrivateLink):</strong> ENIs in your subnets for SSM, ECR, Secrets Manager, etc. Pay hourly + data; buy security and private routing.</li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 id="m6-connect" class="font-display text-xl text-starlight">6.5 Connecting networks</h3>
+            <ul class="mt-3 list-disc space-y-2 pl-5">
+              <li><strong class="text-starlight">VPC Peering:</strong> 1:1, non-transitive. Good for simple pairs; CIDRs must not overlap.</li>
+              <li><strong class="text-starlight">Transit Gateway:</strong> hub-and-spoke for many VPCs/VPN/Direct Connect — transitive routing hub.</li>
+              <li><strong class="text-starlight">Site-to-Site VPN / Direct Connect:</strong> hybrid on-prem connectivity (DX for consistent private bandwidth).</li>
+              <li><strong class="text-starlight">PrivateLink:</strong> expose a service ENI-to-ENI without sharing the whole VPC CIDR.</li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 id="m6-dns" class="font-display text-xl text-starlight">6.6 DHCP, DNS, and reachability mental model</h3>
+            <p class="mt-3">
+              VPC DNS (<code class="k">enableDnsHostnames</code> / <code class="k">enableDnsSupport</code>) matters for private hosted zones and interface endpoints. Debug with: route tables → NACL → SG → OS firewall → app bind address. <code class="k">VPC Reachability Analyzer</code> automates path proofs.
+            </p>
+          </div>
+
+          <div>
+            <h3 id="m6-lab" class="font-display text-xl text-starlight">6.7 Lab: build a two-AZ skeleton</h3>
+            <ol class="mt-3 list-decimal space-y-2 pl-5">
+              <li>Create VPC <code class="k">/16</code> with 2 public + 2 private subnets across AZs.</li>
+              <li>Attach IGW; public routes to IGW; private routes to NAT in matching AZ.</li>
+              <li>Launch bastion or (better) VPC endpoints for SSM — no SSH from <code class="k">0.0.0.0/0</code>.</li>
+              <li>Private instance: confirm outbound HTTPS via NAT; confirm no inbound from internet.</li>
+              <li>Add S3 gateway endpoint; prove private subnet can <code class="k">aws s3 ls</code> without NAT dependency for S3.</li>
+            </ol>
+          </div>
+
+          <div>
+            <h3 id="m6-mental" class="font-display text-xl text-starlight">6.8 Mental model card</h3>
+            <div class="mt-4 rounded-2xl border border-cyan-400/20 bg-gradient-to-br from-cyan-950/30 to-slate-950/50 p-6">
+              <p class="font-display text-sm text-cyan-300">Lattice mnemonic</p>
+              <p class="mt-3 text-starlight"><strong>CIDR</strong> = address land grant · <strong>Subnet</strong> = AZ neighborhood · <strong>Route</strong> = where packets exit · <strong>SG</strong> = stateful door policy on the ENI · <strong>NACL</strong> = subnet fence · <strong>Endpoint</strong> = private tunnel to AWS services · <strong>TGW</strong> = multi-VPC roundabout.</p>
+            </div>
+          </div>
+        </article>
+
+        <div class="mt-14">
+          <div class="quiz-root" data-quiz="module6"></div>
+        </div>
+      </section>
+
+
+      <!-- ===================== MODULE 7 ===================== -->
+      <section id="module-7" class="prose-course mt-24 scroll-mt-24">
+        <header class="mb-10 border-b border-white/10 pb-8">
+          <p class="text-xs uppercase tracking-[0.25em] text-amber-400/90">Module 07</p>
+          <h2 class="font-display mt-2 text-3xl text-starlight">Data Layer — RDS, Aurora, DynamoDB, Cache &amp; Analytics Glance</h2>
+          <p class="mt-3 max-w-3xl text-slate-300">
+            Persistent state is where architectures live or die. Choose relational vs key-value vs cache deliberately, design for Multi-AZ and backups, and know when analytics services take over from OLTP stores.
+          </p>
+        </header>
+
+        <article class="space-y-8 text-[15px] leading-7 text-slate-300">
+          <div>
+            <h3 id="m7-choose" class="font-display text-xl text-starlight">7.1 Choosing a database — access pattern first</h3>
+            <p class="mt-3">
+              Analogy: a <strong class="text-starlight">relational DB</strong> is a meticulously indexed ship’s log (joins, transactions, schema). <strong class="text-starlight">DynamoDB</strong> is a bank of sealed lockers addressed by key (massive scale, simple access patterns). <strong class="text-starlight">ElastiCache</strong> is the whiteboard next to the pilot — blazing fast, intentionally forgetful. Pick from queries and consistency needs, not from logo familiarity.
+            </p>
+          </div>
+
+          <figure class="overflow-hidden rounded-2xl border border-cyan-500/20 bg-slate-950/50 p-4 sm:p-6">
+            <figcaption class="mb-4 text-xs uppercase tracking-[0.2em] text-cyan-400/80">Diagram · OLTP choice sketch</figcaption>
+            <svg viewBox="0 0 780 260" class="h-auto w-full" role="img" aria-label="Decision paths for RDS Aurora DynamoDB ElastiCache">
+              <rect x="260" y="20" width="260" height="48" rx="10" fill="#12203a" stroke="#22d3ee"/>
+              <text x="390" y="50" text-anchor="middle" fill="#e2e8f0" font-size="13" font-family="IBM Plex Sans, sans-serif">Need SQL joins / strong relational model?</text>
+              <path d="M300 68 V95" stroke="#64748b"/><path d="M480 68 V95" stroke="#64748b"/>
+              <text x="250" y="90" fill="#94a3b8" font-size="11" font-family="IBM Plex Sans, sans-serif">Yes</text>
+              <text x="520" y="90" fill="#94a3b8" font-size="11" font-family="IBM Plex Sans, sans-serif">No / key lookup</text>
+              <rect x="80" y="100" width="220" height="50" rx="10" fill="#0f172a" stroke="#f59e0b"/>
+              <text x="190" y="130" text-anchor="middle" fill="#fbbf24" font-size="13" font-family="IBM Plex Sans, sans-serif">RDS / Aurora</text>
+              <rect x="480" y="100" width="220" height="50" rx="10" fill="#0f172a" stroke="#22d3ee"/>
+              <text x="590" y="130" text-anchor="middle" fill="#67e8f9" font-size="13" font-family="IBM Plex Sans, sans-serif">DynamoDB</text>
+              <rect x="80" y="180" width="220" height="50" rx="10" fill="#0f172a" stroke="#34d399"/>
+              <text x="190" y="210" text-anchor="middle" fill="#6ee7b7" font-size="12" font-family="IBM Plex Sans, sans-serif">Hot keys? → ElastiCache</text>
+              <rect x="480" y="180" width="220" height="50" rx="10" fill="#0f172a" stroke="#94a3b8"/>
+              <text x="590" y="210" text-anchor="middle" fill="#cbd5e1" font-size="12" font-family="IBM Plex Sans, sans-serif">Heavy analytics → warehouse</text>
+            </svg>
+          </figure>
+
+          <div>
+            <h3 id="m7-rds" class="font-display text-xl text-starlight">7.2 Amazon RDS — managed relational engines</h3>
+            <p class="mt-3">
+              RDS runs engines you know (PostgreSQL, MySQL, MariaDB, SQL Server, Oracle, Db2) with automated patching options, backups, Multi-AZ failover, and read replicas. You still design schema, indexes, and connection pooling — AWS runs the host and managed control plane.
+            </p>
+            <ul class="mt-3 list-disc space-y-2 pl-5">
+              <li><strong class="text-starlight">Multi-AZ:</strong> synchronous standby in another AZ; failover on primary failure (high availability, not a read scale-out by itself on classic Multi-AZ).</li>
+              <li><strong class="text-starlight">Read replicas:</strong> async copies for read scale (and cross-Region DR patterns).</li>
+              <li><strong class="text-starlight">Parameter / option groups:</strong> engine knobs without SSH to the box.</li>
+              <li><strong class="text-starlight">Storage:</strong> gp3/io autoscaling patterns; monitor free storage and IOPS.</li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 id="m7-aurora" class="font-display text-xl text-starlight">7.3 Amazon Aurora — cloud-native relational</h3>
+            <p class="mt-3">
+              Aurora re-architects the storage layer: a distributed, self-healing volume replicated across AZs, with compute (writer/readers) decoupled. Aurora PostgreSQL/MySQL-compatible endpoints, Aurora Serverless v2 for variable load, and Global Database for cross-Region latency/DR.
+            </p>
+            <pre class="block mt-3"># Conceptual endpoints
+# writer:  mydb.cluster-xxxx.region.rds.amazonaws.com
+# reader:  mydb.cluster-ro-xxxx.region.rds.amazonaws.com</pre>
+          </div>
+
+          <div>
+            <h3 id="m7-ddb" class="font-display text-xl text-starlight">7.4 DynamoDB — keys, partitions, and scale</h3>
+            <p class="mt-3">
+              Tables need a primary key (partition key, optional sort key). Item collections live in partitions hashed by the partition key — hot keys throttle you. Model access patterns first (single-table design is common), then add GSIs/LSIs carefully (every GSI has cost and consistency nuances).
+            </p>
+            <ul class="mt-3 list-disc space-y-2 pl-5">
+              <li><strong class="text-starlight">On-Demand vs Provisioned (+ Auto Scaling):</strong> traffic shape decides billing.</li>
+              <li><strong class="text-starlight">DynamoDB Streams:</strong> change data capture into Lambda.</li>
+              <li><strong class="text-starlight">TTL, Streams, Transactions, PartiQL:</strong> features for real apps — learn when each applies.</li>
+              <li><strong class="text-starlight">Global Tables:</strong> multi-Region active-active with conflict caveats.</li>
+            </ul>
+            <pre class="block mt-3">aws dynamodb create-table \
+  --table-name OrbitSessions \
+  --attribute-definitions AttributeName=pk,AttributeType=S AttributeName=sk,AttributeType=S \
+  --key-schema AttributeName=pk,KeyType=HASH AttributeName=sk,KeyType=RANGE \
+  --billing-mode PAY_PER_REQUEST</pre>
+          </div>
+
+          <div>
+            <h3 id="m7-cache" class="font-display text-xl text-starlight">7.5 ElastiCache &amp; MemoryDB</h3>
+            <p class="mt-3">
+              Redis/Memcached (ElastiCache) and Redis-compatible MemoryDB sit in front of databases for session stores, leaderboards, and read-heavy caches. Cache invalidation is still one of the hard problems — define TTLs and write-through/write-behind consciously. Never expose cache SG to the world.
+            </p>
+          </div>
+
+          <div>
+            <h3 id="m7-analytics" class="font-display text-xl text-starlight">7.6 Analytics glance (know the map)</h3>
+            <div class="mt-4 grid gap-3 sm:grid-cols-2">
+              <div class="rounded-xl border border-white/10 bg-slate-950/40 p-4 text-sm"><p class="text-cyan-300 font-medium">Redshift</p><p class="mt-1 text-slate-400">Cloud data warehouse for BI SQL at scale</p></div>
+              <div class="rounded-xl border border-white/10 bg-slate-950/40 p-4 text-sm"><p class="text-cyan-300 font-medium">Athena + S3</p><p class="mt-1 text-slate-400">Serverless SQL over data lake objects</p></div>
+              <div class="rounded-xl border border-white/10 bg-slate-950/40 p-4 text-sm"><p class="text-amber-300 font-medium">Glue</p><p class="mt-1 text-slate-400">ETL/catalog for lakehouse pipelines</p></div>
+              <div class="rounded-xl border border-white/10 bg-slate-950/40 p-4 text-sm"><p class="text-amber-300 font-medium">OpenSearch / EMR</p><p class="mt-1 text-slate-400">Search/analytics &amp; big data processing</p></div>
+            </div>
+            <p class="mt-3">Rule: do not crush an OLTP database with huge analytical scans — ship events/snapshots to a lake/warehouse.</p>
+          </div>
+
+          <div>
+            <h3 id="m7-ops" class="font-display text-xl text-starlight">7.7 Backups, encryption, and connections</h3>
+            <ul class="mt-3 list-disc space-y-2 pl-5">
+              <li>Encrypt at rest (KMS) and in transit (TLS); rotate credentials via Secrets Manager.</li>
+              <li>RDS automated backups + manual snapshots; test restore before you need it.</li>
+              <li>Place DBs in private subnets; SG only from app tier; prefer RDS Proxy / pooling for serverless churn.</li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 id="m7-lab" class="font-display text-xl text-starlight">7.8 Lab: Multi-AZ mindset without burning cash</h3>
+            <ol class="mt-3 list-decimal space-y-2 pl-5">
+              <li>Create a small DynamoDB on-demand table; put/get items; enable Streams to a log Lambda (or just inspect stream ARN).</li>
+              <li>Sketch an RDS Multi-AZ + read replica topology on paper for a blog app.</li>
+              <li>Price Aurora Serverless v2 vs a fixed <code class="k">db.t4g.micro</code> for spiky traffic in Pricing Calculator.</li>
+              <li>Delete lab tables; confirm no idle RDS instances remain.</li>
+            </ol>
+          </div>
+        </article>
+
+        <div class="mt-14">
+          <div class="quiz-root" data-quiz="module7"></div>
+        </div>
+      </section>
+
+      <!-- ===================== MODULE 8 ===================== -->
+      <section id="module-8" class="prose-course mt-24 scroll-mt-24">
+        <header class="mb-10 border-b border-white/10 pb-8">
+          <p class="text-xs uppercase tracking-[0.25em] text-amber-400/90">Module 08</p>
+          <h2 class="font-display mt-2 text-3xl text-starlight">Serverless Fleet — Lambda, APIs, Events, ECS &amp; EKS</h2>
+          <p class="mt-3 max-w-3xl text-slate-300">
+            From function-as-a-service to container orchestrators: choose the compute abstraction that matches your operational appetite, then wire it with APIs and event buses.
+          </p>
+        </header>
+
+        <article class="space-y-8 text-[15px] leading-7 text-slate-300">
+          <div>
+            <h3 id="m8-spectrum" class="font-display text-xl text-starlight">8.1 Compute spectrum reminder</h3>
+            <p class="mt-3">
+              EC2 = you manage the OS. ECS/EKS = you ship containers, AWS (or you) runs the control plane pieces. Lambda = you ship a handler; AWS scales the invoke path. Move right for less undifferentiated heavy lifting — move left when you need exotic kernels, GPUs, or sticky long processes.
+            </p>
+          </div>
+
+          <figure class="overflow-hidden rounded-2xl border border-cyan-500/20 bg-slate-950/50 p-4 sm:p-6">
+            <figcaption class="mb-4 text-xs uppercase tracking-[0.2em] text-cyan-400/80">Diagram · Request path API Gateway → Lambda → DynamoDB</figcaption>
+            <svg viewBox="0 0 760 200" class="h-auto w-full" role="img" aria-label="API Gateway to Lambda to DynamoDB flow">
+              <rect x="40" y="70" width="120" height="60" rx="12" fill="#0f172a" stroke="#94a3b8"/>
+              <text x="100" y="105" text-anchor="middle" fill="#e2e8f0" font-size="13" font-family="IBM Plex Sans, sans-serif">Client</text>
+              <path d="M160 100 H210" stroke="#22d3ee" stroke-width="2"/>
+              <rect x="210" y="70" width="140" height="60" rx="12" fill="#12203a" stroke="#22d3ee"/>
+              <text x="280" y="105" text-anchor="middle" fill="#67e8f9" font-size="13" font-family="IBM Plex Sans, sans-serif">API Gateway</text>
+              <path d="M350 100 H400" stroke="#22d3ee" stroke-width="2"/>
+              <rect x="400" y="70" width="130" height="60" rx="12" fill="#0f172a" stroke="#f59e0b"/>
+              <text x="465" y="105" text-anchor="middle" fill="#fbbf24" font-size="13" font-family="IBM Plex Sans, sans-serif">Lambda</text>
+              <path d="M530 100 H580" stroke="#f59e0b" stroke-width="2"/>
+              <rect x="580" y="70" width="140" height="60" rx="12" fill="#0f172a" stroke="#34d399"/>
+              <text x="650" y="105" text-anchor="middle" fill="#6ee7b7" font-size="13" font-family="IBM Plex Sans, sans-serif">DynamoDB</text>
+            </svg>
+          </figure>
+
+          <div>
+            <h3 id="m8-lambda" class="font-display text-xl text-starlight">8.2 AWS Lambda deep dive</h3>
+            <ul class="mt-3 list-disc space-y-2 pl-5">
+              <li><strong class="text-starlight">Handler + runtime:</strong> zip/container image; memory setting also scales CPU allocation.</li>
+              <li><strong class="text-starlight">Triggers:</strong> API Gateway, SQS, SNS, S3, EventBridge, DynamoDB Streams, ALB, etc.</li>
+              <li><strong class="text-starlight">Concurrency:</strong> reserved/provisioned concurrency tame noisy neighbors and cold starts.</li>
+              <li><strong class="text-starlight">IAM execution role:</strong> least privilege to downstream services; VPC ENIs add cold-start cost — use sparingly.</li>
+              <li><strong class="text-starlight">Idempotency:</strong> at-least-once delivery means design safe retries.</li>
+            </ul>
+            <pre class="block mt-3"># Minimal Python mental model
+def handler(event, context):
+    # parse event (API GW / SQS / S3 shape differs)
+    return {"statusCode": 200, "body": "ok"}</pre>
+          </div>
+
+          <div>
+            <h3 id="m8-apigw" class="font-display text-xl text-starlight">8.3 API Gateway — HTTP, REST, WebSocket</h3>
+            <p class="mt-3">
+              HTTP APIs are cheaper/simpler for many JWT/Lambda cases; REST APIs offer richer features (API keys, usage plans, broader integrations); WebSocket APIs for bidirectional chatty clients. Always think auth (Cognito JWT, IAM, Lambda authorizers) and stage/deploy.
+            </p>
+          </div>
+
+          <div>
+            <h3 id="m8-events" class="font-display text-xl text-starlight">8.4 Event-driven backbone</h3>
+            <div class="mt-4 grid gap-3 md:grid-cols-3">
+              <div class="rounded-xl border border-cyan-400/30 bg-cyan-950/15 p-4 text-sm"><p class="text-cyan-300 font-medium">SQS</p><p class="mt-1 text-slate-400">Durable queues, buffering, DLQs</p></div>
+              <div class="rounded-xl border border-amber-400/30 bg-amber-950/15 p-4 text-sm"><p class="text-amber-300 font-medium">SNS</p><p class="mt-1 text-slate-400">Pub/sub fan-out to many subscribers</p></div>
+              <div class="rounded-xl border border-white/15 bg-slate-900/50 p-4 text-sm"><p class="text-starlight font-medium">EventBridge</p><p class="mt-1 text-slate-400">Bus + rules for SaaS/AWS/custom events</p></div>
+            </div>
+            <p class="mt-3">Pattern: SNS → SQS → Lambda for fan-out with per-subscriber isolation; EventBridge for routing on event shape.</p>
+          </div>
+
+          <div>
+            <h3 id="m8-step" class="font-display text-xl text-starlight">8.5 Step Functions — orchestration</h3>
+            <p class="mt-3">
+              When workflows need retries, branching, human approval, or long-running sagas, Step Functions beat nested Lambda spaghetti. Standard vs Express workflows trade duration/history vs high-volume event processing.
+            </p>
+          </div>
+
+          <div>
+            <h3 id="m8-ecs" class="font-display text-xl text-starlight">8.6 Containers: ECS &amp; EKS</h3>
+            <ul class="mt-3 list-disc space-y-2 pl-5">
+              <li><strong class="text-starlight">ECS:</strong> AWS-native orchestrator; Fargate removes node management; EC2 launch type for denser control.</li>
+              <li><strong class="text-starlight">EKS:</strong> Managed Kubernetes control plane — portable skills/ecosystem, more moving parts (RBAC, CNI, upgrades).</li>
+              <li><strong class="text-starlight">ECR:</strong> private container registry; scan images; least-privilege pull roles.</li>
+            </ul>
+            <div class="mt-5 flex flex-col gap-3 md:flex-row md:items-center">
+              <div class="flex-1 rounded-xl border border-white/15 bg-slate-900/60 p-4 text-center text-sm">Dockerfile → ECR</div>
+              <div class="hidden text-cyan-500 md:block">→</div>
+              <div class="flex-1 rounded-xl border border-cyan-400/30 bg-cyan-950/20 p-4 text-center text-sm">ECS Service / EKS Deployment</div>
+              <div class="hidden text-cyan-500 md:block">→</div>
+              <div class="flex-1 rounded-xl border border-amber-400/30 bg-amber-950/20 p-4 text-center text-sm">ALB Target Group</div>
+            </div>
+          </div>
+
+          <div>
+            <h3 id="m8-lab" class="font-display text-xl text-starlight">8.7 Lab: serverless hello + event</h3>
+            <ol class="mt-3 list-decimal space-y-2 pl-5">
+              <li>Deploy a Lambda behind an HTTP API returning JSON.</li>
+              <li>Add an S3 trigger (or EventBridge schedule) writing a log line.</li>
+              <li>Attach a DLQ (SQS) for asynchronous invoke failures.</li>
+              <li>Tear down API, function, and roles; confirm zero residual charges.</li>
+            </ol>
+          </div>
+        </article>
+
+        <div class="mt-14">
+          <div class="quiz-root" data-quiz="module8"></div>
+        </div>
+      </section>
+
+      <!-- ===================== MODULE 9 ===================== -->
+      <section id="module-9" class="prose-course mt-24 scroll-mt-24">
+        <header class="mb-10 border-b border-white/10 pb-8">
+          <p class="text-xs uppercase tracking-[0.25em] text-amber-400/90">Module 09</p>
+          <h2 class="font-display mt-2 text-3xl text-starlight">Mission Control — Observability, Config, SSM &amp; Resilience Ops</h2>
+          <p class="mt-3 max-w-3xl text-slate-300">
+            You cannot operate what you cannot see. Instrument metrics, logs, and traces; enforce configuration; patch and session into fleets safely; and rehearse backup/restore before disaster rehearses you.
+          </p>
+        </header>
+
+        <article class="space-y-8 text-[15px] leading-7 text-slate-300">
+          <div>
+            <h3 id="m9-pillars" class="font-display text-xl text-starlight">9.1 The three pillars of observability</h3>
+            <p class="mt-3">
+              <strong class="text-starlight">Metrics</strong> tell you something is wrong; <strong class="text-starlight">logs</strong> tell you what happened; <strong class="text-starlight">traces</strong> tell you where time went across services. CloudWatch covers metrics/logs/alarms; X-Ray (and OpenTelemetry collectors) cover distributed traces.
+            </p>
+          </div>
+
+          <figure class="overflow-hidden rounded-2xl border border-amber-500/20 bg-slate-950/50 p-4 sm:p-6">
+            <figcaption class="mb-4 text-xs uppercase tracking-[0.2em] text-amber-400/80">Diagram · Alert → Diagnose loop</figcaption>
+            <div class="grid gap-3 sm:grid-cols-4 text-center text-sm">
+              <div class="rounded-xl border border-rose-400/40 bg-rose-950/20 p-4"><p class="text-rose-300 font-medium">Alarm</p><p class="mt-1 text-xs text-slate-400">CloudWatch metric</p></div>
+              <div class="rounded-xl border border-amber-400/40 bg-amber-950/20 p-4"><p class="text-amber-300 font-medium">Logs</p><p class="mt-1 text-xs text-slate-400">Insights query</p></div>
+              <div class="rounded-xl border border-cyan-400/40 bg-cyan-950/20 p-4"><p class="text-cyan-300 font-medium">Trace</p><p class="mt-1 text-xs text-slate-400">X-Ray service map</p></div>
+              <div class="rounded-xl border border-emerald-400/40 bg-emerald-950/20 p-4"><p class="text-emerald-300 font-medium">Fix</p><p class="mt-1 text-xs text-slate-400">SSM / deploy / rollback</p></div>
+            </div>
+          </figure>
+
+          <div>
+            <h3 id="m9-cw" class="font-display text-xl text-starlight">9.2 CloudWatch essentials</h3>
+            <ul class="mt-3 list-disc space-y-2 pl-5">
+              <li>Namespaces, metrics, dimensions; custom metrics from apps.</li>
+              <li>Alarms → SNS → email/Slack/Pager; composite alarms reduce noise.</li>
+              <li>Log groups/streams; retention policies; Logs Insights queries.</li>
+              <li>Dashboards for golden signals: latency, traffic, errors, saturation.</li>
+            </ul>
+            <pre class="block mt-3">fields @timestamp, @message
+| filter @message like /ERROR/
+| sort @timestamp desc
+| limit 20</pre>
+          </div>
+
+          <div>
+            <h3 id="m9-xray" class="font-display text-xl text-starlight">9.3 Tracing with X-Ray / OTel</h3>
+            <p class="mt-3">
+              Instrument API Gateway, Lambda, and HTTP clients so a single request ID stitches a service map. Sampling keeps cost sane. Use traces to find the slow dependency, not to replace metrics for SLOs.
+            </p>
+          </div>
+
+          <div>
+            <h3 id="m9-config" class="font-display text-xl text-starlight">9.4 AWS Config, CloudTrail, GuardDuty</h3>
+            <ul class="mt-3 list-disc space-y-2 pl-5">
+              <li><strong class="text-starlight">CloudTrail:</strong> who called which API — security forensics baseline.</li>
+              <li><strong class="text-starlight">Config:</strong> record resource state; managed rules (e.g., S3 public prohibited); conformance packs.</li>
+              <li><strong class="text-starlight">GuardDuty:</strong> intelligent threat findings from logs/VPC flow/DNS.</li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 id="m9-ssm" class="font-display text-xl text-starlight">9.5 Systems Manager — ops without SSH sprawl</h3>
+            <p class="mt-3">
+              Session Manager replaces open port 22. Patch Manager, State Manager, Parameter Store, and Run Command automate fleet ops. Prefer SSM over bastions when possible; still lock IAM tightly.
+            </p>
+            <pre class="block mt-3">aws ssm start-session --target i-0abc123def456</pre>
+          </div>
+
+          <div>
+            <h3 id="m9-backup" class="font-display text-xl text-starlight">9.6 AWS Backup &amp; disaster rehearsal</h3>
+            <p class="mt-3">
+              Central backup policies across EBS, RDS, DynamoDB (where supported), EFS, etc. Define RPO/RTO per system. A backup never tested is a rumor. Schedule restore drills into non-prod accounts.
+            </p>
+          </div>
+
+          <div>
+            <h3 id="m9-iac" class="font-display text-xl text-starlight">9.7 IaC &amp; change management glance</h3>
+            <p class="mt-3">
+              CloudFormation / CDK / Terraform make environments reproducible; CodePipeline/CodeBuild or GitHub Actions promote changes. Pair with CloudWatch alarms on deploy and automatic rollback strategies (ECS circuit breakers, Lambda aliases/versions).
+            </p>
+          </div>
+
+          <div>
+            <h3 id="m9-lab" class="font-display text-xl text-starlight">9.8 Lab: alarm + Insights + SSM path</h3>
+            <ol class="mt-3 list-decimal space-y-2 pl-5">
+              <li>Create a billing or EC2 CPU alarm to SNS email.</li>
+              <li>Generate logs from a Lambda; run a Logs Insights query for errors.</li>
+              <li>Connect to a lab instance via Session Manager (no SSH port).</li>
+              <li>Document your RPO/RTO for one sample app in three sentences.</li>
+            </ol>
+          </div>
+        </article>
+
+        <div class="mt-14">
+          <div class="quiz-root" data-quiz="module9"></div>
+        </div>
+      </section>
+
+      <!-- ===================== MODULE 10 ===================== -->
+      <section id="module-10" class="prose-course mt-24 scroll-mt-24">
+        <header class="mb-10 border-b border-white/10 pb-8">
+          <p class="text-xs uppercase tracking-[0.25em] text-amber-400/90">Module 10</p>
+          <h2 class="font-display mt-2 text-3xl text-starlight">Well-Architected Capstone — Six Pillars on a Reference Mission</h2>
+          <p class="mt-3 max-w-3xl text-slate-300">
+            Capstone: assemble Modules 01–09 into a coherent reference architecture and pressure-test it with the AWS Well-Architected Framework — Operational Excellence, Security, Reliability, Performance Efficiency, Cost Optimization, and Sustainability.
+          </p>
+        </header>
+
+        <article class="space-y-8 text-[15px] leading-7 text-slate-300">
+          <div>
+            <h3 id="m10-mission" class="font-display text-xl text-starlight">10.1 Reference mission: Orbit Catalog API</h3>
+            <p class="mt-3">
+              Build a public product catalog: users browse via CloudFront; API is Regional behind an ALB or API Gateway; catalog data in DynamoDB (hot path) with images in S3; writes go through authenticated admin path; async image processing via SQS → Lambda; observability everywhere.
+            </p>
+          </div>
+
+          <figure class="overflow-hidden rounded-2xl border border-cyan-500/20 bg-slate-950/50 p-4 sm:p-6">
+            <figcaption class="mb-4 text-xs uppercase tracking-[0.2em] text-cyan-400/80">Diagram · Reference architecture</figcaption>
+            <svg viewBox="0 0 800 360" class="h-auto w-full" role="img" aria-label="CloudFront to API to DynamoDB and S3 reference architecture">
+              <rect x="40" y="40" width="120" height="50" rx="10" fill="#0f172a" stroke="#94a3b8"/>
+              <text x="100" y="70" text-anchor="middle" fill="#e2e8f0" font-size="12" font-family="IBM Plex Sans, sans-serif">Users</text>
+              <path d="M160 65 H210" stroke="#22d3ee" stroke-width="2"/>
+              <rect x="210" y="40" width="140" height="50" rx="10" fill="#12203a" stroke="#22d3ee"/>
+              <text x="280" y="70" text-anchor="middle" fill="#67e8f9" font-size="12" font-family="IBM Plex Sans, sans-serif">CloudFront + WAF</text>
+              <path d="M350 65 H400" stroke="#22d3ee" stroke-width="2"/>
+              <rect x="400" y="30" width="160" height="70" rx="10" fill="#0f172a" stroke="#f59e0b"/>
+              <text x="480" y="60" text-anchor="middle" fill="#fbbf24" font-size="12" font-family="IBM Plex Sans, sans-serif">API GW / ALB</text>
+              <text x="480" y="80" text-anchor="middle" fill="#64748b" font-size="10" font-family="IBM Plex Sans, sans-serif">multi-AZ</text>
+              <path d="M480 100 V130" stroke="#f59e0b" stroke-width="2"/>
+              <rect x="400" y="130" width="160" height="60" rx="10" fill="#0f172a" stroke="#22d3ee"/>
+              <text x="480" y="165" text-anchor="middle" fill="#67e8f9" font-size="12" font-family="IBM Plex Sans, sans-serif">Lambda / ECS</text>
+              <path d="M400 160 H300" stroke="#34d399" stroke-width="2"/>
+              <rect x="160" y="130" width="140" height="60" rx="10" fill="#0f172a" stroke="#34d399"/>
+              <text x="230" y="165" text-anchor="middle" fill="#6ee7b7" font-size="12" font-family="IBM Plex Sans, sans-serif">DynamoDB</text>
+              <path d="M560 160 H620" stroke="#f59e0b" stroke-width="2"/>
+              <rect x="620" y="130" width="140" height="60" rx="10" fill="#0f172a" stroke="#f59e0b"/>
+              <text x="690" y="165" text-anchor="middle" fill="#fbbf24" font-size="12" font-family="IBM Plex Sans, sans-serif">S3 images</text>
+              <path d="M690 190 V230" stroke="#94a3b8" stroke-width="2"/>
+              <rect x="620" y="230" width="140" height="50" rx="10" fill="#111827" stroke="#94a3b8"/>
+              <text x="690" y="260" text-anchor="middle" fill="#cbd5e1" font-size="12" font-family="IBM Plex Sans, sans-serif">SQS → Lambda</text>
+              <rect x="160" y="230" width="300" height="90" rx="12" fill="#0b1528" stroke="#64748b"/>
+              <text x="310" y="265" text-anchor="middle" fill="#94a3b8" font-size="12" font-family="IBM Plex Sans, sans-serif">CloudWatch · X-Ray · CloudTrail</text>
+              <text x="310" y="290" text-anchor="middle" fill="#64748b" font-size="11" font-family="IBM Plex Sans, sans-serif">Alarms · Budgets · Config rules · Backup plans</text>
+            </svg>
+          </figure>
+
+          <div>
+            <h3 id="m10-pillars" class="font-display text-xl text-starlight">10.2 Six pillars — applied checklist</h3>
+            <div class="mt-4 space-y-3">
+              <div class="rounded-2xl border border-white/10 bg-slate-950/40 p-5">
+                <h4 class="font-display text-sm text-cyan-300">Operational Excellence</h4>
+                <p class="mt-2 text-sm">IaC for all env parity; runbooks in git; deploy via pipeline; alarms with owners; game days for failover.</p>
+              </div>
+              <div class="rounded-2xl border border-white/10 bg-slate-950/40 p-5">
+                <h4 class="font-display text-sm text-amber-300">Security</h4>
+                <p class="mt-2 text-sm">Identity Center + least privilege; no public data stores; WAF on edge; KMS; Secrets Manager; GuardDuty + Trail; IMDSv2.</p>
+              </div>
+              <div class="rounded-2xl border border-white/10 bg-slate-950/40 p-5">
+                <h4 class="font-display text-sm text-emerald-300">Reliability</h4>
+                <p class="mt-2 text-sm">Multi-AZ data plane; backups tested; DLQs; graceful degradation; define RPO/RTO; consider secondary Region for tier-1.</p>
+              </div>
+              <div class="rounded-2xl border border-white/10 bg-slate-950/40 p-5">
+                <h4 class="font-display text-sm text-sky-300">Performance Efficiency</h4>
+                <p class="mt-2 text-sm">CloudFront caching; right-size Lambda memory; DynamoDB keys modeled for queries; async offload; review with load tests.</p>
+              </div>
+              <div class="rounded-2xl border border-white/10 bg-slate-950/40 p-5">
+                <h4 class="font-display text-sm text-rose-300">Cost Optimization</h4>
+                <p class="mt-2 text-sm">Budgets; S3 lifecycle; on-demand vs reserved consciously; kill NAT where endpoints suffice; measure unit cost per request.</p>
+              </div>
+              <div class="rounded-2xl border border-white/10 bg-slate-950/40 p-5">
+                <h4 class="font-display text-sm text-starlight">Sustainability</h4>
+                <p class="mt-2 text-sm">Efficient Regions/instance families (Graviton); scale to zero when idle; fewer wasted bytes via caching and compression.</p>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <h3 id="m10-tradeoffs" class="font-display text-xl text-starlight">10.3 Explicit tradeoffs (senior thinking)</h3>
+            <ul class="mt-3 list-disc space-y-2 pl-5">
+              <li>API Gateway + Lambda vs ALB + ECS: ops simplicity vs long-lived connections/websocket needs and cold starts.</li>
+              <li>DynamoDB vs Aurora: access-pattern scale vs ad-hoc SQL flexibility.</li>
+              <li>Multi-Region active-active vs warm standby: UX vs cost/complexity.</li>
+              <li>WAF everywhere vs only at edge: defense depth vs rule maintenance.</li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 id="m10-review" class="font-display text-xl text-starlight">10.4 Running a Well-Architected Review</h3>
+            <p class="mt-3">
+              Use the AWS WA Tool questions per pillar; record risks (high/medium); create improvement plan with owners and dates. Re-review after major launches. This is a conversation with evidence — not a paperwork ritual.
+            </p>
+          </div>
+
+          <div>
+            <h3 id="m10-next" class="font-display text-xl text-starlight">10.5 Your continuing flight plan</h3>
+            <ol class="mt-3 list-decimal space-y-2 pl-5">
+              <li>Build the Orbit Catalog in a sandbox account with IaC.</li>
+              <li>Add CI/CD, alarms, and a chaos/failover note.</li>
+              <li>Sit a practice Solutions Architect exam section weekly — map misses back to modules.</li>
+              <li>Read AWS Architecture Blog posts in your domain (fintech, media, SaaS).</li>
+            </ol>
+          </div>
+
+          <div>
+            <h3 id="m10-mental" class="font-display text-xl text-starlight">10.6 Closing mnemonic</h3>
+            <div class="mt-4 rounded-2xl border border-cyan-400/20 bg-gradient-to-br from-cyan-950/30 to-slate-950/50 p-6">
+              <p class="font-display text-sm text-cyan-300">Capstone card</p>
+              <p class="mt-3 text-starlight"><strong>Identity</strong> gates every API · <strong>Network</strong> isolates tiers · <strong>Data</strong> matches access patterns · <strong>Compute</strong> fits ops skill · <strong>Edge</strong> shrinks the planet · <strong>Observe</strong> before you optimize · <strong>Review</strong> with the six pillars until tradeoffs are conscious.</p>
+            </div>
+          </div>
+        </article>
+
+        <div class="mt-14">
+          <div class="quiz-root" data-quiz="module10"></div>
+        </div>
+      </section>
+
+
+      <!-- Roadmap -->
+      <section id="roadmap" class="mt-24 scroll-mt-24 rounded-3xl border border-white/10 bg-hull/60 p-8">
+        <p class="text-xs uppercase tracking-[0.25em] text-slate-500">Curriculum roadmap</p>
+        <h2 class="font-display mt-2 text-2xl text-starlight">Full curriculum — complete</h2>
+        <p class="mt-2 text-sm text-emerald-400/90">All 10 modules shipped · ~5–6 hours of deep-dive material</p>
+        <ol class="mt-6 space-y-2 text-sm text-slate-300">
+          <li><a href="#module-1" class="text-cyan-300 hover:underline">01 Launch Prep</a> · <a href="#module-2" class="text-cyan-300 hover:underline">02 Cosmic Map</a> · <a href="#module-3" class="text-cyan-300 hover:underline">03 Identity Gate</a></li>
+          <li><a href="#module-4" class="text-cyan-300 hover:underline">04 Compute Fabric</a> · <a href="#module-5" class="text-cyan-300 hover:underline">05 Storage Armory</a> · <a href="#module-6" class="text-cyan-300 hover:underline">06 Network Lattice</a></li>
+          <li><a href="#module-7" class="text-cyan-300 hover:underline">07 Data Layer</a> · <a href="#module-8" class="text-cyan-300 hover:underline">08 Serverless Fleet</a> · <a href="#module-9" class="text-cyan-300 hover:underline">09 Mission Control</a></li>
+          <li><a href="#module-10" class="text-cyan-300 hover:underline">10 Well-Architected Capstone</a></li>
+        </ol>
+        <p class="mt-6 text-sm text-slate-400">Extend anytime by adding a <code class="k">section</code>, TOC link, and <code class="k">QUIZ_BANK</code> entry in <code class="k">script.js</code>.</p>
+      </section>
+
+      <footer class="mt-16 border-t border-white/10 py-10 text-center text-xs text-slate-500">
+        <p>AWS Orbit Masterclass · Static course site · Not affiliated with Amazon Web Services</p>
+        <p class="mt-2">Amazon Web Services, AWS, and related marks are trademarks of Amazon.com, Inc. or its affiliates.</p>
+      </footer>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+    // Mirror desktop TOC into mobile drawer; sync dual progress bars
+    document.addEventListener("DOMContentLoaded", () => {
+      const desktop = document.getElementById("desktop-toc");
+      const mobile = document.getElementById("mobile-toc");
+      if (desktop && mobile) {
+        mobile.innerHTML = desktop.innerHTML;
+      }
+      const syncFill = () => {
+        const src = document.getElementById("course-progress-fill");
+        const dst = document.getElementById("course-progress-fill-desktop");
+        if (src && dst) dst.style.width = src.style.width;
+      };
+      const obs = new MutationObserver(syncFill);
+      const fill = document.getElementById("course-progress-fill");
+      if (fill) obs.observe(fill, { attributes: true, attributeFilter: ["style"] });
+      syncFill();
+      // Re-bind quiz status nodes after clone
+      if (window.AWSOrbit) window.AWSOrbit.updateProgressUI();
+    });
+  </script>
+</body>
+</html>
