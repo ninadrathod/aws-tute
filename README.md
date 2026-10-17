@@ -6,7 +6,7 @@ An extensively detailed, self-paced digital course on Amazon Web Services — ro
 
 | File | Purpose |
 |------|---------|
-| `index.html` | Course shell: space-themed UI, responsive sidebar/drawer TOC, all module content |
+| `index.html` | Course shell: Amazon-style UI, responsive sidebar/drawer TOC, all module content |
 | `script.js` | Progress tracking, mobile nav, scroll spy, and dynamic MCQ rendering with option shuffling |
 | `CNAME` | Custom domain placeholder for GitHub Pages |
 | `README.md` | This guide |
@@ -105,7 +105,7 @@ aws-tute/
    ```html
    <div class="quiz-root" data-quiz="moduleN"></div>
    ```
-2. Register the TOC link in the sidebar and mobile drawer.
+2. Register the TOC link in the desktop sidebar (`#desktop-toc`, mirrored into the drawer automatically) and the small-screen module bar in the header.
 3. Append a question array in `script.js` under `QUIZ_BANK.moduleN`.
 4. Each question object shape:
 

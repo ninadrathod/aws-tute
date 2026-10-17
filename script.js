@@ -3053,7 +3053,7 @@
     const bank = QUIZ_BANK[key];
     if (!bank || !bank.length) {
       root.innerHTML =
-        '<p class="text-slate-400 text-sm">Quiz coming soon for this module.</p>';
+        '<p class="text-az-muted text-sm">Quiz coming soon for this module.</p>';
       return;
     }
 
@@ -3068,13 +3068,13 @@
 
     const header = document.createElement("div");
     header.className =
-      "flex flex-wrap items-end justify-between gap-3 border-b border-cyan-500/20 pb-4";
+      "flex flex-wrap items-end justify-between gap-3 border-b border-az-line pb-4";
     header.innerHTML = `
       <div>
-        <p class="text-xs uppercase tracking-[0.2em] text-cyan-400/80">Mission Check</p>
-        <h3 class="font-display text-xl text-starlight mt-1">Module Quiz · ${questions.length} questions</h3>
+        <p class="text-xs uppercase tracking-[0.2em] text-az-link">Mission Check</p>
+        <h3 class="font-display text-xl text-az-ink mt-1">Module Quiz · ${questions.length} questions</h3>
       </div>
-      <div class="text-sm text-slate-400" data-quiz-score>Unsubmitted</div>
+      <div class="text-sm text-az-muted" data-quiz-score>Unsubmitted</div>
     `;
     root.appendChild(header);
 
@@ -3085,18 +3085,18 @@
     questions.forEach((q, qi) => {
       const card = document.createElement("article");
       card.className =
-        "rounded-2xl border border-white/10 bg-slate-950/60 p-5 shadow-[0_0_40px_-20px_rgba(34,211,238,0.35)]";
+        "rounded-2xl border border-az-line bg-white p-5 shadow-sm";
       card.dataset.questionId = q.id;
 
       const optsHtml = q.options
         .map((opt, oi) => {
           const id = `${q.id}-${oi}`;
           return `
-            <label class="quiz-option group flex cursor-pointer gap-3 rounded-xl border border-white/10 bg-slate-900/50 px-3 py-3 transition hover:border-cyan-400/40 hover:bg-slate-900">
-              <input type="radio" class="mt-1 accent-cyan-400" name="${q.id}" value="${oi}" id="${id}" />
+            <label class="quiz-option group flex cursor-pointer gap-3 rounded-xl border border-az-line bg-white px-3 py-3 transition hover:border-az-link/40 hover:bg-az-soft">
+              <input type="radio" class="mt-1 accent-az-link" name="${q.id}" value="${oi}" id="${id}" />
               <span class="flex gap-3">
-                <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-cyan-500/10 text-xs font-semibold text-cyan-300 ring-1 ring-cyan-400/30">${LETTERS[oi]}</span>
-                <span class="text-sm leading-relaxed text-slate-200">${escapeHtml(opt.text)}</span>
+                <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-az-tint text-xs font-semibold text-az-link ring-1 ring-az-link/30">${LETTERS[oi]}</span>
+                <span class="text-sm leading-relaxed text-az-ink">${escapeHtml(opt.text)}</span>
               </span>
             </label>
           `;
@@ -3104,15 +3104,15 @@
         .join("");
 
       card.innerHTML = `
-        <p class="text-xs font-medium uppercase tracking-wider text-amber-300/80">Question ${qi + 1}</p>
-        <h4 class="mt-2 text-base font-medium leading-relaxed text-starlight">${escapeHtml(q.prompt)}</h4>
+        <p class="text-xs font-medium uppercase tracking-wider text-az-rust">Question ${qi + 1}</p>
+        <h4 class="mt-2 text-base font-medium leading-relaxed text-az-ink">${escapeHtml(q.prompt)}</h4>
         <div class="mt-4 space-y-2" data-options>${optsHtml}</div>
         <div class="mt-4 hidden" data-reveal>
-          <button type="button" class="explain-toggle flex w-full items-center justify-between rounded-xl border border-white/10 bg-slate-900/80 px-4 py-3 text-left text-sm text-slate-200 transition hover:border-cyan-400/30">
+          <button type="button" class="explain-toggle flex w-full items-center justify-between rounded-xl border border-az-line bg-az-soft px-4 py-3 text-left text-sm text-az-ink transition hover:border-az-link/40">
             <span data-result-label>Reveal explanation</span>
-            <svg class="h-4 w-4 text-cyan-300 transition group-open:rotate-180" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.17l3.71-3.94a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd"/></svg>
+            <svg class="h-4 w-4 text-az-link transition group-open:rotate-180" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.17l3.71-3.94a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd"/></svg>
           </button>
-          <div class="explain-panel mt-2 hidden rounded-xl border border-cyan-500/20 bg-cyan-950/30 px-4 py-3 text-sm leading-relaxed text-slate-300" data-explain></div>
+          <div class="explain-panel mt-2 hidden rounded-xl border border-az-line bg-az-tint px-4 py-3 text-sm leading-relaxed text-az-ink" data-explain></div>
         </div>
       `;
 
@@ -3139,10 +3139,10 @@
     const actions = document.createElement("div");
     actions.className = "flex flex-wrap gap-3 pt-2";
     actions.innerHTML = `
-      <button type="button" data-action="submit" class="rounded-xl bg-gradient-to-r from-cyan-500 to-sky-600 px-5 py-2.5 text-sm font-semibold text-slate-950 shadow-lg shadow-cyan-500/20 transition hover:brightness-110">
+      <button type="button" data-action="submit" class="btn-cart px-6 py-2 text-sm">
         Submit answers
       </button>
-      <button type="button" data-action="reset" class="rounded-xl border border-white/15 bg-white/5 px-5 py-2.5 text-sm font-medium text-slate-200 transition hover:bg-white/10">
+      <button type="button" data-action="reset" class="btn-secondary px-6 py-2 text-sm">
         Reset quiz
       </button>
     `;
@@ -3167,15 +3167,15 @@
         card.querySelectorAll(".quiz-option").forEach((lab, oi) => {
           lab.classList.remove(
             "ring-2",
-            "ring-emerald-400/70",
-            "ring-rose-400/70",
-            "border-emerald-400/50",
-            "border-rose-400/50"
+            "ring-az-green/70",
+            "ring-az-price/70",
+            "border-az-green",
+            "border-az-price"
           );
           if (oi === correctIdx) {
-            lab.classList.add("ring-2", "ring-emerald-400/70", "border-emerald-400/50");
+            lab.classList.add("ring-2", "ring-az-green/70", "border-az-green");
           } else if (chosen === oi) {
-            lab.classList.add("ring-2", "ring-rose-400/70", "border-rose-400/50");
+            lab.classList.add("ring-2", "ring-az-price/70", "border-az-price");
           }
         });
 
@@ -3185,10 +3185,10 @@
             ? `Unanswered — correct is ${LETTERS[correctIdx]}`
             : `Incorrect — correct is ${LETTERS[correctIdx]}`;
         label.className = isCorrect
-          ? "text-emerald-300"
-          : "text-amber-200";
+          ? "text-az-green"
+          : "text-az-rust";
 
-        panel.innerHTML = `<p class="mb-2 text-xs uppercase tracking-wider text-cyan-300/90">Why</p><p>${escapeHtml(q.explanation)}</p>`;
+        panel.innerHTML = `<p class="mb-2 text-xs uppercase tracking-wider text-az-link">Why</p><p>${escapeHtml(q.explanation)}</p>`;
         panel.classList.remove("hidden");
 
         card.querySelectorAll("input").forEach((inp) => {
@@ -3198,7 +3198,7 @@
 
       state.score = correct;
       const pct = Math.round((correct / questions.length) * 100);
-      scoreEl.innerHTML = `<span class="text-cyan-300 font-semibold">${correct}/${questions.length}</span> · ${pct}%`;
+      scoreEl.innerHTML = `<span class="text-az-link font-semibold">${correct}/${questions.length}</span> · ${pct}%`;
       persistQuizScore(key, correct, questions.length);
       updateProgressUI();
     });
@@ -3214,8 +3214,8 @@
 
   function updateLiveSelection(card, q, chosenIdx) {
     card.querySelectorAll(".quiz-option").forEach((lab, oi) => {
-      lab.classList.toggle("border-cyan-400/50", oi === chosenIdx);
-      lab.classList.toggle("bg-cyan-950/40", oi === chosenIdx);
+      lab.classList.toggle("border-az-link", oi === chosenIdx);
+      lab.classList.toggle("bg-az-tint", oi === chosenIdx);
     });
   }
 
@@ -3240,7 +3240,7 @@
   function initNav() {
     const drawer = document.getElementById("mobile-drawer");
     const backdrop = document.getElementById("drawer-backdrop");
-    const openBtn = document.getElementById("open-drawer");
+    const openBtns = document.querySelectorAll("[data-open-drawer]");
     const closeBtn = document.getElementById("close-drawer");
 
     const setOpen = (open) => {
@@ -3248,15 +3248,16 @@
       drawer.classList.toggle("-translate-x-full", !open);
       backdrop.classList.toggle("hidden", !open);
       document.body.classList.toggle("overflow-hidden", open);
-      openBtn?.setAttribute("aria-expanded", open ? "true" : "false");
+      openBtns.forEach((btn) => btn.setAttribute("aria-expanded", open ? "true" : "false"));
     };
 
-    openBtn?.addEventListener("click", () => setOpen(true));
+    openBtns.forEach((btn) => btn.addEventListener("click", () => setOpen(true)));
     closeBtn?.addEventListener("click", () => setOpen(false));
     backdrop?.addEventListener("click", () => setOpen(false));
 
-    document.querySelectorAll("[data-nav]").forEach((link) => {
-      link.addEventListener("click", () => setOpen(false));
+    // Delegated so links cloned into the drawer after init also close it
+    drawer?.addEventListener("click", (e) => {
+      if (e.target.closest("a")) setOpen(false);
     });
 
     // Scroll spy
@@ -3300,6 +3301,8 @@
     if (el) {
       el.textContent = `${done}/${keys.length} module quizzes completed`;
     }
+    const headerCount = document.getElementById("header-progress-count");
+    if (headerCount) headerCount.textContent = `${done}/${keys.length}`;
     const width = `${keys.length ? (done / keys.length) * 100 : 0}%`;
     ["course-progress-fill", "course-progress-fill-desktop"].forEach((id) => {
       const fill = document.getElementById(id);
@@ -3312,32 +3315,54 @@
       if (!raw) {
         node.textContent = "Not started";
         node.className =
-          "text-[10px] uppercase tracking-wider text-slate-500";
+          "text-[10px] uppercase tracking-wider text-az-muted";
         return;
       }
       try {
         const { correct, total } = JSON.parse(raw);
         node.textContent = `${correct}/${total}`;
         node.className =
-          "text-[10px] uppercase tracking-wider text-emerald-400";
+          "text-[10px] uppercase tracking-wider text-az-green";
       } catch {
         node.textContent = "Saved";
       }
     });
   }
 
-  function initThemeExtras() {
-    // Parallax-ish starfield opacity on scroll (subtle)
-    const stars = document.getElementById("starfield");
-    if (!stars) return;
-    window.addEventListener(
-      "scroll",
-      () => {
-        const o = Math.max(0.35, 1 - window.scrollY / 1800);
-        stars.style.opacity = String(o);
-      },
-      { passive: true }
-    );
+  function initSearch() {
+    const form = document.getElementById("site-search");
+    const input = document.getElementById("search-input");
+    const list = document.getElementById("topic-list");
+    if (!form || !input) return;
+
+    const headings = [...document.querySelectorAll("main h2, main h3")];
+    if (list) {
+      list.innerHTML = headings
+        .map((h) => `<option value="${escapeHtml(h.textContent.trim())}"></option>`)
+        .join("");
+    }
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const q = input.value.trim().toLowerCase();
+      if (!q) return;
+      // Prefer a heading match, then fall back to body text
+      const target =
+        headings.find((h) => h.textContent.toLowerCase().includes(q)) ||
+        [...document.querySelectorAll("main p, main li")].find((n) =>
+          n.textContent.toLowerCase().includes(q)
+        );
+      if (!target) {
+        input.setCustomValidity("No matches in this course");
+        input.reportValidity();
+        input.addEventListener("input", () => input.setCustomValidity(""), { once: true });
+        return;
+      }
+      target.scrollIntoView({ behavior: "smooth", block: "start" });
+      target.classList.add("search-hit");
+      setTimeout(() => target.classList.remove("search-hit"), 2000);
+      input.blur();
+    });
   }
 
   /* --------------------------------------------------------------------------
@@ -3345,7 +3370,7 @@
    * ------------------------------------------------------------------------ */
   document.addEventListener("DOMContentLoaded", () => {
     initNav();
-    initThemeExtras();
+    initSearch();
     document.querySelectorAll(".quiz-root").forEach(renderQuiz);
     updateProgressUI();
   });
