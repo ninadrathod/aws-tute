@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="AWS Orbit Masterclass — a deep-dive Amazon Web Services course with diagrams and interactive quizzes." />
-  <title>AWS Orbit Masterclass</title>
+  <meta name="description" content="AWS Masterclass — a deep-dive course on Amazon Web Services with diagrams and interactive quizzes." />
+  <title>AWS Masterclass</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -12,21 +12,20 @@
         extend: {
           colors: {
             az: {
-              nav: "#131921",
-              nav2: "#232f3e",
-              nav3: "#37475a",
-              orange: "#ff9900",
+              nav: "#0f1b26",
+              nav2: "#1c2c3b",
+              nav3: "#2e4256",
+              orange: "#f5a524",
               rust: "#c7511f",
-              yellow: "#ffd814",
-              yellowhover: "#f7ca00",
-              buy: "#ffa41c",
-              search: "#febd69",
-              link: "#007185",
+              yellow: "#ffcf3d",
+              yellowhover: "#f5c22e",
+              search: "#f7b955",
+              link: "#0a6f86",
               linkhover: "#c7511f",
-              ink: "#0f1111",
-              muted: "#565959",
-              line: "#d5d9d9",
-              page: "#eaeded",
+              ink: "#111418",
+              muted: "#5a5f63",
+              line: "#d6dadc",
+              page: "#ebeef0",
               soft: "#f7fafa",
               tint: "#f0f8fa",
               cream: "#fef8f2",
@@ -53,7 +52,7 @@
     /* Each module reads as a white Amazon content panel on the grey page */
     main > section {
       background: #fff;
-      border: 1px solid #d5d9d9;
+      border: 1px solid #d6dadc;
       border-radius: 8px;
       padding: 1.25rem 1rem;
       scroll-margin-top: 8.5rem;
@@ -66,24 +65,22 @@
     @media (min-width: 1024px) {
       .prose-course h3, .prose-course h4 { scroll-margin-top: 1rem; }
     }
-    .search-hit { outline: 3px solid #ff9900; outline-offset: 4px; border-radius: 4px; transition: outline-color 1.2s; }
+    .search-hit { outline: 3px solid #f5a524; outline-offset: 4px; border-radius: 4px; transition: outline-color 1.2s; }
     .toc-active {
-      border-color: #ff9900 !important;
+      border-color: #f5a524 !important;
       background: #fef8f2 !important;
-      color: #0f1111 !important;
+      color: #111418 !important;
       font-weight: 700;
     }
     header .toc-active { background: transparent !important; color: #fff !important; border-color: #fff !important; }
     .nav-link { border: 1px solid transparent; border-radius: 2px; }
     .nav-link:hover { border-color: #fff; }
-    .btn-cart {
-      background: #ffd814; border: 1px solid #fcd200; color: #0f1111;
+    .btn-primary {
+      background: #ffcf3d; border: 1px solid #f2c12e; color: #111418;
       border-radius: 9999px; box-shadow: 0 2px 5px 0 rgba(213, 217, 217, .5);
     }
-    .btn-cart:hover { background: #f7ca00; border-color: #f2c200; }
-    .btn-buy { background: #ffa41c; border: 1px solid #ff8f00; color: #0f1111; border-radius: 9999px; }
-    .btn-buy:hover { background: #fa8900; border-color: #e3931e; }
-    .btn-secondary { background: #fff; border: 1px solid #d5d9d9; color: #0f1111; border-radius: 9999px; box-shadow: 0 2px 5px 0 rgba(213, 217, 217, .5); }
+    .btn-primary:hover { background: #f5c22e; border-color: #e6b520; }
+    .btn-secondary { background: #fff; border: 1px solid #d6dadc; color: #111418; border-radius: 9999px; box-shadow: 0 2px 5px 0 rgba(213, 217, 217, .5); }
     .btn-secondary:hover { background: #f7fafa; }
     code.k {
       font-family: Menlo, Consolas, ui-monospace, monospace;
@@ -91,7 +88,7 @@
       padding: 0.1rem 0.35rem;
       border-radius: 4px;
       background: #f7fafa;
-      border: 1px solid #d5d9d9;
+      border: 1px solid #d6dadc;
       color: #c7511f;
       overflow-wrap: anywhere;
     }
@@ -102,10 +99,10 @@
       overflow-x: auto;
       max-width: 100%;
       border-radius: 8px;
-      border: 1px solid #d5d9d9;
+      border: 1px solid #d6dadc;
       background: #f7fafa;
       padding: 1rem 1.1rem;
-      color: #0f1111;
+      color: #111418;
     }
     /* Keep long words, URLs and wide media inside their boxes on phones */
     main { overflow-wrap: break-word; }
@@ -125,12 +122,12 @@
   <header id="top" class="sticky top-0 z-40 lg:static">
     <div class="bg-az-nav text-white">
       <div class="mx-auto flex max-w-[1500px] flex-wrap items-center gap-x-1 gap-y-2 px-2 py-2 sm:px-3">
-        <a href="#hero" class="nav-link flex shrink-0 items-end px-2 py-1" aria-label="AWS Orbit home">
+        <a href="#hero" class="nav-link flex shrink-0 items-center gap-2 px-2 py-1" aria-label="AWS Masterclass home">
+          <svg class="h-8 w-8" viewBox="0 0 32 32" fill="none" aria-hidden="true"><circle cx="16" cy="16" r="6.5" fill="#f5a524"/><ellipse cx="16" cy="16" rx="14" ry="6" transform="rotate(-25 16 16)" stroke="currentColor" stroke-width="2"/><circle cx="28.2" cy="10.4" r="2.2" fill="currentColor"/></svg>
           <span class="flex flex-col leading-none">
-            <span class="text-[22px] font-bold tracking-tight">aws<span class="font-normal">orbit</span></span>
-            <svg class="-mt-0.5 h-2 w-[88px]" viewBox="0 0 88 8" fill="none" aria-hidden="true"><path d="M3 2 C 25 8, 60 8, 80 2" stroke="#ff9900" stroke-width="2.4" stroke-linecap="round"/><path d="M75 0.5 L82 1.6 L78 6.5" stroke="#ff9900" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+            <span class="text-xl font-bold tracking-tight">AWS</span>
+            <span class="mt-0.5 text-[10px] uppercase tracking-[0.18em] text-white/80">Masterclass</span>
           </span>
-          <span class="mb-1 ml-0.5 text-xs text-white/90">.learn</span>
         </a>
 
         <a href="#module-1" class="nav-link hidden shrink-0 px-2 py-1 leading-tight lg:block">
@@ -141,20 +138,20 @@
         <form id="site-search" role="search" class="order-last flex h-10 w-full min-w-0 overflow-hidden rounded-md focus-within:ring-[3px] focus-within:ring-az-orange md:order-none md:w-auto md:flex-1">
           <span class="hidden shrink-0 items-center border-r border-az-line bg-[#e6e6e6] px-3 text-xs text-[#555] lg:flex">All modules</span>
           <label for="search-input" class="sr-only">Search the course</label>
-          <input id="search-input" type="search" list="topic-list" autocomplete="off" placeholder="Search AWS Orbit" class="min-w-0 flex-1 bg-white px-3 text-[15px] text-az-ink outline-none placeholder:text-az-muted" />
+          <input id="search-input" type="search" list="topic-list" autocomplete="off" placeholder="Search the course" class="min-w-0 flex-1 bg-white px-3 text-[15px] text-az-ink outline-none placeholder:text-az-muted" />
           <datalist id="topic-list"></datalist>
-          <button type="submit" class="flex w-11 shrink-0 items-center justify-center bg-az-search text-az-ink hover:bg-[#f3a847]" aria-label="Search">
+          <button type="submit" class="flex w-11 shrink-0 items-center justify-center bg-az-search text-az-ink hover:bg-[#eea83f]" aria-label="Search">
             <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="7"/><path stroke-linecap="round" d="M20 20l-4-4"/></svg>
           </button>
         </form>
 
         <div class="ml-auto flex shrink-0 items-center md:ml-0">
           <button type="button" data-open-drawer aria-expanded="false" aria-controls="mobile-drawer" class="nav-link hidden px-2 py-1 text-left leading-tight min-[380px]:block">
-            <span class="block text-xs text-white/90">Hello, learner</span>
+            <span class="block text-xs text-white/90">Your learning</span>
             <span class="block whitespace-nowrap text-sm font-bold">Quiz progress <span id="header-progress-count" class="text-az-orange">0/10</span></span>
           </button>
-          <a href="#module-1" class="nav-link flex items-end gap-1 px-2 py-1">
-            <svg class="h-8 w-8" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 7h3l3 14h14l3-10H10" stroke-linejoin="round"/><circle cx="13" cy="26" r="1.8" fill="currentColor"/><circle cx="23" cy="26" r="1.8" fill="currentColor"/></svg>
+          <a href="#module-1" class="nav-link flex items-center gap-1 px-2 py-1">
+            <svg class="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9.5"/><path d="M10 8.5v7l5.5-3.5z" fill="currentColor" stroke-linejoin="round"/></svg>
             <span class="hidden text-sm font-bold sm:inline">Start</span>
           </a>
         </div>
@@ -186,8 +183,8 @@
   <aside id="mobile-drawer" class="fixed inset-y-0 left-0 z-50 flex w-[min(85vw,22rem)] -translate-x-full flex-col bg-white shadow-2xl transition-transform duration-300" aria-label="Course table of contents">
     <div class="flex items-center justify-between bg-az-nav2 px-5 py-3 text-white">
       <p class="flex items-center gap-2 text-lg font-bold">
-        <svg class="h-7 w-7" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 12a4.5 4.5 0 100-9 4.5 4.5 0 000 9zm0 2c-4.4 0-8 2.2-8 5v2h16v-2c0-2.8-3.6-5-8-5z"/></svg>
-        Hello, learner
+        <svg class="h-7 w-7" viewBox="0 0 32 32" fill="none" aria-hidden="true"><circle cx="16" cy="16" r="6.5" fill="#f5a524"/><ellipse cx="16" cy="16" rx="14" ry="6" transform="rotate(-25 16 16)" stroke="currentColor" stroke-width="2"/><circle cx="28.2" cy="10.4" r="2.2" fill="currentColor"/></svg>
+        AWS Masterclass
       </p>
       <button id="close-drawer" type="button" class="rounded p-2 text-white hover:bg-white/10">
         <span class="sr-only">Close</span>
@@ -209,7 +206,7 @@
     <!-- Desktop sidebar: Amazon-style refinement column -->
     <aside class="sticky top-4 hidden h-[calc(100vh-2rem)] w-64 shrink-0 flex-col overflow-hidden rounded-lg border border-az-line bg-white lg:flex" aria-label="Course table of contents">
       <div class="border-b border-az-line px-4 py-4">
-        <h1 class="text-base font-bold text-az-ink">AWS Orbit Masterclass</h1>
+        <h1 class="text-base font-bold text-az-ink">AWS Masterclass</h1>
         <p class="mt-1 text-xs leading-relaxed text-az-muted">Deep-dive course · ~5–6 hours</p>
         <div class="mt-3">
           <p class="text-sm font-bold text-az-ink">Quiz progress</p>
@@ -271,15 +268,15 @@
     <main class="min-w-0 flex-1 space-y-5 px-2 pb-10 pt-3 sm:px-4 lg:px-0 lg:pt-0">
       <!-- HERO: Amazon homepage banner + card row -->
       <section id="hero">
-        <div class="relative overflow-hidden rounded-lg bg-gradient-to-br from-az-nav2 via-az-nav3 to-[#146eb4] px-5 pb-10 pt-8 text-white sm:px-10 sm:pt-12 lg:pb-32">
+        <div class="relative overflow-hidden rounded-lg bg-gradient-to-br from-az-nav2 via-az-nav3 to-[#1f6fa8] px-5 pb-10 pt-8 text-white sm:px-10 sm:pt-12 lg:pb-32">
           <svg class="pointer-events-none absolute -right-10 -top-6 hidden h-64 w-64 text-white/10 xl:block" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="10" aria-hidden="true"><path d="M10 60 C 35 85, 70 85, 92 58"/><path d="M80 52 L95 56 L88 70" stroke-linejoin="round"/></svg>
-          <p class="text-sm font-bold text-az-orange">Amazon Web Services</p>
-          <h2 class="mt-2 max-w-xl text-3xl font-bold leading-tight sm:text-4xl">Orbit Masterclass</h2>
+          <p class="text-sm font-bold text-az-orange">A course on Amazon Web Services</p>
+          <h2 class="mt-2 max-w-xl text-3xl font-bold leading-tight sm:text-4xl">AWS Masterclass</h2>
           <p class="mt-3 max-w-xl text-base leading-relaxed text-white/90 sm:text-lg">
             A complete masterclass on AWS — foundations through Well-Architected — with deep modules on IAM, compute, storage, VPC, data, serverless, and operations, plus diagrams and interactive quizzes.
           </p>
           <div class="mt-6 flex flex-wrap gap-3">
-            <a href="#module-1" class="btn-cart px-6 py-2 text-sm">Begin Module 01</a>
+            <a href="#module-1" class="btn-primary px-6 py-2 text-sm">Begin Module 01</a>
           </div>
         </div>
 
@@ -330,21 +327,21 @@
           <figure class="overflow-hidden rounded-2xl border border-az-line bg-white p-4 sm:p-6">
             <figcaption class="mb-4 text-xs uppercase tracking-[0.2em] text-az-link">Diagram · On-prem CapEx vs Cloud OpEx</figcaption>
             <svg viewBox="0 0 760 280" class="h-auto w-full" role="img" aria-label="Comparison of on-premises capital expenditure versus cloud operational expenditure">
-              <rect x="20" y="30" width="340" height="220" rx="16" fill="#ffffff" stroke="#565959" stroke-width="1.5"/>
-              <text x="190" y="58" text-anchor="middle" fill="#565959" font-size="14" font-family="Amazon Ember, Arial, sans-serif">On-Premises (CapEx heavy)</text>
-              <rect x="50" y="80" width="60" height="90" fill="#e3e6e6" stroke="#565959"/>
-              <rect x="120" y="70" width="60" height="100" fill="#e3e6e6" stroke="#565959"/>
-              <rect x="190" y="90" width="60" height="80" fill="#e3e6e6" stroke="#565959"/>
-              <rect x="260" y="75" width="60" height="95" fill="#d5d9d9" stroke="#e47911"/>
-              <text x="190" y="210" text-anchor="middle" fill="#e47911" font-size="12" font-family="Amazon Ember, Arial, sans-serif">Buy peak capacity once</text>
-              <text x="190" y="230" text-anchor="middle" fill="#565959" font-size="11" font-family="Amazon Ember, Arial, sans-serif">Idle metal still costs money</text>
+              <rect x="20" y="30" width="340" height="220" rx="16" fill="#ffffff" stroke="#5a5f63" stroke-width="1.5"/>
+              <text x="190" y="58" text-anchor="middle" fill="#5a5f63" font-size="14" font-family="Amazon Ember, Arial, sans-serif">On-Premises (CapEx heavy)</text>
+              <rect x="50" y="80" width="60" height="90" fill="#e3e6e6" stroke="#5a5f63"/>
+              <rect x="120" y="70" width="60" height="100" fill="#e3e6e6" stroke="#5a5f63"/>
+              <rect x="190" y="90" width="60" height="80" fill="#e3e6e6" stroke="#5a5f63"/>
+              <rect x="260" y="75" width="60" height="95" fill="#d6dadc" stroke="#de7a1c"/>
+              <text x="190" y="210" text-anchor="middle" fill="#de7a1c" font-size="12" font-family="Amazon Ember, Arial, sans-serif">Buy peak capacity once</text>
+              <text x="190" y="230" text-anchor="middle" fill="#5a5f63" font-size="11" font-family="Amazon Ember, Arial, sans-serif">Idle metal still costs money</text>
 
-              <rect x="400" y="30" width="340" height="220" rx="16" fill="#ffffff" stroke="#007185" stroke-width="1.5"/>
-              <text x="570" y="58" text-anchor="middle" fill="#007185" font-size="14" font-family="Amazon Ember, Arial, sans-serif">Cloud (OpEx / elastic)</text>
-              <path d="M430 180 L470 180 L490 100 L520 160 L550 90 L580 150 L610 120 L650 180 L690 180" fill="none" stroke="#007185" stroke-width="3"/>
-              <path d="M430 180 L690 180" stroke="#d5d9d9" stroke-width="2"/>
-              <text x="570" y="210" text-anchor="middle" fill="#007185" font-size="12" font-family="Amazon Ember, Arial, sans-serif">Scale with demand curve</text>
-              <text x="570" y="230" text-anchor="middle" fill="#565959" font-size="11" font-family="Amazon Ember, Arial, sans-serif">Pay for what you provision</text>
+              <rect x="400" y="30" width="340" height="220" rx="16" fill="#ffffff" stroke="#0a6f86" stroke-width="1.5"/>
+              <text x="570" y="58" text-anchor="middle" fill="#0a6f86" font-size="14" font-family="Amazon Ember, Arial, sans-serif">Cloud (OpEx / elastic)</text>
+              <path d="M430 180 L470 180 L490 100 L520 160 L550 90 L580 150 L610 120 L650 180 L690 180" fill="none" stroke="#0a6f86" stroke-width="3"/>
+              <path d="M430 180 L690 180" stroke="#d6dadc" stroke-width="2"/>
+              <text x="570" y="210" text-anchor="middle" fill="#0a6f86" font-size="12" font-family="Amazon Ember, Arial, sans-serif">Scale with demand curve</text>
+              <text x="570" y="230" text-anchor="middle" fill="#5a5f63" font-size="11" font-family="Amazon Ember, Arial, sans-serif">Pay for what you provision</text>
             </svg>
           </figure>
 
@@ -371,14 +368,14 @@
           <figure class="overflow-hidden rounded-2xl border border-az-line bg-white p-4 sm:p-6">
             <figcaption class="mb-4 text-xs uppercase tracking-[0.2em] text-az-rust">Diagram · Shared Responsibility</figcaption>
             <svg viewBox="0 0 720 320" class="h-auto w-full" role="img" aria-label="AWS shared responsibility model stacked layers">
-              <rect x="40" y="20" width="640" height="54" rx="10" fill="#f0f8fa" stroke="#007185"/>
-              <text x="360" y="52" text-anchor="middle" fill="#0f1111" font-size="15" font-family="Amazon Ember, Arial, sans-serif">Customer: data, IAM, OS/apps (EC2), configs, encryption</text>
-              <rect x="40" y="90" width="640" height="54" rx="10" fill="#f7fafa" stroke="#146eb4"/>
-              <text x="360" y="122" text-anchor="middle" fill="#0f1111" font-size="15" font-family="Amazon Ember, Arial, sans-serif">Platform midpoint: patching shifts upward on managed services (RDS, Lambda)</text>
-              <rect x="40" y="160" width="640" height="54" rx="10" fill="#f3f3f3" stroke="#565959"/>
-              <text x="360" y="192" text-anchor="middle" fill="#565959" font-size="15" font-family="Amazon Ember, Arial, sans-serif">AWS: hypervisor, managed hosts, regions/AZs, physical security</text>
-              <rect x="40" y="230" width="640" height="54" rx="10" fill="#eaeded" stroke="#879596"/>
-              <text x="360" y="262" text-anchor="middle" fill="#565959" font-size="15" font-family="Amazon Ember, Arial, sans-serif">AWS: global network, edge, hardware lifecycle</text>
+              <rect x="40" y="20" width="640" height="54" rx="10" fill="#f0f8fa" stroke="#0a6f86"/>
+              <text x="360" y="52" text-anchor="middle" fill="#111418" font-size="15" font-family="Amazon Ember, Arial, sans-serif">Customer: data, IAM, OS/apps (EC2), configs, encryption</text>
+              <rect x="40" y="90" width="640" height="54" rx="10" fill="#f7fafa" stroke="#1f6fa8"/>
+              <text x="360" y="122" text-anchor="middle" fill="#111418" font-size="15" font-family="Amazon Ember, Arial, sans-serif">Platform midpoint: patching shifts upward on managed services (RDS, Lambda)</text>
+              <rect x="40" y="160" width="640" height="54" rx="10" fill="#f3f3f3" stroke="#5a5f63"/>
+              <text x="360" y="192" text-anchor="middle" fill="#5a5f63" font-size="15" font-family="Amazon Ember, Arial, sans-serif">AWS: hypervisor, managed hosts, regions/AZs, physical security</text>
+              <rect x="40" y="230" width="640" height="54" rx="10" fill="#ebeef0" stroke="#879596"/>
+              <text x="360" y="262" text-anchor="middle" fill="#5a5f63" font-size="15" font-family="Amazon Ember, Arial, sans-serif">AWS: global network, edge, hardware lifecycle</text>
             </svg>
             <p class="mt-3 text-sm text-az-muted">Rule of thumb: the more AWS manages the runtime, the less OS work you do — but IAM mistakes and open data stores remain your blast radius.</p>
           </figure>
@@ -543,29 +540,29 @@ aws sts get-caller-identity --profile my-admin</pre>
           <figure class="overflow-hidden rounded-2xl border border-az-line bg-white p-4 sm:p-6">
             <figcaption class="mb-4 text-xs uppercase tracking-[0.2em] text-az-link">Diagram · Region → AZ → Data center mental model</figcaption>
             <svg viewBox="0 0 780 340" class="h-auto w-full" role="img" aria-label="AWS Region containing three Availability Zones">
-              <rect x="30" y="40" width="720" height="260" rx="20" fill="#f7fafa" stroke="#007185" stroke-width="2"/>
-              <text x="390" y="78" text-anchor="middle" fill="#007185" font-size="16" font-family="Amazon Ember, Arial, sans-serif" font-weight="700">Region (e.g., eu-west-1)</text>
-              <rect x="70" y="110" width="180" height="150" rx="14" fill="#ffffff" stroke="#e47911"/>
+              <rect x="30" y="40" width="720" height="260" rx="20" fill="#f7fafa" stroke="#0a6f86" stroke-width="2"/>
+              <text x="390" y="78" text-anchor="middle" fill="#0a6f86" font-size="16" font-family="Amazon Ember, Arial, sans-serif" font-weight="700">Region (e.g., eu-west-1)</text>
+              <rect x="70" y="110" width="180" height="150" rx="14" fill="#ffffff" stroke="#de7a1c"/>
               <text x="160" y="145" text-anchor="middle" fill="#c7511f" font-size="14" font-family="Amazon Ember, Arial, sans-serif">AZ a</text>
-              <rect x="95" y="165" width="50" height="30" fill="#f7fafa" stroke="#565959"/><rect x="155" y="165" width="50" height="30" fill="#f7fafa" stroke="#565959"/>
-              <rect x="95" y="205" width="50" height="30" fill="#f7fafa" stroke="#565959"/><rect x="155" y="205" width="50" height="30" fill="#f7fafa" stroke="#565959"/>
-              <text x="160" y="250" text-anchor="middle" fill="#565959" font-size="11" font-family="Amazon Ember, Arial, sans-serif">DC cluster</text>
+              <rect x="95" y="165" width="50" height="30" fill="#f7fafa" stroke="#5a5f63"/><rect x="155" y="165" width="50" height="30" fill="#f7fafa" stroke="#5a5f63"/>
+              <rect x="95" y="205" width="50" height="30" fill="#f7fafa" stroke="#5a5f63"/><rect x="155" y="205" width="50" height="30" fill="#f7fafa" stroke="#5a5f63"/>
+              <text x="160" y="250" text-anchor="middle" fill="#5a5f63" font-size="11" font-family="Amazon Ember, Arial, sans-serif">DC cluster</text>
 
-              <rect x="300" y="110" width="180" height="150" rx="14" fill="#ffffff" stroke="#e47911"/>
+              <rect x="300" y="110" width="180" height="150" rx="14" fill="#ffffff" stroke="#de7a1c"/>
               <text x="390" y="145" text-anchor="middle" fill="#c7511f" font-size="14" font-family="Amazon Ember, Arial, sans-serif">AZ b</text>
-              <rect x="325" y="165" width="50" height="30" fill="#f7fafa" stroke="#565959"/><rect x="385" y="165" width="50" height="30" fill="#f7fafa" stroke="#565959"/>
-              <rect x="325" y="205" width="50" height="30" fill="#f7fafa" stroke="#565959"/><rect x="385" y="205" width="50" height="30" fill="#f7fafa" stroke="#565959"/>
-              <text x="390" y="250" text-anchor="middle" fill="#565959" font-size="11" font-family="Amazon Ember, Arial, sans-serif">Isolated failure domain</text>
+              <rect x="325" y="165" width="50" height="30" fill="#f7fafa" stroke="#5a5f63"/><rect x="385" y="165" width="50" height="30" fill="#f7fafa" stroke="#5a5f63"/>
+              <rect x="325" y="205" width="50" height="30" fill="#f7fafa" stroke="#5a5f63"/><rect x="385" y="205" width="50" height="30" fill="#f7fafa" stroke="#5a5f63"/>
+              <text x="390" y="250" text-anchor="middle" fill="#5a5f63" font-size="11" font-family="Amazon Ember, Arial, sans-serif">Isolated failure domain</text>
 
-              <rect x="530" y="110" width="180" height="150" rx="14" fill="#ffffff" stroke="#e47911"/>
+              <rect x="530" y="110" width="180" height="150" rx="14" fill="#ffffff" stroke="#de7a1c"/>
               <text x="620" y="145" text-anchor="middle" fill="#c7511f" font-size="14" font-family="Amazon Ember, Arial, sans-serif">AZ c</text>
-              <rect x="555" y="165" width="50" height="30" fill="#f7fafa" stroke="#565959"/><rect x="615" y="165" width="50" height="30" fill="#f7fafa" stroke="#565959"/>
-              <rect x="555" y="205" width="50" height="30" fill="#f7fafa" stroke="#565959"/><rect x="615" y="205" width="50" height="30" fill="#f7fafa" stroke="#565959"/>
-              <text x="620" y="250" text-anchor="middle" fill="#565959" font-size="11" font-family="Amazon Ember, Arial, sans-serif">Independent power/net</text>
+              <rect x="555" y="165" width="50" height="30" fill="#f7fafa" stroke="#5a5f63"/><rect x="615" y="165" width="50" height="30" fill="#f7fafa" stroke="#5a5f63"/>
+              <rect x="555" y="205" width="50" height="30" fill="#f7fafa" stroke="#5a5f63"/><rect x="615" y="205" width="50" height="30" fill="#f7fafa" stroke="#5a5f63"/>
+              <text x="620" y="250" text-anchor="middle" fill="#5a5f63" font-size="11" font-family="Amazon Ember, Arial, sans-serif">Independent power/net</text>
 
-              <path d="M250 185 H300" stroke="#007185" stroke-width="2" stroke-dasharray="4 4"/>
-              <path d="M480 185 H530" stroke="#007185" stroke-width="2" stroke-dasharray="4 4"/>
-              <text x="390" y="310" text-anchor="middle" fill="#565959" font-size="12" font-family="Amazon Ember, Arial, sans-serif">Private metro fiber between AZs · ms-level latency · sync replication friendly</text>
+              <path d="M250 185 H300" stroke="#0a6f86" stroke-width="2" stroke-dasharray="4 4"/>
+              <path d="M480 185 H530" stroke="#0a6f86" stroke-width="2" stroke-dasharray="4 4"/>
+              <text x="390" y="310" text-anchor="middle" fill="#5a5f63" font-size="12" font-family="Amazon Ember, Arial, sans-serif">Private metro fiber between AZs · ms-level latency · sync replication friendly</text>
             </svg>
           </figure>
 
@@ -640,22 +637,22 @@ aws sts get-caller-identity --profile my-admin</pre>
           <figure class="overflow-hidden rounded-2xl border border-az-line bg-white p-4 sm:p-6">
             <figcaption class="mb-4 text-xs uppercase tracking-[0.2em] text-az-rust">Diagram · Edge network relative to Regions</figcaption>
             <svg viewBox="0 0 760 300" class="h-auto w-full" role="img" aria-label="Users hitting CloudFront edge locations then origin in a Region">
-              <circle cx="80" cy="150" r="36" fill="#f0f8fa" stroke="#565959"/>
-              <text x="80" y="155" text-anchor="middle" fill="#0f1111" font-size="12" font-family="Amazon Ember, Arial, sans-serif">Users</text>
-              <path d="M116 150 H190" stroke="#007185" stroke-width="2" marker-end="url(#arrow)"/>
-              <rect x="190" y="100" width="140" height="100" rx="12" fill="#ffffff" stroke="#007185"/>
-              <text x="260" y="140" text-anchor="middle" fill="#007185" font-size="13" font-family="Amazon Ember, Arial, sans-serif">Edge PoP</text>
-              <text x="260" y="162" text-anchor="middle" fill="#565959" font-size="11" font-family="Amazon Ember, Arial, sans-serif">CloudFront / DNS</text>
-              <path d="M330 150 H410" stroke="#e47911" stroke-width="2"/>
-              <rect x="410" y="70" width="300" height="160" rx="16" fill="#f7fafa" stroke="#e47911"/>
+              <circle cx="80" cy="150" r="36" fill="#f0f8fa" stroke="#5a5f63"/>
+              <text x="80" y="155" text-anchor="middle" fill="#111418" font-size="12" font-family="Amazon Ember, Arial, sans-serif">Users</text>
+              <path d="M116 150 H190" stroke="#0a6f86" stroke-width="2" marker-end="url(#arrow)"/>
+              <rect x="190" y="100" width="140" height="100" rx="12" fill="#ffffff" stroke="#0a6f86"/>
+              <text x="260" y="140" text-anchor="middle" fill="#0a6f86" font-size="13" font-family="Amazon Ember, Arial, sans-serif">Edge PoP</text>
+              <text x="260" y="162" text-anchor="middle" fill="#5a5f63" font-size="11" font-family="Amazon Ember, Arial, sans-serif">CloudFront / DNS</text>
+              <path d="M330 150 H410" stroke="#de7a1c" stroke-width="2"/>
+              <rect x="410" y="70" width="300" height="160" rx="16" fill="#f7fafa" stroke="#de7a1c"/>
               <text x="560" y="110" text-anchor="middle" fill="#c7511f" font-size="14" font-family="Amazon Ember, Arial, sans-serif">Origin Region</text>
-              <rect x="450" y="130" width="100" height="60" rx="8" fill="#ffffff" stroke="#565959"/>
-              <text x="500" y="165" text-anchor="middle" fill="#0f1111" font-size="12" font-family="Amazon Ember, Arial, sans-serif">ALB / S3</text>
-              <rect x="570" y="130" width="100" height="60" rx="8" fill="#ffffff" stroke="#565959"/>
-              <text x="620" y="165" text-anchor="middle" fill="#0f1111" font-size="12" font-family="Amazon Ember, Arial, sans-serif">App / API</text>
+              <rect x="450" y="130" width="100" height="60" rx="8" fill="#ffffff" stroke="#5a5f63"/>
+              <text x="500" y="165" text-anchor="middle" fill="#111418" font-size="12" font-family="Amazon Ember, Arial, sans-serif">ALB / S3</text>
+              <rect x="570" y="130" width="100" height="60" rx="8" fill="#ffffff" stroke="#5a5f63"/>
+              <text x="620" y="165" text-anchor="middle" fill="#111418" font-size="12" font-family="Amazon Ember, Arial, sans-serif">App / API</text>
               <defs>
                 <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
-                  <path d="M0,0 L6,3 L0,6" fill="#007185"/>
+                  <path d="M0,0 L6,3 L0,6" fill="#0a6f86"/>
                 </marker>
               </defs>
             </svg>
@@ -795,21 +792,21 @@ aws ec2 describe-vpcs --region ap-south-1</pre>
           <figure class="overflow-hidden rounded-2xl border border-az-line bg-white p-4 sm:p-6">
             <figcaption class="mb-4 text-xs uppercase tracking-[0.2em] text-az-link">Diagram · Who can call AWS APIs</figcaption>
             <svg viewBox="0 0 760 260" class="h-auto w-full" role="img" aria-label="IAM principals flowing through STS to AWS APIs">
-              <rect x="30" y="40" width="140" height="70" rx="12" fill="#ffffff" stroke="#565959"/>
-              <text x="100" y="80" text-anchor="middle" fill="#0f1111" font-size="13" font-family="Amazon Ember, Arial, sans-serif">IAM user</text>
-              <rect x="30" y="140" width="140" height="70" rx="12" fill="#ffffff" stroke="#007185"/>
-              <text x="100" y="180" text-anchor="middle" fill="#007185" font-size="13" font-family="Amazon Ember, Arial, sans-serif">Federated / SSO</text>
-              <rect x="220" y="90" width="150" height="80" rx="12" fill="#f0f8fa" stroke="#e47911"/>
+              <rect x="30" y="40" width="140" height="70" rx="12" fill="#ffffff" stroke="#5a5f63"/>
+              <text x="100" y="80" text-anchor="middle" fill="#111418" font-size="13" font-family="Amazon Ember, Arial, sans-serif">IAM user</text>
+              <rect x="30" y="140" width="140" height="70" rx="12" fill="#ffffff" stroke="#0a6f86"/>
+              <text x="100" y="180" text-anchor="middle" fill="#0a6f86" font-size="13" font-family="Amazon Ember, Arial, sans-serif">Federated / SSO</text>
+              <rect x="220" y="90" width="150" height="80" rx="12" fill="#f0f8fa" stroke="#de7a1c"/>
               <text x="295" y="125" text-anchor="middle" fill="#c7511f" font-size="13" font-family="Amazon Ember, Arial, sans-serif">AssumeRole</text>
-              <text x="295" y="148" text-anchor="middle" fill="#565959" font-size="11" font-family="Amazon Ember, Arial, sans-serif">STS temp creds</text>
-              <rect x="420" y="90" width="140" height="80" rx="12" fill="#ffffff" stroke="#007185"/>
-              <text x="490" y="135" text-anchor="middle" fill="#007185" font-size="13" font-family="Amazon Ember, Arial, sans-serif">IAM Role</text>
-              <rect x="600" y="90" width="130" height="80" rx="12" fill="#ffffff" stroke="#565959"/>
-              <text x="665" y="135" text-anchor="middle" fill="#0f1111" font-size="13" font-family="Amazon Ember, Arial, sans-serif">AWS APIs</text>
-              <path d="M170 75 H210" stroke="#565959" stroke-width="2"/>
-              <path d="M170 175 H210 V130" stroke="#007185" stroke-width="2"/>
-              <path d="M370 130 H420" stroke="#e47911" stroke-width="2"/>
-              <path d="M560 130 H600" stroke="#007185" stroke-width="2"/>
+              <text x="295" y="148" text-anchor="middle" fill="#5a5f63" font-size="11" font-family="Amazon Ember, Arial, sans-serif">STS temp creds</text>
+              <rect x="420" y="90" width="140" height="80" rx="12" fill="#ffffff" stroke="#0a6f86"/>
+              <text x="490" y="135" text-anchor="middle" fill="#0a6f86" font-size="13" font-family="Amazon Ember, Arial, sans-serif">IAM Role</text>
+              <rect x="600" y="90" width="130" height="80" rx="12" fill="#ffffff" stroke="#5a5f63"/>
+              <text x="665" y="135" text-anchor="middle" fill="#111418" font-size="13" font-family="Amazon Ember, Arial, sans-serif">AWS APIs</text>
+              <path d="M170 75 H210" stroke="#5a5f63" stroke-width="2"/>
+              <path d="M170 175 H210 V130" stroke="#0a6f86" stroke-width="2"/>
+              <path d="M370 130 H420" stroke="#de7a1c" stroke-width="2"/>
+              <path d="M560 130 H600" stroke="#0a6f86" stroke-width="2"/>
             </svg>
           </figure>
 
@@ -937,20 +934,20 @@ aws iam get-credential-report --query 'Content' --output text | base64 --decode 
           <figure class="overflow-hidden rounded-2xl border border-az-line bg-white p-4 sm:p-6">
             <figcaption class="mb-4 text-xs uppercase tracking-[0.2em] text-az-link">Diagram · Anatomy of an EC2 launch</figcaption>
             <svg viewBox="0 0 760 280" class="h-auto w-full" role="img" aria-label="EC2 instance composed of AMI, EBS, ENI, and IAM role">
-              <rect x="200" y="40" width="360" height="200" rx="18" fill="#f7fafa" stroke="#007185" stroke-width="2"/>
-              <text x="380" y="75" text-anchor="middle" fill="#007185" font-size="15" font-family="Amazon Ember, Arial, sans-serif" font-weight="700">EC2 Instance</text>
-              <rect x="230" y="100" width="120" height="50" rx="8" fill="#ffffff" stroke="#e47911"/>
+              <rect x="200" y="40" width="360" height="200" rx="18" fill="#f7fafa" stroke="#0a6f86" stroke-width="2"/>
+              <text x="380" y="75" text-anchor="middle" fill="#0a6f86" font-size="15" font-family="Amazon Ember, Arial, sans-serif" font-weight="700">EC2 Instance</text>
+              <rect x="230" y="100" width="120" height="50" rx="8" fill="#ffffff" stroke="#de7a1c"/>
               <text x="290" y="130" text-anchor="middle" fill="#c7511f" font-size="12" font-family="Amazon Ember, Arial, sans-serif">AMI root</text>
-              <rect x="370" y="100" width="150" height="50" rx="8" fill="#ffffff" stroke="#565959"/>
-              <text x="445" y="130" text-anchor="middle" fill="#0f1111" font-size="12" font-family="Amazon Ember, Arial, sans-serif">vCPU / RAM</text>
-              <rect x="230" y="165" width="120" height="50" rx="8" fill="#ffffff" stroke="#007185"/>
-              <text x="290" y="195" text-anchor="middle" fill="#007185" font-size="12" font-family="Amazon Ember, Arial, sans-serif">ENI + IP</text>
+              <rect x="370" y="100" width="150" height="50" rx="8" fill="#ffffff" stroke="#5a5f63"/>
+              <text x="445" y="130" text-anchor="middle" fill="#111418" font-size="12" font-family="Amazon Ember, Arial, sans-serif">vCPU / RAM</text>
+              <rect x="230" y="165" width="120" height="50" rx="8" fill="#ffffff" stroke="#0a6f86"/>
+              <text x="290" y="195" text-anchor="middle" fill="#0a6f86" font-size="12" font-family="Amazon Ember, Arial, sans-serif">ENI + IP</text>
               <rect x="370" y="165" width="150" height="50" rx="8" fill="#ffffff" stroke="#067d62"/>
               <text x="445" y="195" text-anchor="middle" fill="#067d62" font-size="12" font-family="Amazon Ember, Arial, sans-serif">Instance profile</text>
-              <text x="80" y="130" text-anchor="middle" fill="#565959" font-size="12" font-family="Amazon Ember, Arial, sans-serif">Subnet</text>
-              <path d="M110 140 H230" stroke="#565959" stroke-width="2"/>
-              <text x="660" y="130" text-anchor="middle" fill="#565959" font-size="12" font-family="Amazon Ember, Arial, sans-serif">EBS</text>
-              <path d="M520 125 H620" stroke="#e47911" stroke-width="2"/>
+              <text x="80" y="130" text-anchor="middle" fill="#5a5f63" font-size="12" font-family="Amazon Ember, Arial, sans-serif">Subnet</text>
+              <path d="M110 140 H230" stroke="#5a5f63" stroke-width="2"/>
+              <text x="660" y="130" text-anchor="middle" fill="#5a5f63" font-size="12" font-family="Amazon Ember, Arial, sans-serif">EBS</text>
+              <path d="M520 125 H620" stroke="#de7a1c" stroke-width="2"/>
             </svg>
           </figure>
 
@@ -1085,23 +1082,23 @@ curl -H "X-aws-ec2-metadata-token: $TOKEN" \
           <figure class="overflow-hidden rounded-2xl border border-az-line bg-white p-4 sm:p-6">
             <figcaption class="mb-4 text-xs uppercase tracking-[0.2em] text-az-link">Diagram · Storage decision tree</figcaption>
             <svg viewBox="0 0 780 300" class="h-auto w-full" role="img" aria-label="Decision tree for S3 EBS EFS">
-              <rect x="280" y="20" width="220" height="50" rx="10" fill="#f0f8fa" stroke="#007185"/>
-              <text x="390" y="50" text-anchor="middle" fill="#0f1111" font-size="13" font-family="Amazon Ember, Arial, sans-serif">Need a filesystem mount?</text>
-              <path d="M390 70 V100" stroke="#565959"/>
-              <text x="250" y="115" fill="#565959" font-size="11" font-family="Amazon Ember, Arial, sans-serif">No</text>
-              <text x="520" y="115" fill="#565959" font-size="11" font-family="Amazon Ember, Arial, sans-serif">Yes</text>
-              <rect x="80" y="120" width="200" height="50" rx="10" fill="#ffffff" stroke="#e47911"/>
+              <rect x="280" y="20" width="220" height="50" rx="10" fill="#f0f8fa" stroke="#0a6f86"/>
+              <text x="390" y="50" text-anchor="middle" fill="#111418" font-size="13" font-family="Amazon Ember, Arial, sans-serif">Need a filesystem mount?</text>
+              <path d="M390 70 V100" stroke="#5a5f63"/>
+              <text x="250" y="115" fill="#5a5f63" font-size="11" font-family="Amazon Ember, Arial, sans-serif">No</text>
+              <text x="520" y="115" fill="#5a5f63" font-size="11" font-family="Amazon Ember, Arial, sans-serif">Yes</text>
+              <rect x="80" y="120" width="200" height="50" rx="10" fill="#ffffff" stroke="#de7a1c"/>
               <text x="180" y="150" text-anchor="middle" fill="#c7511f" font-size="13" font-family="Amazon Ember, Arial, sans-serif">HTTP object API? → S3</text>
-              <rect x="500" y="120" width="220" height="50" rx="10" fill="#ffffff" stroke="#007185"/>
-              <text x="610" y="150" text-anchor="middle" fill="#007185" font-size="13" font-family="Amazon Ember, Arial, sans-serif">Shared across instances?</text>
-              <path d="M180 170 V200" stroke="#565959"/>
-              <rect x="80" y="210" width="200" height="50" rx="10" fill="#ffffff" stroke="#565959"/>
-              <text x="180" y="240" text-anchor="middle" fill="#0f1111" font-size="13" font-family="Amazon Ember, Arial, sans-serif">Block for one EC2 → EBS</text>
-              <path d="M610 170 V200" stroke="#565959"/>
+              <rect x="500" y="120" width="220" height="50" rx="10" fill="#ffffff" stroke="#0a6f86"/>
+              <text x="610" y="150" text-anchor="middle" fill="#0a6f86" font-size="13" font-family="Amazon Ember, Arial, sans-serif">Shared across instances?</text>
+              <path d="M180 170 V200" stroke="#5a5f63"/>
+              <rect x="80" y="210" width="200" height="50" rx="10" fill="#ffffff" stroke="#5a5f63"/>
+              <text x="180" y="240" text-anchor="middle" fill="#111418" font-size="13" font-family="Amazon Ember, Arial, sans-serif">Block for one EC2 → EBS</text>
+              <path d="M610 170 V200" stroke="#5a5f63"/>
               <rect x="420" y="210" width="160" height="50" rx="10" fill="#ffffff" stroke="#067d62"/>
               <text x="500" y="240" text-anchor="middle" fill="#067d62" font-size="12" font-family="Amazon Ember, Arial, sans-serif">Yes → EFS/FSx</text>
-              <rect x="600" y="210" width="160" height="50" rx="10" fill="#ffffff" stroke="#565959"/>
-              <text x="680" y="240" text-anchor="middle" fill="#0f1111" font-size="12" font-family="Amazon Ember, Arial, sans-serif">No → EBS</text>
+              <rect x="600" y="210" width="160" height="50" rx="10" fill="#ffffff" stroke="#5a5f63"/>
+              <text x="680" y="240" text-anchor="middle" fill="#111418" font-size="12" font-family="Amazon Ember, Arial, sans-serif">No → EBS</text>
             </svg>
           </figure>
 
@@ -1206,24 +1203,24 @@ aws s3 cp ./manifest.json s3://orbit-lab-.../data/</pre>
           <figure class="overflow-hidden rounded-2xl border border-az-line bg-white p-4 sm:p-6">
             <figcaption class="mb-4 text-xs uppercase tracking-[0.2em] text-az-link">Diagram · Multi-AZ VPC reference</figcaption>
             <svg viewBox="0 0 780 340" class="h-auto w-full" role="img" aria-label="VPC with public and private subnets across two AZs">
-              <rect x="40" y="30" width="700" height="290" rx="18" fill="#f7fafa" stroke="#007185" stroke-width="2"/>
-              <text x="390" y="60" text-anchor="middle" fill="#007185" font-size="14" font-family="Amazon Ember, Arial, sans-serif" font-weight="700">VPC 10.20.0.0/16</text>
-              <rect x="70" y="85" width="300" height="210" rx="12" fill="#ffffff" stroke="#e47911"/>
+              <rect x="40" y="30" width="700" height="290" rx="18" fill="#f7fafa" stroke="#0a6f86" stroke-width="2"/>
+              <text x="390" y="60" text-anchor="middle" fill="#0a6f86" font-size="14" font-family="Amazon Ember, Arial, sans-serif" font-weight="700">VPC 10.20.0.0/16</text>
+              <rect x="70" y="85" width="300" height="210" rx="12" fill="#ffffff" stroke="#de7a1c"/>
               <text x="220" y="110" text-anchor="middle" fill="#c7511f" font-size="13" font-family="Amazon Ember, Arial, sans-serif">AZ-a</text>
-              <rect x="95" y="130" width="250" height="40" rx="8" fill="#d9edf2" stroke="#007185"/>
-              <text x="220" y="155" text-anchor="middle" fill="#007185" font-size="12" font-family="Amazon Ember, Arial, sans-serif">Public 10.20.0.0/24 · ALB/NAT</text>
-              <rect x="95" y="185" width="250" height="40" rx="8" fill="#f7fafa" stroke="#565959"/>
-              <text x="220" y="210" text-anchor="middle" fill="#0f1111" font-size="12" font-family="Amazon Ember, Arial, sans-serif">Private 10.20.10.0/24 · App</text>
-              <rect x="95" y="240" width="250" height="40" rx="8" fill="#ffffff" stroke="#565959"/>
-              <text x="220" y="265" text-anchor="middle" fill="#565959" font-size="12" font-family="Amazon Ember, Arial, sans-serif">Data 10.20.20.0/24 · DB</text>
-              <rect x="410" y="85" width="300" height="210" rx="12" fill="#ffffff" stroke="#e47911"/>
+              <rect x="95" y="130" width="250" height="40" rx="8" fill="#d9edf2" stroke="#0a6f86"/>
+              <text x="220" y="155" text-anchor="middle" fill="#0a6f86" font-size="12" font-family="Amazon Ember, Arial, sans-serif">Public 10.20.0.0/24 · ALB/NAT</text>
+              <rect x="95" y="185" width="250" height="40" rx="8" fill="#f7fafa" stroke="#5a5f63"/>
+              <text x="220" y="210" text-anchor="middle" fill="#111418" font-size="12" font-family="Amazon Ember, Arial, sans-serif">Private 10.20.10.0/24 · App</text>
+              <rect x="95" y="240" width="250" height="40" rx="8" fill="#ffffff" stroke="#5a5f63"/>
+              <text x="220" y="265" text-anchor="middle" fill="#5a5f63" font-size="12" font-family="Amazon Ember, Arial, sans-serif">Data 10.20.20.0/24 · DB</text>
+              <rect x="410" y="85" width="300" height="210" rx="12" fill="#ffffff" stroke="#de7a1c"/>
               <text x="560" y="110" text-anchor="middle" fill="#c7511f" font-size="13" font-family="Amazon Ember, Arial, sans-serif">AZ-b</text>
-              <rect x="435" y="130" width="250" height="40" rx="8" fill="#d9edf2" stroke="#007185"/>
-              <text x="560" y="155" text-anchor="middle" fill="#007185" font-size="12" font-family="Amazon Ember, Arial, sans-serif">Public 10.20.1.0/24</text>
-              <rect x="435" y="185" width="250" height="40" rx="8" fill="#f7fafa" stroke="#565959"/>
-              <text x="560" y="210" text-anchor="middle" fill="#0f1111" font-size="12" font-family="Amazon Ember, Arial, sans-serif">Private 10.20.11.0/24</text>
-              <rect x="435" y="240" width="250" height="40" rx="8" fill="#ffffff" stroke="#565959"/>
-              <text x="560" y="265" text-anchor="middle" fill="#565959" font-size="12" font-family="Amazon Ember, Arial, sans-serif">Data 10.20.21.0/24</text>
+              <rect x="435" y="130" width="250" height="40" rx="8" fill="#d9edf2" stroke="#0a6f86"/>
+              <text x="560" y="155" text-anchor="middle" fill="#0a6f86" font-size="12" font-family="Amazon Ember, Arial, sans-serif">Public 10.20.1.0/24</text>
+              <rect x="435" y="185" width="250" height="40" rx="8" fill="#f7fafa" stroke="#5a5f63"/>
+              <text x="560" y="210" text-anchor="middle" fill="#111418" font-size="12" font-family="Amazon Ember, Arial, sans-serif">Private 10.20.11.0/24</text>
+              <rect x="435" y="240" width="250" height="40" rx="8" fill="#ffffff" stroke="#5a5f63"/>
+              <text x="560" y="265" text-anchor="middle" fill="#5a5f63" font-size="12" font-family="Amazon Ember, Arial, sans-serif">Data 10.20.21.0/24</text>
             </svg>
           </figure>
 
@@ -1339,19 +1336,19 @@ aws s3 cp ./manifest.json s3://orbit-lab-.../data/</pre>
           <figure class="overflow-hidden rounded-2xl border border-az-line bg-white p-4 sm:p-6">
             <figcaption class="mb-4 text-xs uppercase tracking-[0.2em] text-az-link">Diagram · OLTP choice sketch</figcaption>
             <svg viewBox="0 0 780 260" class="h-auto w-full" role="img" aria-label="Decision paths for RDS Aurora DynamoDB ElastiCache">
-              <rect x="260" y="20" width="260" height="48" rx="10" fill="#f0f8fa" stroke="#007185"/>
-              <text x="390" y="50" text-anchor="middle" fill="#0f1111" font-size="13" font-family="Amazon Ember, Arial, sans-serif">Need SQL joins / strong relational model?</text>
-              <path d="M300 68 V95" stroke="#565959"/><path d="M480 68 V95" stroke="#565959"/>
-              <text x="250" y="90" fill="#565959" font-size="11" font-family="Amazon Ember, Arial, sans-serif">Yes</text>
-              <text x="520" y="90" fill="#565959" font-size="11" font-family="Amazon Ember, Arial, sans-serif">No / key lookup</text>
-              <rect x="80" y="100" width="220" height="50" rx="10" fill="#ffffff" stroke="#e47911"/>
+              <rect x="260" y="20" width="260" height="48" rx="10" fill="#f0f8fa" stroke="#0a6f86"/>
+              <text x="390" y="50" text-anchor="middle" fill="#111418" font-size="13" font-family="Amazon Ember, Arial, sans-serif">Need SQL joins / strong relational model?</text>
+              <path d="M300 68 V95" stroke="#5a5f63"/><path d="M480 68 V95" stroke="#5a5f63"/>
+              <text x="250" y="90" fill="#5a5f63" font-size="11" font-family="Amazon Ember, Arial, sans-serif">Yes</text>
+              <text x="520" y="90" fill="#5a5f63" font-size="11" font-family="Amazon Ember, Arial, sans-serif">No / key lookup</text>
+              <rect x="80" y="100" width="220" height="50" rx="10" fill="#ffffff" stroke="#de7a1c"/>
               <text x="190" y="130" text-anchor="middle" fill="#c7511f" font-size="13" font-family="Amazon Ember, Arial, sans-serif">RDS / Aurora</text>
-              <rect x="480" y="100" width="220" height="50" rx="10" fill="#ffffff" stroke="#007185"/>
-              <text x="590" y="130" text-anchor="middle" fill="#007185" font-size="13" font-family="Amazon Ember, Arial, sans-serif">DynamoDB</text>
+              <rect x="480" y="100" width="220" height="50" rx="10" fill="#ffffff" stroke="#0a6f86"/>
+              <text x="590" y="130" text-anchor="middle" fill="#0a6f86" font-size="13" font-family="Amazon Ember, Arial, sans-serif">DynamoDB</text>
               <rect x="80" y="180" width="220" height="50" rx="10" fill="#ffffff" stroke="#067d62"/>
               <text x="190" y="210" text-anchor="middle" fill="#067d62" font-size="12" font-family="Amazon Ember, Arial, sans-serif">Hot keys? → ElastiCache</text>
-              <rect x="480" y="180" width="220" height="50" rx="10" fill="#ffffff" stroke="#565959"/>
-              <text x="590" y="210" text-anchor="middle" fill="#0f1111" font-size="12" font-family="Amazon Ember, Arial, sans-serif">Heavy analytics → warehouse</text>
+              <rect x="480" y="180" width="220" height="50" rx="10" fill="#ffffff" stroke="#5a5f63"/>
+              <text x="590" y="210" text-anchor="middle" fill="#111418" font-size="12" font-family="Amazon Ember, Arial, sans-serif">Heavy analytics → warehouse</text>
             </svg>
           </figure>
 
@@ -1460,15 +1457,15 @@ aws s3 cp ./manifest.json s3://orbit-lab-.../data/</pre>
           <figure class="overflow-hidden rounded-2xl border border-az-line bg-white p-4 sm:p-6">
             <figcaption class="mb-4 text-xs uppercase tracking-[0.2em] text-az-link">Diagram · Request path API Gateway → Lambda → DynamoDB</figcaption>
             <svg viewBox="0 0 760 200" class="h-auto w-full" role="img" aria-label="API Gateway to Lambda to DynamoDB flow">
-              <rect x="40" y="70" width="120" height="60" rx="12" fill="#ffffff" stroke="#565959"/>
-              <text x="100" y="105" text-anchor="middle" fill="#0f1111" font-size="13" font-family="Amazon Ember, Arial, sans-serif">Client</text>
-              <path d="M160 100 H210" stroke="#007185" stroke-width="2"/>
-              <rect x="210" y="70" width="140" height="60" rx="12" fill="#f0f8fa" stroke="#007185"/>
-              <text x="280" y="105" text-anchor="middle" fill="#007185" font-size="13" font-family="Amazon Ember, Arial, sans-serif">API Gateway</text>
-              <path d="M350 100 H400" stroke="#007185" stroke-width="2"/>
-              <rect x="400" y="70" width="130" height="60" rx="12" fill="#ffffff" stroke="#e47911"/>
+              <rect x="40" y="70" width="120" height="60" rx="12" fill="#ffffff" stroke="#5a5f63"/>
+              <text x="100" y="105" text-anchor="middle" fill="#111418" font-size="13" font-family="Amazon Ember, Arial, sans-serif">Client</text>
+              <path d="M160 100 H210" stroke="#0a6f86" stroke-width="2"/>
+              <rect x="210" y="70" width="140" height="60" rx="12" fill="#f0f8fa" stroke="#0a6f86"/>
+              <text x="280" y="105" text-anchor="middle" fill="#0a6f86" font-size="13" font-family="Amazon Ember, Arial, sans-serif">API Gateway</text>
+              <path d="M350 100 H400" stroke="#0a6f86" stroke-width="2"/>
+              <rect x="400" y="70" width="130" height="60" rx="12" fill="#ffffff" stroke="#de7a1c"/>
               <text x="465" y="105" text-anchor="middle" fill="#c7511f" font-size="13" font-family="Amazon Ember, Arial, sans-serif">Lambda</text>
-              <path d="M530 100 H580" stroke="#e47911" stroke-width="2"/>
+              <path d="M530 100 H580" stroke="#de7a1c" stroke-width="2"/>
               <rect x="580" y="70" width="140" height="60" rx="12" fill="#ffffff" stroke="#067d62"/>
               <text x="650" y="105" text-anchor="middle" fill="#067d62" font-size="13" font-family="Amazon Ember, Arial, sans-serif">DynamoDB</text>
             </svg>
@@ -1662,30 +1659,30 @@ def handler(event, context):
           <figure class="overflow-hidden rounded-2xl border border-az-line bg-white p-4 sm:p-6">
             <figcaption class="mb-4 text-xs uppercase tracking-[0.2em] text-az-link">Diagram · Reference architecture</figcaption>
             <svg viewBox="0 0 800 360" class="h-auto w-full" role="img" aria-label="CloudFront to API to DynamoDB and S3 reference architecture">
-              <rect x="40" y="40" width="120" height="50" rx="10" fill="#ffffff" stroke="#565959"/>
-              <text x="100" y="70" text-anchor="middle" fill="#0f1111" font-size="12" font-family="Amazon Ember, Arial, sans-serif">Users</text>
-              <path d="M160 65 H210" stroke="#007185" stroke-width="2"/>
-              <rect x="210" y="40" width="140" height="50" rx="10" fill="#f0f8fa" stroke="#007185"/>
-              <text x="280" y="70" text-anchor="middle" fill="#007185" font-size="12" font-family="Amazon Ember, Arial, sans-serif">CloudFront + WAF</text>
-              <path d="M350 65 H400" stroke="#007185" stroke-width="2"/>
-              <rect x="400" y="30" width="160" height="70" rx="10" fill="#ffffff" stroke="#e47911"/>
+              <rect x="40" y="40" width="120" height="50" rx="10" fill="#ffffff" stroke="#5a5f63"/>
+              <text x="100" y="70" text-anchor="middle" fill="#111418" font-size="12" font-family="Amazon Ember, Arial, sans-serif">Users</text>
+              <path d="M160 65 H210" stroke="#0a6f86" stroke-width="2"/>
+              <rect x="210" y="40" width="140" height="50" rx="10" fill="#f0f8fa" stroke="#0a6f86"/>
+              <text x="280" y="70" text-anchor="middle" fill="#0a6f86" font-size="12" font-family="Amazon Ember, Arial, sans-serif">CloudFront + WAF</text>
+              <path d="M350 65 H400" stroke="#0a6f86" stroke-width="2"/>
+              <rect x="400" y="30" width="160" height="70" rx="10" fill="#ffffff" stroke="#de7a1c"/>
               <text x="480" y="60" text-anchor="middle" fill="#c7511f" font-size="12" font-family="Amazon Ember, Arial, sans-serif">API GW / ALB</text>
-              <text x="480" y="80" text-anchor="middle" fill="#565959" font-size="10" font-family="Amazon Ember, Arial, sans-serif">multi-AZ</text>
-              <path d="M480 100 V130" stroke="#e47911" stroke-width="2"/>
-              <rect x="400" y="130" width="160" height="60" rx="10" fill="#ffffff" stroke="#007185"/>
-              <text x="480" y="165" text-anchor="middle" fill="#007185" font-size="12" font-family="Amazon Ember, Arial, sans-serif">Lambda / ECS</text>
+              <text x="480" y="80" text-anchor="middle" fill="#5a5f63" font-size="10" font-family="Amazon Ember, Arial, sans-serif">multi-AZ</text>
+              <path d="M480 100 V130" stroke="#de7a1c" stroke-width="2"/>
+              <rect x="400" y="130" width="160" height="60" rx="10" fill="#ffffff" stroke="#0a6f86"/>
+              <text x="480" y="165" text-anchor="middle" fill="#0a6f86" font-size="12" font-family="Amazon Ember, Arial, sans-serif">Lambda / ECS</text>
               <path d="M400 160 H300" stroke="#067d62" stroke-width="2"/>
               <rect x="160" y="130" width="140" height="60" rx="10" fill="#ffffff" stroke="#067d62"/>
               <text x="230" y="165" text-anchor="middle" fill="#067d62" font-size="12" font-family="Amazon Ember, Arial, sans-serif">DynamoDB</text>
-              <path d="M560 160 H620" stroke="#e47911" stroke-width="2"/>
-              <rect x="620" y="130" width="140" height="60" rx="10" fill="#ffffff" stroke="#e47911"/>
+              <path d="M560 160 H620" stroke="#de7a1c" stroke-width="2"/>
+              <rect x="620" y="130" width="140" height="60" rx="10" fill="#ffffff" stroke="#de7a1c"/>
               <text x="690" y="165" text-anchor="middle" fill="#c7511f" font-size="12" font-family="Amazon Ember, Arial, sans-serif">S3 images</text>
-              <path d="M690 190 V230" stroke="#565959" stroke-width="2"/>
-              <rect x="620" y="230" width="140" height="50" rx="10" fill="#ffffff" stroke="#565959"/>
-              <text x="690" y="260" text-anchor="middle" fill="#0f1111" font-size="12" font-family="Amazon Ember, Arial, sans-serif">SQS → Lambda</text>
-              <rect x="160" y="230" width="300" height="90" rx="12" fill="#f7fafa" stroke="#565959"/>
-              <text x="310" y="265" text-anchor="middle" fill="#565959" font-size="12" font-family="Amazon Ember, Arial, sans-serif">CloudWatch · X-Ray · CloudTrail</text>
-              <text x="310" y="290" text-anchor="middle" fill="#565959" font-size="11" font-family="Amazon Ember, Arial, sans-serif">Alarms · Budgets · Config rules · Backup plans</text>
+              <path d="M690 190 V230" stroke="#5a5f63" stroke-width="2"/>
+              <rect x="620" y="230" width="140" height="50" rx="10" fill="#ffffff" stroke="#5a5f63"/>
+              <text x="690" y="260" text-anchor="middle" fill="#111418" font-size="12" font-family="Amazon Ember, Arial, sans-serif">SQS → Lambda</text>
+              <rect x="160" y="230" width="300" height="90" rx="12" fill="#f7fafa" stroke="#5a5f63"/>
+              <text x="310" y="265" text-anchor="middle" fill="#5a5f63" font-size="12" font-family="Amazon Ember, Arial, sans-serif">CloudWatch · X-Ray · CloudTrail</text>
+              <text x="310" y="290" text-anchor="middle" fill="#5a5f63" font-size="11" font-family="Amazon Ember, Arial, sans-serif">Alarms · Budgets · Config rules · Backup plans</text>
             </svg>
           </figure>
 
@@ -1764,7 +1761,7 @@ def handler(event, context):
 
   <!-- Footer: amazon.com-style back-to-top bar, link columns and legal strip -->
   <footer class="mt-8 text-white">
-    <a href="#top" class="block bg-az-nav3 py-4 text-center text-sm hover:bg-[#485769]">Back to top</a>
+    <a href="#top" class="block bg-az-nav3 py-4 text-center text-sm hover:bg-[#3c536a]">Back to top</a>
     <div class="bg-az-nav2">
       <div class="mx-auto grid max-w-5xl grid-cols-2 gap-x-6 gap-y-8 px-6 py-10 md:grid-cols-4">
         <div>
@@ -1800,11 +1797,11 @@ def handler(event, context):
         </div>
       </div>
     </div>
-    <div class="border-t border-[#3a4553] bg-az-nav2 px-6 py-6 text-center">
-      <span class="text-lg font-bold">aws<span class="font-normal">orbit</span></span>
+    <div class="border-t border-[#33465a] bg-az-nav2 px-6 py-6 text-center">
+      <span class="inline-flex items-center gap-2 text-lg font-bold"><svg class="h-7 w-7" viewBox="0 0 32 32" fill="none" aria-hidden="true"><circle cx="16" cy="16" r="6.5" fill="#f5a524"/><ellipse cx="16" cy="16" rx="14" ry="6" transform="rotate(-25 16 16)" stroke="currentColor" stroke-width="2"/><circle cx="28.2" cy="10.4" r="2.2" fill="currentColor"/></svg>AWS Masterclass</span>
     </div>
     <div class="bg-az-nav px-6 py-6 text-center text-xs text-[#ddd]">
-      <p>AWS Orbit Masterclass · Static course site · Not affiliated with Amazon Web Services</p>
+      <p>AWS Masterclass · An independent course · Not affiliated with, endorsed by, or sponsored by Amazon or Amazon Web Services</p>
       <p class="mt-2">Amazon Web Services, AWS, and related marks are trademarks of Amazon.com, Inc. or its affiliates.</p>
     </div>
   </footer>

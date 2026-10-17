@@ -1,4 +1,4 @@
-# AWS Orbit Masterclass
+# AWS Masterclass
 
 An extensively detailed, self-paced digital course on Amazon Web Services — roughly **5–6 hours** of deep-dive reading, diagrams, and interactive quizzes. Built as a static site (HTML + Tailwind CDN + modular JavaScript) so it deploys cleanly to **GitHub Pages**.
 
@@ -6,7 +6,7 @@ An extensively detailed, self-paced digital course on Amazon Web Services — ro
 
 | File | Purpose |
 |------|---------|
-| `index.html` | Course shell: Amazon-style UI, responsive sidebar/drawer TOC, all module content |
+| `index.html` | Course shell: retail-style UI (dark header, light content panels), responsive sidebar/drawer TOC, all module content |
 | `script.js` | Progress tracking, mobile nav, scroll spy, and dynamic MCQ rendering with option shuffling |
 | `CNAME` | Custom domain placeholder for GitHub Pages |
 | `README.md` | This guide |

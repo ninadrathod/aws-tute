@@ -1,5 +1,5 @@
 /**
- * AWS Orbit Masterclass — application script
+ * AWS Masterclass — application script
  * - Mobile drawer + sticky TOC scroll-spy
  * - Reading progress
  * - Data-driven MCQ renderer with balanced option shuffling
@@ -3139,7 +3139,7 @@
     const actions = document.createElement("div");
     actions.className = "flex flex-wrap gap-3 pt-2";
     actions.innerHTML = `
-      <button type="button" data-action="submit" class="btn-cart px-6 py-2 text-sm">
+      <button type="button" data-action="submit" class="btn-primary px-6 py-2 text-sm">
         Submit answers
       </button>
       <button type="button" data-action="reset" class="btn-secondary px-6 py-2 text-sm">
